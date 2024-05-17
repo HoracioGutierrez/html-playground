@@ -4,6 +4,7 @@ import { DndContext, useDraggable, useDroppable } from "@dnd-kit/core";
 import { CSS } from "@dnd-kit/utilities";
 import { useEffect, useState } from "react";
 import { toast } from "./ui/use-toast";
+import { CrossIcon, X } from "lucide-react";
 
 const draggableElements = [
   {
@@ -13,7 +14,7 @@ const draggableElements = [
   },
   {
     content: "head",
-    canContain: ["title" , "style" , "meta" , "link" , "script"],
+    canContain: ["title", "style", "meta", "link", "script"],
     limits: { title: 1 },
   },
   {
@@ -22,23 +23,182 @@ const draggableElements = [
   },
   {
     content: "body",
-    canContain: ["p", "div", "header", "footer" , "section" , "main" , "ul" , "ol" , "nav" , "aside" , "article" , "h1" , "h2" , "h3" , "h4" , "h5" , "h6" , "img" , "a" , "span" , "button" , "input" , "form" , "label" , "select" , "option" , "textarea" , "table" , "caption" , "style" , "script" , "link" , "hr" , "iframe" , "video" , "audio" , "source" , "canvas" , "svg" ],
+    canContain: [
+      "p",
+      "div",
+      "header",
+      "footer",
+      "section",
+      "main",
+      "ul",
+      "ol",
+      "nav",
+      "aside",
+      "article",
+      "h1",
+      "h2",
+      "h3",
+      "h4",
+      "h5",
+      "h6",
+      "img",
+      "a",
+      "span",
+      "button",
+      "input",
+      "form",
+      "label",
+      "select",
+      "option",
+      "textarea",
+      "table",
+      "caption",
+      "style",
+      "script",
+      "link",
+      "hr",
+      "iframe",
+      "video",
+      "audio",
+      "source",
+      "canvas",
+      "svg",
+    ],
   },
   {
     content: "header",
-    canContain: ["p", "h1" , "h2" , "h3" , "h4" , "h5" , "h6" , "img" , "a" , "span" , "button" , "input" , "form" , "label" , "select" , "textarea" , "hr" , "svg" , "nav"],
+    canContain: [
+      "p",
+      "h1",
+      "h2",
+      "h3",
+      "h4",
+      "h5",
+      "h6",
+      "img",
+      "a",
+      "span",
+      "button",
+      "input",
+      "form",
+      "label",
+      "select",
+      "textarea",
+      "hr",
+      "svg",
+      "nav",
+    ],
   },
   {
     content: "footer",
-    canContain: ["p", "h1" , "h2" , "h3" , "h4" , "h5" , "h6" , "img" , "a" , "span" , "button" , "input" , "form" , "label" , "select" , "textarea" , "hr" , "svg" ],
+    canContain: [
+      "p",
+      "h1",
+      "h2",
+      "h3",
+      "h4",
+      "h5",
+      "h6",
+      "img",
+      "a",
+      "span",
+      "button",
+      "input",
+      "form",
+      "label",
+      "select",
+      "textarea",
+      "hr",
+      "svg",
+    ],
   },
   {
     content: "section",
-    canContain: ["p", "div", "header", "footer" , "section" , "main" , "ul" , "ol" , "nav" , "aside" , "article" , "h1" , "h2" , "h3" , "h4" , "h5" , "h6" , "img" , "a" , "span" , "button" , "input" , "form" , "label" , "select" , "option" , "textarea" , "table" , "caption" , "style" , "script" , "link" , "hr" , "iframe" , "video" , "audio" , "source" , "canvas" , "svg" ],
+    canContain: [
+      "p",
+      "div",
+      "header",
+      "footer",
+      "section",
+      "main",
+      "ul",
+      "ol",
+      "nav",
+      "aside",
+      "article",
+      "h1",
+      "h2",
+      "h3",
+      "h4",
+      "h5",
+      "h6",
+      "img",
+      "a",
+      "span",
+      "button",
+      "input",
+      "form",
+      "label",
+      "select",
+      "option",
+      "textarea",
+      "table",
+      "caption",
+      "style",
+      "script",
+      "link",
+      "hr",
+      "iframe",
+      "video",
+      "audio",
+      "source",
+      "canvas",
+      "svg",
+    ],
   },
   {
     content: "main",
-    canContain: ["p", "div", "header", "footer" , "section" , "main" , "ul" , "ol" , "nav" , "aside" , "article" , "h1" , "h2" , "h3" , "h4" , "h5" , "h6" , "img" , "a" , "span" , "button" , "input" , "form" , "label" , "select" , "option" , "textarea" , "table" , "caption" , "style" , "script" , "link" , "hr" , "iframe" , "video" , "audio" , "source" , "canvas" , "svg" ],
+    canContain: [
+      "p",
+      "div",
+      "header",
+      "footer",
+      "section",
+      "main",
+      "ul",
+      "ol",
+      "nav",
+      "aside",
+      "article",
+      "h1",
+      "h2",
+      "h3",
+      "h4",
+      "h5",
+      "h6",
+      "img",
+      "a",
+      "span",
+      "button",
+      "input",
+      "form",
+      "label",
+      "select",
+      "option",
+      "textarea",
+      "table",
+      "caption",
+      "style",
+      "script",
+      "link",
+      "hr",
+      "iframe",
+      "video",
+      "audio",
+      "source",
+      "canvas",
+      "svg",
+    ],
   },
   {
     content: "ul",
@@ -50,15 +210,112 @@ const draggableElements = [
   },
   {
     content: "nav",
-    canContain: ["a" , "ul" , "ol" , "li" , "div" , "p" , "h1" , "h2" , "h3" , "h4" , "h5" , "h6" , "img" , "span" , "button" , "svg" ],
+    canContain: [
+      "a",
+      "ul",
+      "ol",
+      "li",
+      "div",
+      "p",
+      "h1",
+      "h2",
+      "h3",
+      "h4",
+      "h5",
+      "h6",
+      "img",
+      "span",
+      "button",
+      "svg",
+    ],
   },
   {
     content: "aside",
-    canContain: ["p", "div", "header", "footer" , "section" , "main" , "ul" , "ol" , "nav" , "aside" , "article" , "h1" , "h2" , "h3" , "h4" , "h5" , "h6" , "img" , "a" , "span" , "button" , "input" , "form" , "label" , "select" , "option" , "textarea" , "table" , "caption" , "style" , "script" , "link" , "hr" , "iframe" , "video" , "audio" , "source" , "canvas" , "svg" ],
+    canContain: [
+      "p",
+      "div",
+      "header",
+      "footer",
+      "section",
+      "main",
+      "ul",
+      "ol",
+      "nav",
+      "aside",
+      "article",
+      "h1",
+      "h2",
+      "h3",
+      "h4",
+      "h5",
+      "h6",
+      "img",
+      "a",
+      "span",
+      "button",
+      "input",
+      "form",
+      "label",
+      "select",
+      "option",
+      "textarea",
+      "table",
+      "caption",
+      "style",
+      "script",
+      "link",
+      "hr",
+      "iframe",
+      "video",
+      "audio",
+      "source",
+      "canvas",
+      "svg",
+    ],
   },
   {
     content: "article",
-    canContain: ["p", "div", "header", "footer" , "section" , "main" , "ul" , "ol" , "nav" , "aside" , "article" , "h1" , "h2" , "h3" , "h4" , "h5" , "h6" , "img" , "a" , "span" , "button" , "input" , "form" , "label" , "select" , "option" , "textarea" , "table" , "caption" , "style" , "script" , "link" , "hr" , "iframe" , "video" , "audio" , "source" , "canvas" , "svg" ],
+    canContain: [
+      "p",
+      "div",
+      "header",
+      "footer",
+      "section",
+      "main",
+      "ul",
+      "ol",
+      "nav",
+      "aside",
+      "article",
+      "h1",
+      "h2",
+      "h3",
+      "h4",
+      "h5",
+      "h6",
+      "img",
+      "a",
+      "span",
+      "button",
+      "input",
+      "form",
+      "label",
+      "select",
+      "option",
+      "textarea",
+      "table",
+      "caption",
+      "style",
+      "script",
+      "link",
+      "hr",
+      "iframe",
+      "video",
+      "audio",
+      "source",
+      "canvas",
+      "svg",
+    ],
   },
   {
     content: "h1",
@@ -106,7 +363,7 @@ const draggableElements = [
   },
   {
     content: "form",
-    canContain: ["input" , "button" , "select" , "textarea" ],
+    canContain: ["input", "button", "select", "textarea"],
   },
   {
     content: "label",
@@ -182,12 +439,52 @@ const draggableElements = [
   },
   {
     content: "div",
-    canContain: [],
+    canContain: [
+      "p",
+      "div",
+      "header",
+      "footer",
+      "section",
+      "main",
+      "ul",
+      "ol",
+      "nav",
+      "aside",
+      "article",
+      "h1",
+      "h2",
+      "h3",
+      "h4",
+      "h5",
+      "h6",
+      "img",
+      "a",
+      "span",
+      "button",
+      "input",
+      "form",
+      "label",
+      "select",
+      "option",
+      "textarea",
+      "table",
+      "caption",
+      "style",
+      "script",
+      "link",
+      "hr",
+      "iframe",
+      "video",
+      "audio",
+      "source",
+      "canvas",
+      "svg",
+    ],
   },
   {
     content: "li",
     canContain: [],
-  }
+  },
 ];
 
 const getRandomHSLColor = (hover = false) => {
@@ -241,7 +538,7 @@ function Draggable({
       style={style}
       {...listeners}
       {...attributes}
-      className='bg-green-600 p-4 rounded-md z-20'
+      className='bg-green-600 p-2 rounded-full z-20'
     >
       {content}
     </button>
@@ -278,21 +575,28 @@ function Droppable({
         border: hover ? "2px solid black" : "none",
       }}
     >
-      {`<${display}>`}
-      {items.length > 0 &&
-        items.map((item: any, i: number) => {
-          return (
-            <Droppable
-              id={item.id}
-              items={item.children}
-              key={i}
-              display={item.display}
-              background={item.background}
-              hover={item.hover}
-            />
-          );
-        })}
-      {`<\\${display}>`}
+      <div className='flex items-center justify-between'>
+        <p>{display !== "DOM" ? `<${display}>` : display + " (index.html)"}</p>
+        <button>
+          <X />
+        </button>
+      </div>
+      <div className='px-2 flex flex-col gap-2'>
+        {items.length > 0 &&
+          items.map((item: any, i: number) => {
+            return (
+              <Droppable
+                id={item.id}
+                items={item.children}
+                key={i}
+                display={item.display}
+                background={item.background}
+                hover={item.hover}
+              />
+            );
+          })}
+      </div>
+      {display !== "DOM" && <p>{`<\\${display}>`}</p>}
     </div>
   );
 }
@@ -361,9 +665,6 @@ function NewDragElement() {
       });
     }
 
-    console.log(parent);
-    console.log(e.active.data.current);
-
     const elementLimit = parent.limits[e.active.data.current.current];
     const currentElementCount = parent.children.filter(
       (child: any) => child.display === e.active.data.current.current
@@ -421,22 +722,7 @@ function NewDragElement() {
   return (
     <DndContext onDragEnd={handleDragEng} onDragOver={handleDragOver}>
       <div className='flex justify-between gap-10'>
-        <div className='bg-blue-800 p-2 w-full flex flex-col gap-4 rounded-md'>
-          {/* <Draggable
-            content='html'
-            canContain={["head", "body"]}
-            limits={{ head: 1, body: 1 }}
-          />
-          <Draggable
-            content='head'
-            canContain={["title"]}
-            limits={{
-              title: 1,
-            }}
-          />
-          <Draggable content='title' canContain={[]} />
-          <Draggable content='body' canContain={["p", "div", "header"]} />
-          <Draggable content='header' canContain={["p", "h1"]} /> */}
+        <div className='bg-blue-800 p-2 w-full gap-4 rounded-md grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6'>
           {draggableElements.map((element, i) => (
             <Draggable
               content={element.content}

@@ -75,3 +75,44 @@
     @apply bg-background text-foreground;
   }
 }
+
+#form {
+  opacity: 0;
+  transition: all 0.5s ease allow-discrete;
+  min-width: 20rem;
+  padding: 1rem;
+  border-radius: var(--radius);
+}
+
+#form:popover-open {
+  opacity: 1;
+}
+
+@starting-style {
+  #form {
+    opacity: 0;
+  }
+}
+
+#form::backdrop {
+  opacity: 0;
+  background-color: rgba(0, 0, 0, 0.1);
+  transition: all 0.5s ease allow-discrete;
+}
+
+#form:popover-open::backdrop {
+  opacity: 1;
+  background-color: rgba(0, 0, 0, 0.7);
+  backdrop-filter: blur(3px);
+}
+
+@starting-style {
+  #form::backdrop {
+    opacity: 0;
+    background-color: rgba(0, 0, 0, 0.1);
+  }
+}
+
+.shadow-close {
+  box-shadow: 1px 1px 2px 0 rgba(0, 0, 0, 0.4);
+}

@@ -1,28 +1,11 @@
-import { ThemeToggle } from "@/components/ThemeToggle";
-import { LoginLink } from "@kinde-oss/kinde-auth-nextjs/components";
-import { getKindeServerSession } from "@kinde-oss/kinde-auth-nextjs/server";
-import { redirect } from "next/navigation";
-import { Fade } from "react-awesome-reveal";
+import DndDashboard from "@/components/DndDashboard";
 
 export default async function Home() {
-  const data = getKindeServerSession();
-  const user = await data.getUser();
-
-  if (user) {
-    redirect("/dashboard");
-  }
-
   return (
-    <main>
-      <h2>Home</h2>
-      <ThemeToggle />
-      <LoginLink
-        authUrlParams={{
-          connection_id: "conn_018f588303c9b00c4e3d56ecba18cfa5",
-        }}
-      >
-        Login
-      </LoginLink>
-    </main>
+    <>
+      <h2 className="text-4xl text-center font-bold opacity-70 mb-20">Drag n' Drop elements to the DOM!</h2>
+      <p>This playground was created with the intention of having a tool for beginners to better learn </p>
+      <DndDashboard />
+    </>
   );
 }

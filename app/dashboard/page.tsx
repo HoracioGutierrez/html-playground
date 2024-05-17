@@ -1,4 +1,3 @@
-import DragElement from "@/components/DragElement";
 import NewDragElement from "@/components/NewDragElement";
 import {
   LogoutLink,
@@ -13,10 +12,9 @@ async function page() {
   if (!user) return redirect("/");
 
   return (
-    <div className="p-4">
-      <LogoutLink>logout</LogoutLink>
-      {/* <DragElement/> */}
-      <NewDragElement/>
+    <div className='p-4'>
+      
+      <NewDragElement />
     </div>
   );
 }
