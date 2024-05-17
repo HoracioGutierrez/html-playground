@@ -34,7 +34,6 @@ function Droppable({
   });
 
   const handleRemove = () => {
-    //console.log("remove", pathToElement);
     handleRemoveElement(pathToElement);
   }
 
