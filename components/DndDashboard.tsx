@@ -1,4 +1,6 @@
+//@ts-ignore
 "use client";
+
 import {
   bigBlockElements,
   formElements,

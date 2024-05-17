@@ -39,6 +39,7 @@ const Draggable = ({
 
   const onDragOver = () => {
     if (!parents?.includes(over?.data.current?.tag)) {
+      console.log("test")
       setCanBeDropped(false);
       return;
     }
