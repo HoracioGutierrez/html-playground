@@ -33,12 +33,13 @@ const DndDashboard = () => {
   const [count, setCount] = useState(0);
   const [over, setOver] = useState({} as any);
   const [canBeDropped, setCanBeDropped] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
 
   const handleDragEng = (event: any) => {
     if (!canBeDropped) {
       toast({
         title: "No se puede soltar aquí",
-        description: "No se puede soltar este elemento aquí.",
+        description: errorMessage || "No se puede soltar aquí",
         variant: "destructive",
       });
       return;
@@ -46,6 +47,19 @@ const DndDashboard = () => {
 
     const newCount = count + 1;
     const newColor = getRandomHSLColor();
+    
+
+    let elementsCopy = [...elements];
+    let possibleParent: any;
+
+    over.data.current.pathToElement.forEach((path: any) => {
+      if (!possibleParent) {
+        possibleParent = elementsCopy[path];
+      } else {
+        possibleParent = possibleParent[path];
+      }
+    });
+
     const newItem = {
       display: event.active.data.current.current,
       id: `${event.active.data.current.current}-${newCount}`,
@@ -61,25 +75,16 @@ const DndDashboard = () => {
       pathToElement: [
         ...over.data.current.pathToElement,
         "children",
-        over.data.current.children ? over.data.current.children.length : 0,
+        possibleParent.children ? possibleParent.children.length : 0,
       ],
     };
-
-    let elementsCopy = [...elements];
-    let possibleParent: any;
-
-    over.data.current.pathToElement.forEach((path: any) => {
-      if (!possibleParent) {
-        possibleParent = elementsCopy[path];
-      } else {
-        possibleParent = possibleParent[path];
-      }
-    });
 
     possibleParent.children.push(newItem);
 
     setElements(elementsCopy);
     setCount(newCount);
+    setCanBeDropped(false);
+    setErrorMessage("");
   };
 
   const handleDragOver = (over: any, elementName: string) => {
@@ -92,11 +97,12 @@ const DndDashboard = () => {
       possibleParent = possibleParent[path];
     });
 
+    
     if (!possibleParent) {
       setCanBeDropped(false);
       return false;
     }
-
+    
     if (!possibleParent.canContain.includes(elementName)) {
       setCanBeDropped(false);
       return false;
@@ -138,7 +144,7 @@ const DndDashboard = () => {
   return (
     <DndContext onDragEnd={handleDragEng}>
       <div className='grid grid-flow-row gap-10'>
-        <div className="container justify-self-center">
+        <div className='container justify-self-center'>
           {elements.map((element: any, i: number) => {
             return (
               <Droppable
@@ -159,7 +165,7 @@ const DndDashboard = () => {
         <div className='grid md:grid-cols-2 xl:grid-cols-3 gap-20 container text-accent'>
           <div>
             <h2 className='font-bold mb-4'>Bloques</h2>
-            <div className='flex gap-3 flex-wrap'>
+            <div className='flex gap-4 flex-wrap'>
               {bigBlockElements.map((element, i) => {
                 return (
                   <Draggable
@@ -171,6 +177,8 @@ const DndDashboard = () => {
                     parents={element.parents || []}
                     setCanBeDropped={setCanBeDropped}
                     isLast={i === bigBlockElements.length - 1}
+                    setErrorMessage={setErrorMessage}
+                    HTMLAttributes={element.attributes ? element.attributes : []}
                   />
                 );
               })}
@@ -178,7 +186,7 @@ const DndDashboard = () => {
           </div>
           <div>
             <h2 className='font-bold mb-4'>Textos</h2>
-            <div className='flex gap-3 flex-wrap'>
+            <div className='flex gap-4 flex-wrap'>
               {textElements.map((element, i) => {
                 return (
                   <Draggable
@@ -190,6 +198,7 @@ const DndDashboard = () => {
                     parents={element.parents || []}
                     setCanBeDropped={setCanBeDropped}
                     isLast={i === textElements.length - 1}
+                    setErrorMessage={setErrorMessage}
                   />
                 );
               })}
@@ -197,7 +206,7 @@ const DndDashboard = () => {
           </div>
           <div>
             <h2 className='font-bold mb-4'>Formularios</h2>
-            <div className='flex gap-3 flex-wrap'>
+            <div className='flex gap-4 flex-wrap'>
               {formElements.map((element, i) => {
                 return (
                   <Draggable
@@ -209,6 +218,7 @@ const DndDashboard = () => {
                     parents={element.parents || []}
                     setCanBeDropped={setCanBeDropped}
                     isLast={i === formElements.length - 1}
+                    setErrorMessage={setErrorMessage}
                   />
                 );
               })}
@@ -216,7 +226,7 @@ const DndDashboard = () => {
           </div>
           <div>
             <h2 className='font-bold mb-4'>Multimedia</h2>
-            <div className='flex gap-3 flex-wrap'>
+            <div className='flex gap-4 flex-wrap'>
               {mediaElements.map((element, i) => {
                 return (
                   <Draggable
@@ -228,6 +238,7 @@ const DndDashboard = () => {
                     parents={element.parents || []}
                     setCanBeDropped={setCanBeDropped}
                     isLast={i === mediaElements.length - 1}
+                    setErrorMessage={setErrorMessage}
                   />
                 );
               })}

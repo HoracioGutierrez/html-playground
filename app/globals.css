@@ -116,3 +116,49 @@
 .shadow-close {
   box-shadow: 1px 1px 2px 0 rgba(0, 0, 0, 0.4);
 }
+
+.shadow-close:hover {
+  box-shadow: none;
+}
+
+.tag::after {
+  content: "";
+  position: absolute;
+  display: block;
+  height: 85%;
+  aspect-ratio: 1;
+  background-color:rgb(2 44 34 / var(--tw-bg-opacity));
+  top: 50%;
+  right: 0;
+  opacity: 0;
+  transform: rotateZ(45deg) translateY(-72%);
+  transition: all 0.3s ease allow-discrete;
+  z-index: -1;
+  /* border-radius: 50%; */
+}
+
+.badge:hover .tag::after {
+  opacity: 1;
+  right: -9px;
+  /* border-radius: 0; */
+}
+
+.tag::before {
+  content: "";
+  position: absolute;
+  display: block;
+  height: 85%;
+  aspect-ratio: 1;
+  background-color:rgb(2 44 34 / var(--tw-bg-opacity));
+  top: 50%;
+  left: 0;
+  opacity: 0;
+  transform: rotateZ(45deg) translateY(-72%);
+  transition: all 0.3s ease allow-discrete;
+  z-index: -1;
+}
+
+.badge:hover .tag::before {
+  opacity: 1;
+  left: -26px;
+}

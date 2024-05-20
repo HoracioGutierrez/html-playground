@@ -23,19 +23,17 @@ function Droppable({
   hover,
   pathToElement,
   tag,
-  handleRemoveElement
+  handleRemoveElement,
 }: DroppableProps) {
-
   const droppableId = "droppable-" + id;
-  const [open, setOpen] = useState(false);
-  const { setNodeRef } = useDroppable({
+  const { setNodeRef, isOver } = useDroppable({
     id: droppableId,
     data: { id, pathToElement, tag },
   });
 
   const handleRemove = () => {
     handleRemoveElement(pathToElement);
-  }
+  };
 
   return (
     <>
@@ -43,19 +41,22 @@ function Droppable({
         ref={setNodeRef}
         id={droppableId}
         className='p-4 flex flex-col gap-2 rounded-md drop-shadow-xl shadow-md'
-        style={{ background: hover ? backgroundHover : background }}
+        style={{
+          background: isOver ? backgroundHover : background,
+          border: isOver ? `2px dashed rgba(255,255,255,0.6)` : "none",
+        }}
       >
         <div className='flex items-center justify-between'>
-          <p className="font-bold">
+          <p className='font-bold text-white'>
             {display !== "DOM" ? `<${display}>` : display + " (index.html)"}
           </p>
           {display !== "DOM" && (
-            <div className="flex items-center gap-2">
-              <button popovertarget="form" popoveraction="show">
-                <Edit />
+            <div className='flex items-center gap-2 text-white'>
+              <button popovertarget='form' popoveraction='show'>
+                <Edit width={20} height={20} />
               </button>
               <button onClick={handleRemove}>
-                <X />
+                <X width={20} height={20} />
               </button>
             </div>
           )}
@@ -79,7 +80,9 @@ function Droppable({
               );
             })}
         </div>
-        {display !== "DOM" && <p className="font-bold">{`<\\${display}>`}</p>}
+        {display !== "DOM" && (
+          <p className='font-bold text-white'>{`<\\${display}>`}</p>
+        )}
       </div>
     </>
   );

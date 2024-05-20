@@ -187,12 +187,14 @@ export const bigBlockElements = [
     canContain: ["head", "body"],
     limits: { head: 1, body: 1 },
     parents: ["dom"],
+    attributes: ["lang"],
   },
   {
     content: "head",
     canContain: ["title", "style", "meta", "link", "script"],
     limits: { title: 1 },
     parents: ["html"],
+    attributes: [],
   },
   {
     content: "body",
@@ -238,6 +240,7 @@ export const bigBlockElements = [
       "svg",
     ],
     parents: ["html"],
+    attributes: ["id", "class"],
   },
   {
     content: "header",
@@ -424,7 +427,18 @@ export const bigBlockElements = [
       "canvas",
       "svg",
     ],
-    parents: ["body", "section", "main", "article", "aside", "nav", "div", "header", "footer","form"],
+    parents: [
+      "body",
+      "section",
+      "main",
+      "article",
+      "aside",
+      "nav",
+      "div",
+      "header",
+      "footer",
+      "form",
+    ],
   },
   {
     content: "nav",
@@ -446,7 +460,16 @@ export const bigBlockElements = [
       "button",
       "svg",
     ],
-    parents: ["body", "section", "main", "article", "aside", "div" , "header", "footer"],
+    parents: [
+      "body",
+      "section",
+      "main",
+      "article",
+      "aside",
+      "div",
+      "header",
+      "footer",
+    ],
   },
   {
     content: "aside",
@@ -726,7 +749,7 @@ export const textElements = [
       "h5",
       "h6",
       "button",
-      "label"
+      "label",
     ],
   },
 ];
