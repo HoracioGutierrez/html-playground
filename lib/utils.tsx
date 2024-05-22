@@ -241,6 +241,10 @@ export const bigBlockElements = [
     ],
     parents: ["html"],
     attributes: ["id", "class"],
+    limits: {
+      main: 1,
+      h1: 1,
+    },
   },
   {
     content: "header",
@@ -267,6 +271,7 @@ export const bigBlockElements = [
     ],
     exclude: ["header", "footer", "ul", "ol", "li", "a"],
     parents: ["body", "section", "main", "article", "aside", "nav"],
+    attributes: ["id", "class"],
   },
   {
     content: "footer",
@@ -292,6 +297,7 @@ export const bigBlockElements = [
     ],
     exclude: ["header", "footer", "ul", "ol", "li", "a"],
     parents: ["body", "section", "main", "article", "aside", "nav"],
+    attributes: ["id", "class"],
   },
   {
     content: "section",
@@ -338,6 +344,7 @@ export const bigBlockElements = [
     ],
     parents: ["body", "section", "main", "article", "aside", "nav"],
     exclude: ["header", "footer", "ul", "ol", "li", "a"],
+    attributes: ["id", "class"],
   },
   {
     content: "main",
@@ -383,6 +390,7 @@ export const bigBlockElements = [
       "svg",
     ],
     parents: ["body", "div"],
+    attributes: ["id", "class"],
   },
   {
     content: "div",
@@ -439,6 +447,7 @@ export const bigBlockElements = [
       "footer",
       "form",
     ],
+    attributes: ["id", "class"],
   },
   {
     content: "nav",
@@ -470,6 +479,7 @@ export const bigBlockElements = [
       "header",
       "footer",
     ],
+    attributes: ["id", "class"],
   },
   {
     content: "aside",
@@ -515,6 +525,7 @@ export const bigBlockElements = [
       "svg",
     ],
     parents: ["body", "section", "main", "article", "aside", "nav", "div"],
+    attributes: ["id", "class"],
   },
   {
     content: "article",
@@ -560,6 +571,7 @@ export const bigBlockElements = [
       "svg",
     ],
     parents: ["body", "section", "main", "article", "aside", "nav", "div"],
+    attributes: ["id", "class"],
   },
 ];
 
@@ -569,6 +581,7 @@ export const textElements = [
     canContain: [],
     parents: ["head"],
     limits: {},
+    attributes: [],
   },
   {
     content: "ul",
@@ -585,6 +598,7 @@ export const textElements = [
       "header",
       "footer",
     ],
+    attributes: ["id", "class"],
   },
   {
     content: "ol",
@@ -601,11 +615,13 @@ export const textElements = [
       "header",
       "footer",
     ],
+    attributes: ["id", "class"],
   },
   {
     content: "li",
     canContain: [],
     parents: ["ul", "ol"],
+    attributes: ["id", "class"],
   },
   {
     content: "h1",
@@ -621,6 +637,7 @@ export const textElements = [
       "div",
       "body",
     ],
+    attributes: ["id", "class"],
   },
   {
     content: "h2",
@@ -636,6 +653,7 @@ export const textElements = [
       "div",
       "body",
     ],
+    attributes: ["id", "class"],
   },
   {
     content: "h3",
@@ -651,6 +669,7 @@ export const textElements = [
       "div",
       "body",
     ],
+    attributes: ["id", "class"],
   },
   {
     content: "h4",
@@ -666,6 +685,7 @@ export const textElements = [
       "div",
       "body",
     ],
+    attributes: ["id", "class"],
   },
   {
     content: "h5",
@@ -681,6 +701,7 @@ export const textElements = [
       "div",
       "body",
     ],
+    attributes: ["id", "class"],
   },
   {
     content: "h6",
@@ -696,6 +717,7 @@ export const textElements = [
       "div",
       "body",
     ],
+    attributes: ["id", "class"],
   },
   {
     content: "p",
@@ -711,6 +733,7 @@ export const textElements = [
       "div",
       "body",
     ],
+    attributes: ["id", "class"],
   },
   {
     content: "a",
@@ -726,6 +749,7 @@ export const textElements = [
       "div",
       "body",
     ],
+    attributes: ["id", "class", "href", "target"],
   },
   {
     content: "span",
@@ -751,7 +775,9 @@ export const textElements = [
       "button",
       "label",
     ],
+    attributes: ["id", "class"]
   },
+  
 ];
 
 export const formElements = [
@@ -760,36 +786,43 @@ export const formElements = [
     canContain: [],
     limits: {},
     parents: ["form", "div", "body", "section", "main", "article", "aside"],
+    attributes: ["id", "class", "type"],
   },
   {
     content: "input",
     canContain: [],
     parents: ["form", "div"],
+    attributes: ["id", "class", "type", "placeholder", "name", "value"],
   },
   {
     content: "form",
     canContain: ["input", "button", "select", "textarea", "label", "div"],
     parents: ["body", "section", "main", "article", "aside", "nav", "div"],
+    attributes: ["id", "class", "action", "method"],
   },
   {
     content: "label",
     canContain: [],
     parents: ["form", "div"],
+    attributes: ["id", "class", "for"],
   },
   {
     content: "select",
     canContain: ["option"],
     parents: ["form", "div"],
+    attributes: ["id", "class", "name", "value"],
   },
   {
     content: "option",
     canContain: [],
     parents: ["select"],
+    attributes: ["id", "class", "value"],
   },
   {
     content: "textarea",
     canContain: [],
     parents: ["form", "div"],
+    attributes: ["id", "class", "placeholder", "name", "value"],
   },
 ];
 
@@ -799,59 +832,66 @@ export const mediaElements = [
     canContain: [],
     limits: {},
     parents: ["body", "section", "main", "article", "aside", "nav", "div"],
-  },
-  {
-    content: "caption",
-    canContain: [],
+    attributes: ["id", "class", "src", "alt"],
   },
   {
     content: "iframe",
     canContain: [],
     parents: ["body", "section", "main", "article", "aside", "nav", "div"],
+    attributes: ["id", "class", "src", "width", "height"],
   },
   {
     content: "video",
     canContain: ["source"],
     parents: ["body", "section", "main", "article", "aside", "nav", "div"],
+    attributes: ["id", "class", "src", "width", "height"],
   },
   {
     content: "audio",
     canContain: ["source"],
     parents: ["body", "section", "main", "article", "aside", "nav", "div"],
+    attributes: ["id", "class", "src"],
   },
   {
     content: "source",
     canContain: [],
+    parents: ["video", "audio"],
   },
   {
     content: "canvas",
     canContain: [],
     parents: ["body", "section", "main", "article", "aside", "nav", "div"],
+    attributes: ["id", "class", "width", "height"],
   },
   {
     content: "svg",
     canContain: ["path"],
     parents: ["body", "section", "main", "article", "aside", "nav", "div"],
+    attributes: ["id", "class", "width", "height"],
   },
   {
     content: "path",
     canContain: [],
     parents: ["svg"],
+    attributes: ["id", "class"],
   },
   {
     content: "style",
     canContain: [],
     parents: ["head"],
+    attributes: ["type"],
   },
   {
     content: "script",
     canContain: [],
     parents: ["head", "body"],
+    attributes: ["src", "type"],
   },
   {
     content: "link",
     canContain: [],
     parents: ["head"],
+    attributes: ["rel", "href"],
   },
 ];
 

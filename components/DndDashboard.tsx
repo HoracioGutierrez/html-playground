@@ -34,6 +34,7 @@ const DndDashboard = () => {
   const [over, setOver] = useState({} as any);
   const [canBeDropped, setCanBeDropped] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
+  const [attributes, setAttributes] = useState([] as any);
 
   const handleDragEng = (event: any) => {
     if (!canBeDropped) {
@@ -47,7 +48,6 @@ const DndDashboard = () => {
 
     const newCount = count + 1;
     const newColor = getRandomHSLColor();
-    
 
     let elementsCopy = [...elements];
     let possibleParent: any;
@@ -77,6 +77,7 @@ const DndDashboard = () => {
         "children",
         possibleParent.children ? possibleParent.children.length : 0,
       ],
+      attributes: event.active.data.current.HTMLAttributes,
     };
 
     possibleParent.children.push(newItem);
@@ -97,12 +98,11 @@ const DndDashboard = () => {
       possibleParent = possibleParent[path];
     });
 
-    
     if (!possibleParent) {
       setCanBeDropped(false);
       return false;
     }
-    
+
     if (!possibleParent.canContain.includes(elementName)) {
       setCanBeDropped(false);
       return false;
@@ -141,6 +141,14 @@ const DndDashboard = () => {
     setElements(elementsCopy);
   };
 
+  const handleAttributeSubmit = (e: any) => {
+    e.preventDefault();
+    const form = e.target;
+    const data = new FormData(form);
+    const attributes = Array.from(data.keys()).map((key) => data.get(key));
+    console
+  }
+
   return (
     <DndContext onDragEnd={handleDragEng}>
       <div className='grid grid-flow-row gap-10'>
@@ -158,6 +166,8 @@ const DndDashboard = () => {
                 pathToElement={element.pathToElement}
                 tag={element.tag}
                 handleRemoveElement={handleRemoveElement}
+                setAttributes={setAttributes}
+                attributes={element.attributes}
               />
             );
           })}
@@ -178,7 +188,9 @@ const DndDashboard = () => {
                     setCanBeDropped={setCanBeDropped}
                     isLast={i === bigBlockElements.length - 1}
                     setErrorMessage={setErrorMessage}
-                    HTMLAttributes={element.attributes ? element.attributes : []}
+                    HTMLAttributes={
+                      element.attributes ? element.attributes : []
+                    }
                   />
                 );
               })}
@@ -199,6 +211,9 @@ const DndDashboard = () => {
                     setCanBeDropped={setCanBeDropped}
                     isLast={i === textElements.length - 1}
                     setErrorMessage={setErrorMessage}
+                    HTMLAttributes={
+                      element.attributes ? element.attributes : []
+                    }
                   />
                 );
               })}
@@ -219,6 +234,9 @@ const DndDashboard = () => {
                     setCanBeDropped={setCanBeDropped}
                     isLast={i === formElements.length - 1}
                     setErrorMessage={setErrorMessage}
+                    HTMLAttributes={
+                      element.attributes ? element.attributes : []
+                    }
                   />
                 );
               })}
@@ -239,6 +257,9 @@ const DndDashboard = () => {
                     setCanBeDropped={setCanBeDropped}
                     isLast={i === mediaElements.length - 1}
                     setErrorMessage={setErrorMessage}
+                    HTMLAttributes={
+                      element.attributes ? element.attributes : []
+                    }
                   />
                 );
               })}
@@ -248,61 +269,27 @@ const DndDashboard = () => {
       </div>
       <div popover='auto' id='form'>
         <h2 className='font-bold text-xl mb-6'>Atributos</h2>
-        <form className='flex flex-col gap-3'>
-          <div>
-            <label className='text-sm font-semibold' htmlFor='id'>
-              id
-            </label>
-            <input
-              type='text'
-              id='id'
-              className='border rounded-sm w-full p-1 text-gray-500'
-            />
-          </div>
-          <div>
-            <label className='text-sm font-semibold' htmlFor='class'>
-              class
-            </label>
-            <input
-              type='text'
-              id='class'
-              className='border rounded-sm w-full p-1 text-gray-500'
-            />
-          </div>
-          <div>
-            <label className='text-sm font-semibold' htmlFor='href'>
-              href
-            </label>
-            <input
-              type='text'
-              id='href'
-              className='border rounded-sm w-full p-1 text-gray-500'
-            />
-          </div>
-          <div>
-            <label className='text-sm font-semibold' htmlFor='href'>
-              href
-            </label>
-            <input
-              type='text'
-              id='href'
-              className='border rounded-sm w-full p-1 text-gray-500'
-            />
-          </div>
-          <div>
-            <label className='text-sm font-semibold' htmlFor='src'>
-              src
-            </label>
-            <input
-              type='text'
-              id='src'
-              className='border rounded-sm w-full p-1 text-gray-500'
-            />
-          </div>
-          <Button className='bg-transparent border text-foreground hover:text-accent'>
-            guardar
-          </Button>
-        </form>
+        {attributes && attributes.length > 0 && (
+          <form className='flex flex-col gap-3' onSubmit={handleAttributeSubmit}>
+            {attributes.map((attribute: any, i: number) => {
+              return (
+                <div key={i}>
+                  <label className='text-sm font-semibold' htmlFor={attribute}>
+                    {attribute}
+                  </label>
+                  <input
+                    type='text'
+                    id={attribute}
+                    className='border rounded-sm w-full p-1 text-gray-500'
+                  />
+                </div>
+              );
+            })}
+            <Button className='bg-transparent border text-foreground hover:text-accent'>
+              guardar
+            </Button>
+          </form>
+        )}
       </div>
     </DndContext>
   );

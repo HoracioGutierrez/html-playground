@@ -12,6 +12,8 @@ type DroppableProps = {
   pathToElement: string[];
   tag: string;
   handleRemoveElement?: any;
+  setAttributes?: any;
+  attributes?: any;
 };
 
 function Droppable({
@@ -24,6 +26,8 @@ function Droppable({
   pathToElement,
   tag,
   handleRemoveElement,
+  setAttributes,
+  attributes,
 }: DroppableProps) {
   const droppableId = "droppable-" + id;
   const { setNodeRef, isOver } = useDroppable({
@@ -34,6 +38,11 @@ function Droppable({
   const handleRemove = () => {
     handleRemoveElement(pathToElement);
   };
+
+  const handleClick = () => {
+    console.log(attributes)
+    setAttributes(attributes)
+  }
 
   return (
     <>
@@ -51,7 +60,7 @@ function Droppable({
             {display !== "DOM" ? `<${display}>` : display + " (index.html)"}
           </p>
           {display !== "DOM" && (
-            <div className='flex items-center gap-2 text-white'>
+            <div className='flex items-center gap-2 text-white' onClick={handleClick}>
               <button popovertarget='form' popoveraction='show'>
                 <Edit width={20} height={20} />
               </button>
@@ -76,6 +85,8 @@ function Droppable({
                   pathToElement={item.pathToElement}
                   tag={item.tag}
                   handleRemoveElement={handleRemoveElement}
+                  setAttributes={setAttributes}
+                  attributes={item.attributes}
                 />
               );
             })}
