@@ -6,6 +6,7 @@ import { useState } from "react";
 import Droppable from "./Droppable";
 import { toast } from "./ui/use-toast";
 import AttributePopup from "./AttributePopup";
+import { Button } from "./ui/button";
 
 
 const DndDashboard = () => {
@@ -17,6 +18,7 @@ const DndDashboard = () => {
   const [attributes, setAttributes] = useState([] as any);
   const [pathToElement, setPathToElement] = useState([] as any);
   const [open, setOpen] = useState(false);
+  const [htmlString, setHtmlString] = useState("")
 
   const handleDragEng = (event: any) => {
     if (!canBeDropped) {
@@ -146,13 +148,49 @@ const DndDashboard = () => {
       }
       current = current[pathToElement[i]];
     }
-    
-    
+
+
     //current[0].currentAttributes = attributes;
     current[pathToElement[pathToElement.length - 1]].currentAttributes = attributes;
     setElements(elementsCopy);
     e.target.reset();
   };
+
+  const generateHTML = () => {
+    let html = "<!DOCTYPE html>\n";
+
+    const generateAttributes = (element: any) => {
+      let attributes = "";
+
+      for (const key in element.currentAttributes) {
+        if (element.currentAttributes[key] !== "") {
+          attributes += `${key}="${element.currentAttributes[key]}" `;
+        }
+      }
+
+      return attributes;
+    }
+
+    const generateElement = (element: any) => {
+      console.log(element)
+      html += `<${element.display} ${generateAttributes(element)}>\n`;
+
+      if (element.children.length > 0) {
+        element.children.forEach(generateElement);
+      }
+
+      html += `</${element.display}>\n`;
+    }
+
+    elements[0].children.forEach(generateElement);
+    setHtmlString(html);
+    navigator.clipboard.writeText(html);
+    toast({
+      title: "HTML generado",
+      description: "El código HTML ha sido copiado al portapapeles.",
+      variant: "default",
+    });
+  }
 
   const draggableELements = [
     { title: "Bloques", elements: bigBlockElements },
@@ -178,6 +216,11 @@ const DndDashboard = () => {
             );
           })}
         </div>
+        {elements[0].children.length > 0 && (
+          <div className="flex justify-center">
+            <Button className="bg-amber-500 shadow-md drop-shadow-md uppercase animate-pulse text-xl" onClick={generateHTML}>generar html</Button>
+          </div>
+        )}
         <div className='grid md:grid-cols-2 xl:grid-cols-3 gap-20 container text-accent'>
           {draggableELements.map((group, i) => {
             return (
@@ -202,7 +245,7 @@ const DndDashboard = () => {
           })}
         </div>
       </div>
-      <AttributePopup attributes={attributes} handleAttributeSubmit={handleAttributeSubmit} open={open} setOpen={setOpen}/>
+      <AttributePopup attributes={attributes} handleAttributeSubmit={handleAttributeSubmit} open={open} setOpen={setOpen} />
     </DndContext>
   );
 };
