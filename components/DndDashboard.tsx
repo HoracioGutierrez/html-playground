@@ -1,12 +1,11 @@
 "use client";
-
 import { bigBlockElements, formElements, getRandomHSLColor, mediaElements, starterDom, textElements } from "@/lib/utils";
 import { DndContext } from "@dnd-kit/core";
 import Draggable from "./Draggable";
 import { useState } from "react";
 import Droppable from "./Droppable";
 import { toast } from "./ui/use-toast";
-import { Button } from "./ui/button";
+import AttributePopup from "./AttributePopup";
 
 
 const DndDashboard = () => {
@@ -17,6 +16,7 @@ const DndDashboard = () => {
   const [errorMessage, setErrorMessage] = useState("");
   const [attributes, setAttributes] = useState([] as any);
   const [pathToElement, setPathToElement] = useState([] as any);
+  const [open, setOpen] = useState(false);
 
   const handleDragEng = (event: any) => {
     if (!canBeDropped) {
@@ -132,6 +132,8 @@ const DndDashboard = () => {
     Array.from(data.keys()).forEach((key) => {
       if (data.get(key)) {
         attributes[key] = data.get(key);
+      } else {
+        attributes[key] = "";
       }
     });
 
@@ -144,9 +146,12 @@ const DndDashboard = () => {
       }
       current = current[pathToElement[i]];
     }
-
-    current[0].currentAttributes = attributes;
+    
+    
+    //current[0].currentAttributes = attributes;
+    current[pathToElement[pathToElement.length - 1]].currentAttributes = attributes;
     setElements(elementsCopy);
+    e.target.reset();
   };
 
   const draggableELements = [
@@ -168,6 +173,7 @@ const DndDashboard = () => {
                 setAttributes={setAttributes}
                 setPathToElement={setPathToElement}
                 element={element}
+                setOpen={setOpen}
               />
             );
           })}
@@ -181,18 +187,11 @@ const DndDashboard = () => {
                   {group.elements.map((element, i) => {
                     return (
                       <Draggable
-                        /* content={element.content} */
-                        /* canContain={element.canContain}
-                        limits={element.limits} */
                         key={i}
                         handleDragOver={handleDragOver}
-                        /* parents={element.parents || []} */
                         setCanBeDropped={setCanBeDropped}
                         isLast={i === group.elements.length - 1}
                         setErrorMessage={setErrorMessage}
-                        /* HTMLAttributes={
-                          element.attributes ? element.attributes : []
-                        } */
                         element={element}
                       />
                     );
@@ -203,26 +202,7 @@ const DndDashboard = () => {
           })}
         </div>
       </div>
-      <div popover='auto' id='form'>
-        <h2 className='font-bold text-xl mb-6'>Atributos</h2>
-        {attributes && attributes.length > 0 && (
-          <form className='flex flex-col gap-3' onSubmit={handleAttributeSubmit}>
-            {attributes.map((attribute: any, i: number) => {
-              return (
-                <div key={i}>
-                  <label className='text-sm font-semibold' htmlFor={attribute}>
-                    {attribute}
-                  </label>
-                  <input type='text' id={attribute} name={attribute} className='border rounded-sm w-full p-1 text-gray-500' />
-                </div>
-              );
-            })}
-            <Button className='bg-transparent border text-foreground hover:text-accent'>
-              guardar
-            </Button>
-          </form>
-        )}
-      </div>
+      <AttributePopup attributes={attributes} handleAttributeSubmit={handleAttributeSubmit} open={open} setOpen={setOpen}/>
     </DndContext>
   );
 };

@@ -3,7 +3,7 @@ import { useDroppable } from "@dnd-kit/core";
 import { Edit, X } from "lucide-react";
 
 
-function Droppable({ handleRemoveElement, setAttributes, setPathToElement,
+function Droppable({ handleRemoveElement, setAttributes, setPathToElement, setOpen,
   element: { id, display, children: items, background, backgroundHover, pathToElement, tag, attributes, currentAttributes }
 }: DroppableProps) {
 
@@ -15,14 +15,21 @@ function Droppable({ handleRemoveElement, setAttributes, setPathToElement,
   };
 
   const handleClick = () => {
-    setAttributes(attributes);
+    const stateAttributes = currentAttributes || attributes.reduce((acc: any, attribute: any) => {
+      acc[attribute] = "";
+      return acc;
+    }, {});
+    setAttributes(stateAttributes);
     setPathToElement(pathToElement);
+    setOpen(true);
   };
 
   const getCurrentAttributes = () => {
     let attributes = "";
     for (const key in currentAttributes) {
-      attributes += `${key}="${currentAttributes[key]}" `;
+      if(currentAttributes[key] !== ""){
+        attributes += `${key}="${currentAttributes[key]}" `;
+      }
     }
     return attributes;
   };
@@ -63,6 +70,7 @@ function Droppable({ handleRemoveElement, setAttributes, setPathToElement,
                 setAttributes={setAttributes}
                 setPathToElement={setPathToElement}
                 element={item}
+                setOpen={setOpen}
               />
             );
           })}

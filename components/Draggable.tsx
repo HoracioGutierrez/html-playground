@@ -2,6 +2,7 @@ import { useDraggable } from "@dnd-kit/core";
 import { CSS } from "@dnd-kit/utilities";
 import { Badge } from "./ui/badge";
 import { DraggableProps, cn } from "@/lib/utils";
+import { memo } from "react";
 
 
 const Draggable = ({ handleDragOver, setCanBeDropped, isLast, setErrorMessage,
@@ -56,4 +57,4 @@ const Draggable = ({ handleDragOver, setCanBeDropped, isLast, setErrorMessage,
     </Badge>
   );
 };
-export default Draggable;
+export default memo(Draggable);

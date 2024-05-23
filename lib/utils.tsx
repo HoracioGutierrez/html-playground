@@ -963,4 +963,18 @@ export type DroppableProps = {
   setAttributes?: any;
   setPathToElement?: any;
   element?: any;
+  setOpen?: any;
 };
+
+export type AttributesFormProps = {
+  handleAttributeSubmit?: any;
+  attributes: string[];
+  setOpen?: any;
+};
+
+export type AttributePopupProps = {
+  attributes: string[];
+  handleAttributeSubmit: any;
+  open: boolean;
+  setOpen: any;
+}
