@@ -1,32 +1,13 @@
-//@ts-ignore
 "use client";
 
-import {
-  bigBlockElements,
-  formElements,
-  getRandomHSLColor,
-  mediaElements,
-  textElements,
-} from "@/lib/utils";
+import { bigBlockElements, formElements, getRandomHSLColor, mediaElements, starterDom, textElements } from "@/lib/utils";
 import { DndContext } from "@dnd-kit/core";
 import Draggable from "./Draggable";
 import { useState } from "react";
 import Droppable from "./Droppable";
 import { toast } from "./ui/use-toast";
 import { Button } from "./ui/button";
-const starterColor = getRandomHSLColor();
-const starterDom = {
-  display: "DOM",
-  id: "dom",
-  children: [],
-  canContain: ["html"],
-  background: starterColor.background,
-  backgroundHover: starterColor.hover,
-  limits: { html: 1 },
-  parents: [],
-  pathToElement: ["0"],
-  tag: "dom",
-};
+
 
 const DndDashboard = () => {
   const [elements, setElements] = useState([starterDom] as any);
@@ -35,6 +16,7 @@ const DndDashboard = () => {
   const [canBeDropped, setCanBeDropped] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
   const [attributes, setAttributes] = useState([] as any);
+  const [pathToElement, setPathToElement] = useState([] as any);
 
   const handleDragEng = (event: any) => {
     if (!canBeDropped) {
@@ -145,9 +127,34 @@ const DndDashboard = () => {
     e.preventDefault();
     const form = e.target;
     const data = new FormData(form);
-    const attributes = Array.from(data.keys()).map((key) => data.get(key));
-    console
-  }
+    const attributes = {};
+
+    Array.from(data.keys()).forEach((key) => {
+      if (data.get(key)) {
+        attributes[key] = data.get(key);
+      }
+    });
+
+    let elementsCopy = [...elements];
+    let current = elementsCopy;
+
+    for (let i = 0; i < pathToElement.length - 1; i++) {
+      if (!current[pathToElement[i]]) {
+        return elementsCopy;
+      }
+      current = current[pathToElement[i]];
+    }
+
+    current[0].currentAttributes = attributes;
+    setElements(elementsCopy);
+  };
+
+  const draggableELements = [
+    { title: "Bloques", elements: bigBlockElements },
+    { title: "Textos", elements: textElements },
+    { title: "Formularios", elements: formElements },
+    { title: "Multimedia", elements: mediaElements },
+  ];
 
   return (
     <DndContext onDragEnd={handleDragEng}>
@@ -156,115 +163,44 @@ const DndDashboard = () => {
           {elements.map((element: any, i: number) => {
             return (
               <Droppable
-                id={element.id}
-                display={element.display}
-                items={element.children}
                 key={i}
-                background={element.background}
-                backgroundHover={element.backgroundHover}
-                hover={element.hover}
-                pathToElement={element.pathToElement}
-                tag={element.tag}
                 handleRemoveElement={handleRemoveElement}
                 setAttributes={setAttributes}
-                attributes={element.attributes}
+                setPathToElement={setPathToElement}
+                element={element}
               />
             );
           })}
         </div>
         <div className='grid md:grid-cols-2 xl:grid-cols-3 gap-20 container text-accent'>
-          <div>
-            <h2 className='font-bold mb-4'>Bloques</h2>
-            <div className='flex gap-4 flex-wrap'>
-              {bigBlockElements.map((element, i) => {
-                return (
-                  <Draggable
-                    content={element.content}
-                    canContain={element.canContain}
-                    limits={element.limits}
-                    key={i}
-                    handleDragOver={handleDragOver}
-                    parents={element.parents || []}
-                    setCanBeDropped={setCanBeDropped}
-                    isLast={i === bigBlockElements.length - 1}
-                    setErrorMessage={setErrorMessage}
-                    HTMLAttributes={
-                      element.attributes ? element.attributes : []
-                    }
-                  />
-                );
-              })}
-            </div>
-          </div>
-          <div>
-            <h2 className='font-bold mb-4'>Textos</h2>
-            <div className='flex gap-4 flex-wrap'>
-              {textElements.map((element, i) => {
-                return (
-                  <Draggable
-                    content={element.content}
-                    canContain={element.canContain}
-                    limits={element.limits}
-                    key={i}
-                    handleDragOver={handleDragOver}
-                    parents={element.parents || []}
-                    setCanBeDropped={setCanBeDropped}
-                    isLast={i === textElements.length - 1}
-                    setErrorMessage={setErrorMessage}
-                    HTMLAttributes={
-                      element.attributes ? element.attributes : []
-                    }
-                  />
-                );
-              })}
-            </div>
-          </div>
-          <div>
-            <h2 className='font-bold mb-4'>Formularios</h2>
-            <div className='flex gap-4 flex-wrap'>
-              {formElements.map((element, i) => {
-                return (
-                  <Draggable
-                    content={element.content}
-                    canContain={element.canContain}
-                    limits={element.limits}
-                    key={i}
-                    handleDragOver={handleDragOver}
-                    parents={element.parents || []}
-                    setCanBeDropped={setCanBeDropped}
-                    isLast={i === formElements.length - 1}
-                    setErrorMessage={setErrorMessage}
-                    HTMLAttributes={
-                      element.attributes ? element.attributes : []
-                    }
-                  />
-                );
-              })}
-            </div>
-          </div>
-          <div>
-            <h2 className='font-bold mb-4'>Multimedia</h2>
-            <div className='flex gap-4 flex-wrap'>
-              {mediaElements.map((element, i) => {
-                return (
-                  <Draggable
-                    content={element.content}
-                    canContain={element.canContain}
-                    limits={element.limits}
-                    key={i}
-                    handleDragOver={handleDragOver}
-                    parents={element.parents || []}
-                    setCanBeDropped={setCanBeDropped}
-                    isLast={i === mediaElements.length - 1}
-                    setErrorMessage={setErrorMessage}
-                    HTMLAttributes={
-                      element.attributes ? element.attributes : []
-                    }
-                  />
-                );
-              })}
-            </div>
-          </div>
+          {draggableELements.map((group, i) => {
+            return (
+              <div key={i}>
+                <h2 className='font-bold mb-4'>{group.title}</h2>
+                <div className='flex gap-4 flex-wrap'>
+                  {group.elements.map((element, i) => {
+                    return (
+                      <Draggable
+                        /* content={element.content} */
+                        /* canContain={element.canContain}
+                        limits={element.limits} */
+                        key={i}
+                        handleDragOver={handleDragOver}
+                        /* parents={element.parents || []} */
+                        setCanBeDropped={setCanBeDropped}
+                        isLast={i === group.elements.length - 1}
+                        setErrorMessage={setErrorMessage}
+                        /* HTMLAttributes={
+                          element.attributes ? element.attributes : []
+                        } */
+                        element={element}
+                      />
+                    );
+                  })}
+                </div>
+              </div>
+            );
+          })}
         </div>
       </div>
       <div popover='auto' id='form'>
@@ -277,11 +213,7 @@ const DndDashboard = () => {
                   <label className='text-sm font-semibold' htmlFor={attribute}>
                     {attribute}
                   </label>
-                  <input
-                    type='text'
-                    id={attribute}
-                    className='border rounded-sm w-full p-1 text-gray-500'
-                  />
+                  <input type='text' id={attribute} name={attribute} className='border rounded-sm w-full p-1 text-gray-500' />
                 </div>
               );
             })}

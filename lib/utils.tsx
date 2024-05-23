@@ -777,7 +777,7 @@ export const textElements = [
     ],
     attributes: ["id", "class"]
   },
-  
+
 ];
 
 export const formElements = [
@@ -926,4 +926,41 @@ export const getRandomHSLColor = (hover = false) => {
     background: colorWithHover,
     hover: color,
   };
+};
+
+const starterColor = getRandomHSLColor();
+
+export const starterDom = {
+  display: "DOM",
+  id: "dom",
+  children: [],
+  canContain: ["html"],
+  background: starterColor.background,
+  backgroundHover: starterColor.hover,
+  limits: { html: 1 },
+  parents: [],
+  pathToElement: ["0"],
+  tag: "dom",
+  attributes: [],
+  currentAttributes: {},
+};
+
+export type DraggableProps = {
+  handleDragOver?: (
+    event: any,
+    id: string,
+    canContain: string[],
+    limits: any
+  ) => void;
+  setCanBeDropped?: any;
+  isLast?: boolean;
+  setErrorMessage?: any;
+  element?: any;
+};
+
+export type DroppableProps = {
+  handleRemoveElement?: any;
+  setAttributes?: any;
+  setPathToElement?: any;
+  element?: any;
 };
