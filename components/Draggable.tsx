@@ -5,42 +5,14 @@ import { DraggableProps, cn } from "@/lib/utils";
 import { memo } from "react";
 
 
-const Draggable = ({ handleDragOver, setCanBeDropped, isLast, setErrorMessage,
-  element: { content = "draggable", canContain, limits, parents, attributes: HTMLAttributes = [] },
-}: DraggableProps) => {
+const Draggable = ({ isLast, element: { content = "draggable", canContain, limits, parents, attributes: HTMLAttributes = [] } }: DraggableProps) => {
 
-  const { attributes, listeners, setNodeRef, transform, over, isDragging } = useDraggable({
+  const { attributes, listeners, setNodeRef, transform } = useDraggable({
     id: `draggable-${content}`,
     data: { current: content, canContain, limits, parents, HTMLAttributes },
   });
 
   const style = { transform: CSS.Translate.toString(transform) }
-
-  const onDragOver = () => {
-    if (!parents?.includes(over?.data.current?.tag)) {
-      if (over?.data.current?.tag === "dom") {
-        setErrorMessage(
-          `El ${over?.data.current?.tag.toUpperCase()} no puede contener <${content}>.`
-        );
-      } else {
-        setErrorMessage(
-          ` La etiqueta <${over?.data.current?.tag}> no es una etiqueta padre válida y no puede contener <${content}>.`
-        );
-      }
-
-      setCanBeDropped(false);
-      return;
-    }
-
-    if (!handleDragOver) {
-      setCanBeDropped(false);
-      return;
-    }
-
-    handleDragOver(over, content, canContain, limits);
-  };
-
-  if (isDragging) onDragOver();
 
   return (
     <Badge className={cn(isLast && "mr-auto", "text-accent-foreground  bg-amber-300 text-sm shadow-close hover:text-white hover:bg-emerald-950 transition-[border-radius,background-color] duration-200 rounded-xl hover:rounded-sm group badge hover:animate-pulse"

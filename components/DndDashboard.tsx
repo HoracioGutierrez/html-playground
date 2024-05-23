@@ -7,6 +7,7 @@ import Droppable from "./Droppable";
 import { toast } from "./ui/use-toast";
 import AttributePopup from "./AttributePopup";
 import { Button } from "./ui/button";
+import { Loader } from "lucide-react";
 
 
 const DndDashboard = () => {
@@ -19,14 +20,27 @@ const DndDashboard = () => {
   const [pathToElement, setPathToElement] = useState([] as any);
   const [open, setOpen] = useState(false);
   const [htmlString, setHtmlString] = useState("")
+  const [generating, setGenerating] = useState(false)
 
   const handleDragEng = (event: any) => {
-    if (!canBeDropped) {
-      toast({
-        title: "No se puede soltar aquí",
-        description: errorMessage || "No se puede soltar aquí",
-        variant: "destructive",
-      });
+
+    const parents = event.active.data.current.parents;
+    const over = event.over;
+
+    if (!parents?.includes(over?.data.current?.tag)) {
+      if (over?.data.current?.tag === "dom") {
+        toast({
+          title: "No se puede soltar aquí",
+          description: `El ${over?.data.current?.tag.toUpperCase()} no puede contener a la etiqueta <${event.active.data.current.current}/>. Intenta utilizar una etiqueta distinta para comenzar tu HTML!.`,
+          variant: "destructive",
+        });
+      } else {
+        toast({
+          title: "No se puede soltar aquí",
+          description: `La etiqueta <${over?.data.current?.tag}> no es una etiqueta padre válida y no puede contener <${event.active.data.current.current}>.`,
+          variant: "destructive",
+        });
+      }
       return;
     }
 
@@ -43,6 +57,42 @@ const DndDashboard = () => {
         possibleParent = possibleParent[path];
       }
     });
+
+    if (!possibleParent) {
+      return toast({
+        title: "No se puede soltar aquí",
+        description: "Hubo un problema inesperado y no se puede va a poder soltar aca :(. Intenta de nuevo!",
+        variant: "destructive",
+      });
+    }
+
+    if(possibleParent.canContain.length === 0){
+      return toast({
+        title: "No se puede soltar aquí",
+        description: `La etiqueta <${possibleParent.display}/> no puede contener elementos hijos.`,
+        variant: "destructive",
+      });
+    }
+
+    if(!possibleParent.canContain.includes(event.active.data.current.current)){
+      return toast({
+        title: "No se puede soltar aquí",
+        description: `La etiqueta <${possibleParent.display}/> no puede contener la etiqueta <${event.active.data.current.current}/> como hijo.`,
+        variant: "destructive",
+      });
+    }
+
+    const elementLimit = possibleParent.limits[event.active.data.current.current];
+
+    if (elementLimit && possibleParent.children.filter(
+      (child: any) => child.display === event.active.data.current.current
+    ).length >= elementLimit) {
+      return toast({
+        title: "No se puede soltar aquí",
+        description: `La etiqueta <${possibleParent.display}/> ya tiene el máximo de elementos hijos de tipo <${event.active.data.current.current}/> permitidos.`,
+        variant: "destructive",
+      });
+    }
 
     const newItem = {
       display: event.active.data.current.current,
@@ -70,39 +120,6 @@ const DndDashboard = () => {
     setCount(newCount);
     setCanBeDropped(false);
     setErrorMessage("");
-  };
-
-  const handleDragOver = (over: any, elementName: string) => {
-    setOver(over);
-    setCanBeDropped(false);
-
-    let possibleParent: any = [...elements];
-
-    over.data.current.pathToElement.forEach((path: any) => {
-      possibleParent = possibleParent[path];
-    });
-
-    if (!possibleParent) {
-      setCanBeDropped(false);
-      return false;
-    }
-
-    if (!possibleParent.canContain.includes(elementName)) {
-      setCanBeDropped(false);
-      return false;
-    }
-
-    const elementLimit = possibleParent.limits[elementName];
-    const currentElementCount = possibleParent.children.filter(
-      (child: any) => child.display === elementName
-    ).length;
-
-    if (elementLimit && currentElementCount >= elementLimit) {
-      setCanBeDropped(false);
-      return false;
-    }
-    setCanBeDropped(true);
-    return true;
   };
 
   const handleRemoveElement = (path: any[]) => {
@@ -156,23 +173,23 @@ const DndDashboard = () => {
     e.target.reset();
   };
 
-  const generateHTML = () => {
-    let html = "<!DOCTYPE html>\n";
+  const generateAttributes = (element: any) => {
+    let attributes = "";
 
-    const generateAttributes = (element: any) => {
-      let attributes = "";
-
-      for (const key in element.currentAttributes) {
-        if (element.currentAttributes[key] !== "") {
-          attributes += `${key}="${element.currentAttributes[key]}" `;
-        }
+    for (const key in element.currentAttributes) {
+      if (element.currentAttributes[key] !== "") {
+        attributes += `${key}="${element.currentAttributes[key]}" `;
       }
-
-      return attributes;
     }
 
+    return attributes;
+  }
+
+  const generateHTML = () => {
+    setGenerating(true);
+    let html = "<!DOCTYPE html>\n";
+
     const generateElement = (element: any) => {
-      console.log(element)
       html += `<${element.display} ${generateAttributes(element)}>\n`;
 
       if (element.children.length > 0) {
@@ -182,14 +199,18 @@ const DndDashboard = () => {
       html += `</${element.display}>\n`;
     }
 
-    elements[0].children.forEach(generateElement);
-    setHtmlString(html);
-    navigator.clipboard.writeText(html);
-    toast({
-      title: "HTML generado",
-      description: "El código HTML ha sido copiado al portapapeles.",
-      variant: "default",
-    });
+    setTimeout(() => {
+      elements[0].children.forEach(generateElement);
+      setHtmlString(html);
+      navigator.clipboard.writeText(html);
+      setGenerating(false);
+      toast({
+        title: "HTML generado",
+        description: "El código HTML ha sido copiado al portapapeles.",
+        variant: "default",
+      });
+    }, 1000)
+
   }
 
   const draggableELements = [
@@ -218,7 +239,7 @@ const DndDashboard = () => {
         </div>
         {elements[0].children.length > 0 && (
           <div className="flex justify-center">
-            <Button className="bg-amber-500 shadow-md drop-shadow-md uppercase animate-pulse text-xl" onClick={generateHTML}>generar html</Button>
+            <Button className="bg-amber-500 shadow-md drop-shadow-md uppercase animate-pulse text-xl" onClick={generateHTML}>{generating ? (<>generando &nbsp; <Loader className="animate-spin" /></>) : "generar html"}</Button>
           </div>
         )}
         <div className='grid md:grid-cols-2 xl:grid-cols-3 gap-20 container text-accent'>
@@ -231,7 +252,6 @@ const DndDashboard = () => {
                     return (
                       <Draggable
                         key={i}
-                        handleDragOver={handleDragOver}
                         setCanBeDropped={setCanBeDropped}
                         isLast={i === group.elements.length - 1}
                         setErrorMessage={setErrorMessage}
