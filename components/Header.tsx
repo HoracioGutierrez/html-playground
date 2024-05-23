@@ -13,7 +13,7 @@ const Header = async () => {
         <h1 className='text-xl font-bold text-accent opacity-75'>DOM PLayground</h1>
       </div>
       <nav className='flex items-center gap-4 text-accent opacity-75'>
-        <a href='https://github.com/HoracioGutierrez' target="_blank">
+        <a href='https://github.com/HoracioGutierrez/html-playground' target="_blank">
           <GithubIcon size={20} />
         </a>
         <a href='https://www.instagram.com/horagutierrez/' target="_blank">

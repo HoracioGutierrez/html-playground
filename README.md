@@ -1,36 +1,53 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# DOM Playground
 
-## Getting Started
+## Description
+This is a simple DOM playground that allows you to manipulate some arbitrary HTML elements using Javascript Drag and Drop API. It allows the user to drag and drop the elements to a specific location on the screen and learn how HTML nesting works by visually seeing the elements being one inside the other. 
 
-First, run the development server:
+You can also customize the element attributes and see the changes in real-time. The playground also has some error handling to prevent the user from nesting elements that are not allowed to be nested or exceeding the maximum number of children allowed for a specific element.
 
+Also, the playground allows you to generate the HTML code of the elements you created and copy it to the clipboard.
+
+You can see the project live [here](https://html-dom-playground.vercel.app/).
+
+## Features
+- Drag and Drop API
+- HTML nesting visualization
+- Customizable element attributes
+- Corresponding parent-child relationship error handling
+- Corresponding child limit error handling
+- HTML generation and copy to clipboard
+
+## Technologies
+
+- Next.js
+- Tailwind CSS
+- dnd Kit
+- ShadCN
+- Clipboard API
+
+## How to use
+
+1. Clone the repository
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+git clone https://github.com/HoracioGutierrez/html-playground
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+2. Move to the project directory
+```bash
+cd html-playground
+```
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+3. Install the dependencies
+```bash
+npm install
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+4. Run the project
+```bash
+npm run dev
+```
 
-## Learn More
+5. Open your browser and go to `http://localhost:3000`
 
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+<hr>
+Hope you enjoy it! 🚀
