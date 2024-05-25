@@ -162,3 +162,7 @@
   opacity: 1;
   left: -26px;
 }
+
+.left-shadow {
+  box-shadow: -20px 0px 20px 7px rgba(0, 0, 0, 0.4);
+}

@@ -214,9 +214,9 @@ const DndDashboard = () => {
   }
 
   const draggableELements = [
-    { title: "Bloques", elements: bigBlockElements },
-    { title: "Textos", elements: textElements },
-    { title: "Formularios", elements: formElements },
+    { title: "Blocks", elements: bigBlockElements },
+    { title: "Texts", elements: textElements },
+    { title: "Form", elements: formElements },
     { title: "Multimedia", elements: mediaElements },
   ];
 
