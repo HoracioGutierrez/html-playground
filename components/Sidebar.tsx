@@ -1,9 +1,10 @@
 "use client"
 import { X } from "lucide-react";
+import { Button } from "./ui/button";
 
 export default function Sidebar({ className = "", handleClose }: { className?: string, handleClose?: () => void }) {
   return (
-    <div className={`p-4 grow bg-[rgba(0,0,0,0.95)] xl:bg-[rgba(0,0,0,0.4)] text-white items-center justify-center flex-col ${className}`}>
+    <div className={`p-4 grow flex bg-[rgba(0,0,0,0.95)] xl:bg-[rgba(0,0,0,0.4)] text-white justify-center flex-col ${className}`}>
       <div className="flex justify-between items-center mb-6">
         <h2 className='text-2xl font-bold'>About this playground</h2>
         <X className="xl:hidden" onClick={handleClose} />
@@ -15,6 +16,7 @@ export default function Sidebar({ className = "", handleClose }: { className?: s
       <p className="opacity-60 mb-4">You can also remove elements by clicking on the <span className="italic font-thin">"x"</span> icons that appears on the top right corner of the element you want to remove.</p>
       <p className="opacity-60 mb-12">Also, you can edit the attributes of the elements by clicking on the <span className="italic font-thin">"edit"</span> icons that appears on the top right corner of the element you want to edit. A popup will appear with the attributes of the element, you can edit them and click on the <span className="italic font-thin">"save"</span> button to save the changes.</p>
       <p className="text-center text-accent opacity-60 mb-10">Enjoy! 🚀</p>
+      <Button className="bg-amber-500 shadow-md drop-shadow-md uppercase animate-pulse text-xl xl:hidden" onClick={handleClose}>Close</Button>
     </div>
   )
 }

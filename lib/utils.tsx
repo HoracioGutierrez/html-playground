@@ -188,6 +188,7 @@ export const bigBlockElements = [
     limits: { head: 1, body: 1 },
     parents: ["dom"],
     attributes: ["lang"],
+    tooltip: "The root element of an HTML page. The head and body elements are its children.",
   },
   {
     content: "head",
@@ -195,6 +196,7 @@ export const bigBlockElements = [
     limits: { title: 1 },
     parents: ["html"],
     attributes: [],
+    tooltip: "The head element contains meta-information about the document, such as its title and links to stylesheets.",
   },
   {
     content: "body",
@@ -245,6 +247,7 @@ export const bigBlockElements = [
       main: 1,
       h1: 1,
     },
+    tooltip: "The body element contains the content of the document, such as text, images, and links.",
   },
   {
     content: "header",
@@ -272,6 +275,7 @@ export const bigBlockElements = [
     exclude: ["header", "footer", "ul", "ol", "li", "a"],
     parents: ["body", "section", "main", "article", "aside", "nav"],
     attributes: ["id", "class"],
+    tooltip: "The header element typically contains a group of introductory or navigational aids as well as titles.",
   },
   {
     content: "footer",
@@ -298,6 +302,7 @@ export const bigBlockElements = [
     exclude: ["header", "footer", "ul", "ol", "li", "a"],
     parents: ["body", "section", "main", "article", "aside", "nav"],
     attributes: ["id", "class"],
+    tooltip: "The footer element typically contains a group of closing or contact information.",
   },
   {
     content: "section",
@@ -345,6 +350,7 @@ export const bigBlockElements = [
     parents: ["body", "section", "main", "article", "aside", "nav"],
     exclude: ["header", "footer", "ul", "ol", "li", "a"],
     attributes: ["id", "class"],
+    tooltip: "The section element typically contains a group of related content.",
   },
   {
     content: "main",
@@ -391,6 +397,7 @@ export const bigBlockElements = [
     ],
     parents: ["body", "div"],
     attributes: ["id", "class"],
+    tooltip: "The main element typically contains the primary content of the document.",
   },
   {
     content: "div",
@@ -448,6 +455,7 @@ export const bigBlockElements = [
       "form",
     ],
     attributes: ["id", "class"],
+    tooltip: "The div element is a generic container for flow content.",
   },
   {
     content: "nav",
@@ -480,6 +488,7 @@ export const bigBlockElements = [
       "footer",
     ],
     attributes: ["id", "class"],
+    tooltip: "The nav element typically contains a group of navigation links.",
   },
   {
     content: "aside",
@@ -526,6 +535,7 @@ export const bigBlockElements = [
     ],
     parents: ["body", "section", "main", "article", "aside", "nav", "div"],
     attributes: ["id", "class"],
+    tooltip: "The aside element typically contains a group of related content that is tangentially related to the content around it.",
   },
   {
     content: "article",
@@ -572,6 +582,7 @@ export const bigBlockElements = [
     ],
     parents: ["body", "section", "main", "article", "aside", "nav", "div"],
     attributes: ["id", "class"],
+    tooltip: "The article element typically contains a group of related content that makes sense on its own.",
   },
 ];
 
@@ -582,6 +593,7 @@ export const textElements = [
     parents: ["head"],
     limits: {},
     attributes: [],
+    tooltip: "The title element sets the title of the document, which appears in the browser tab.",
   },
   {
     content: "ul",
@@ -599,6 +611,7 @@ export const textElements = [
       "footer",
     ],
     attributes: ["id", "class"],
+    tooltip: "The ul element represents an unordered list of items.",
   },
   {
     content: "ol",
@@ -616,12 +629,14 @@ export const textElements = [
       "footer",
     ],
     attributes: ["id", "class"],
+    tooltip: "The ol element represents an ordered list of items.",
   },
   {
     content: "li",
     canContain: [],
     parents: ["ul", "ol"],
     attributes: ["id", "class"],
+    tooltip: "The li element represents an item in a list.",
   },
   {
     content: "h1",
@@ -638,6 +653,7 @@ export const textElements = [
       "body",
     ],
     attributes: ["id", "class"],
+    tooltip: "The h1 element represents the most important heading on the page or section"
   },
   {
     content: "h2",
@@ -654,6 +670,7 @@ export const textElements = [
       "body",
     ],
     attributes: ["id", "class"],
+    tooltip: "The h2 element represents a heading on the page or section.",
   },
   {
     content: "h3",
@@ -670,6 +687,7 @@ export const textElements = [
       "body",
     ],
     attributes: ["id", "class"],
+    tooltip: "The h3 element represents a heading on the page or section.",
   },
   {
     content: "h4",
@@ -686,6 +704,7 @@ export const textElements = [
       "body",
     ],
     attributes: ["id", "class"],
+    tooltip: "The h4 element represents a heading on the page or section.",
   },
   {
     content: "h5",
@@ -702,6 +721,7 @@ export const textElements = [
       "body",
     ],
     attributes: ["id", "class"],
+    tooltip: "The h5 element represents a heading on the page or section.",
   },
   {
     content: "h6",
@@ -718,6 +738,7 @@ export const textElements = [
       "body",
     ],
     attributes: ["id", "class"],
+    tooltip: "The h6 element represents a heading on the page or section.",
   },
   {
     content: "p",
@@ -734,6 +755,7 @@ export const textElements = [
       "body",
     ],
     attributes: ["id", "class"],
+    tooltip: "The p element represents a paragraph of text.",
   },
   {
     content: "a",
@@ -750,6 +772,7 @@ export const textElements = [
       "body",
     ],
     attributes: ["id", "class", "href", "target"],
+    tooltip: "The a element represents a hyperlink, linking to another web page or resource.",
   },
   {
     content: "span",
@@ -775,7 +798,8 @@ export const textElements = [
       "button",
       "label",
     ],
-    attributes: ["id", "class"]
+    attributes: ["id", "class"],
+    tooltip: "The span element is an inline container for text and other inline elements.",
   },
 
 ];
@@ -787,42 +811,49 @@ export const formElements = [
     limits: {},
     parents: ["form", "div", "body", "section", "main", "article", "aside"],
     attributes: ["id", "class", "type"],
+    tooltip: "The button element represents a clickable button.",
   },
   {
     content: "input",
     canContain: [],
     parents: ["form", "div"],
     attributes: ["id", "class", "type", "placeholder", "name", "value"],
+    tooltip: "The input element represents a control for user input.",
   },
   {
     content: "form",
     canContain: ["input", "button", "select", "textarea", "label", "div"],
     parents: ["body", "section", "main", "article", "aside", "nav", "div"],
     attributes: ["id", "class", "action", "method"],
+    tooltip: "The form element represents a document section that contains interactive controls for submitting information to a web server.",
   },
   {
     content: "label",
     canContain: [],
     parents: ["form", "div"],
     attributes: ["id", "class", "for"],
+    tooltip: "The label element represents a caption for an item in a user interface.",
   },
   {
     content: "select",
     canContain: ["option"],
     parents: ["form", "div"],
     attributes: ["id", "class", "name", "value"],
+    tooltip: "The select element represents a control for selecting one or more options from a list.",
   },
   {
     content: "option",
     canContain: [],
     parents: ["select"],
     attributes: ["id", "class", "value"],
+    tooltip: "The option element represents an option in a select element.",
   },
   {
     content: "textarea",
     canContain: [],
     parents: ["form", "div"],
     attributes: ["id", "class", "placeholder", "name", "value"],
+    tooltip: "The textarea element represents a multiline text input control.",
   },
 ];
 
@@ -833,65 +864,77 @@ export const mediaElements = [
     limits: {},
     parents: ["body", "section", "main", "article", "aside", "nav", "div"],
     attributes: ["id", "class", "src", "alt"],
+    tooltip: "The img element represents an image.",
   },
   {
     content: "iframe",
     canContain: [],
     parents: ["body", "section", "main", "article", "aside", "nav", "div"],
     attributes: ["id", "class", "src", "width", "height"],
+    tooltip: "The iframe element represents an inline frame, which can embed another document within the current document.",
   },
   {
     content: "video",
     canContain: ["source"],
     parents: ["body", "section", "main", "article", "aside", "nav", "div"],
     attributes: ["id", "class", "src", "width", "height"],
+    tooltip: "The video element represents a video or movie.",
   },
   {
     content: "audio",
     canContain: ["source"],
     parents: ["body", "section", "main", "article", "aside", "nav", "div"],
     attributes: ["id", "class", "src"],
+    tooltip: "The audio element represents a sound or audio stream.",
   },
   {
     content: "source",
     canContain: [],
     parents: ["video", "audio"],
+    attributes: ["src", "type"],
+    tooltip: "The source element specifies multiple media resources for media elements like video and audio.",
   },
   {
     content: "canvas",
     canContain: [],
     parents: ["body", "section", "main", "article", "aside", "nav", "div"],
     attributes: ["id", "class", "width", "height"],
+    tooltip: "The canvas element represents a rectangular area in which graphics can be drawn.",
   },
   {
     content: "svg",
     canContain: ["path"],
     parents: ["body", "section", "main", "article", "aside", "nav", "div"],
     attributes: ["id", "class", "width", "height"],
+    tooltip: "The svg element represents scalable vector graphics.",
   },
   {
     content: "path",
     canContain: [],
     parents: ["svg"],
     attributes: ["id", "class"],
+    tooltip: "The path element defines a path to be drawn.",
   },
   {
     content: "style",
     canContain: [],
     parents: ["head"],
     attributes: ["type"],
+    tooltip: "The style element contains style information for a document, such as CSS.",
   },
   {
     content: "script",
     canContain: [],
     parents: ["head", "body"],
     attributes: ["src", "type"],
+    tooltip: "The script element contains script data or executable code.",
   },
   {
     content: "link",
     canContain: [],
     parents: ["head"],
     attributes: ["rel", "href"],
+    tooltip: "The link element defines the relationship between a document and an external resource.",
   },
 ];
 
