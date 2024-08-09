@@ -33,9 +33,9 @@ const Header = () => {
         <a href='https://x.com/horagutierrez' target="_blank" className="opacity-75" rel="noopener">
           <TwitterIcon size={20} />
         </a>
-        <Menu className="xl:hidden" onClick={handleOpen} />
-        <div className={cn("left-shadow fixed z-20 w-3/4 md:w-2/4 xl:w-1/3 top-0 -right-full h-full transition-all duration-300 pointer-events-none", open && "right-0 pointer-events-auto lg:pointer-events-none")}>
-          <Sidebar className="xl:hidden h-full" handleClose={handleClose} />
+        <Menu className="xl:hidden cursor-pointer" onClick={handleOpen} />
+        <div className={cn("left-shadow fixed z-20 w-3/4 md:w-2/4 xl:w-1/3 top-0 -right-full h-[100dvh] transition-all duration-300 pointer-events-none flex", open && "right-0 pointer-events-auto xl:pointer-events-none")}>
+          <Sidebar className="xl:hidden min-h-fit" handleClose={handleClose} />
         </div>
       </nav>
     </header>
