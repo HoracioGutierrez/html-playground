@@ -18,23 +18,23 @@ const Header = () => {
   }
 
   return (
-    <header className='flex items-center justify-between p-4'>
+    <header className='flex justify-between items-center p-4'>
       <div className='flex items-center gap-2'>
         <Image src='/logo.png' alt='logo' width={40} height={40} className="invert" />
-        <h1 className='text-xl font-bold text-accent opacity-75'>DOM PLayground</h1>
+        <h1 className='opacity-75 font-bold text-accent text-xl'>DOM PLayground</h1>
       </div>
-      <nav className='flex items-center gap-4 text-accent '>
-        <a href='https://github.com/HoracioGutierrez/html-playground' target="_blank" className="opacity-75">
+      <nav className='flex items-center gap-4 text-accent'>
+        <a href='https://github.com/HoracioGutierrez/html-playground' target="_blank" className="opacity-75" rel="noopener">
           <GithubIcon size={20} />
         </a>
-        <a href='https://www.instagram.com/horagutierrez/' target="_blank" className="opacity-75">
+        <a href='https://www.instagram.com/horagutierrez/' target="_blank" className="opacity-75" rel="noopener">
           <Instagram size={20} />
         </a>
-        <a href='https://x.com/horagutierrez' target="_blank" className="opacity-75">
+        <a href='https://x.com/horagutierrez' target="_blank" className="opacity-75" rel="noopener">
           <TwitterIcon size={20} />
         </a>
         <Menu className="xl:hidden" onClick={handleOpen} />
-        <div className={cn("left-shadow fixed z-20 w-3/4 md:w-2/4 xl:w-1/3 top-0 -right-full h-full transition-all duration-300",open && "right-0")}>
+        <div className={cn("left-shadow fixed z-20 w-3/4 md:w-2/4 xl:w-1/3 top-0 -right-full h-full transition-all duration-300 pointer-events-none", open && "right-0 pointer-events-auto")}>
           <Sidebar className="xl:hidden h-full" handleClose={handleClose} />
         </div>
       </nav>
