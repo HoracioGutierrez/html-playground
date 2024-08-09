@@ -30,14 +30,18 @@ const DndDashboard = () => {
     if (!parents?.includes(over?.data.current?.tag)) {
       if (over?.data.current?.tag === "dom") {
         toast({
-          title: "No se puede soltar aquí",
-          description: `El ${over?.data.current?.tag.toUpperCase()} no puede contener a la etiqueta <${event.active.data.current.current}/>. Intenta utilizar una etiqueta distinta para comenzar tu HTML!.`,
+          //title: "No se puede soltar aquí",
+          title: "Cannot drop here",
+          //description: `El ${over?.data.current?.tag.toUpperCase()} no puede contener a la etiqueta <${event.active.data.current.current}/>. Intenta utilizar una etiqueta distinta para comenzar tu HTML!.`,
+          description: `The ${over?.data.current?.tag.toUpperCase()} tag cannot contain the <${event.active.data.current.current}/> tag. Try using a different tag to start your HTML!`,
           variant: "destructive",
         });
       } else {
         toast({
-          title: "No se puede soltar aquí",
-          description: `La etiqueta <${over?.data.current?.tag}> no es una etiqueta padre válida y no puede contener <${event.active.data.current.current}>.`,
+          //title: "No se puede soltar aquí",
+          title: "Cannot drop here",
+          //description: `La etiqueta <${over?.data.current?.tag}> no es una etiqueta padre válida y no puede contener <${event.active.data.current.current}>.`,
+          description: `The <${over?.data.current?.tag}> tag is not a valid parent tag and cannot contain the <${event.active.data.current.current}> tag.`,
           variant: "destructive",
         });
       }
@@ -60,24 +64,23 @@ const DndDashboard = () => {
 
     if (!possibleParent) {
       return toast({
-        title: "No se puede soltar aquí",
-        description: "Hubo un problema inesperado y no se puede va a poder soltar aca :(. Intenta de nuevo!",
+        title: "Cannot drop here",
+        description: "There was an unexpected problem and you cannot drop it here :(. Try again!",
         variant: "destructive",
       });
     }
 
-    if(possibleParent.canContain.length === 0){
+    if (possibleParent.canContain.length === 0) {
       return toast({
-        title: "No se puede soltar aquí",
-        description: `La etiqueta <${possibleParent.display}/> no puede contener elementos hijos.`,
+        title: "Cannot drop here",
+        description: `The <${possibleParent.display}/> tag cannot contain child elements.`,
         variant: "destructive",
       });
     }
 
-    if(!possibleParent.canContain.includes(event.active.data.current.current)){
+    if (!possibleParent.canContain.includes(event.active.data.current.current)) {
       return toast({
-        title: "No se puede soltar aquí",
-        description: `La etiqueta <${possibleParent.display}/> no puede contener la etiqueta <${event.active.data.current.current}/> como hijo.`,
+        description: `The <${possibleParent.display}/> tag cannot contain the <${event.active.data.current.current}/> tag as a child.`,
         variant: "destructive",
       });
     }
@@ -88,8 +91,7 @@ const DndDashboard = () => {
       (child: any) => child.display === event.active.data.current.current
     ).length >= elementLimit) {
       return toast({
-        title: "No se puede soltar aquí",
-        description: `La etiqueta <${possibleParent.display}/> ya tiene el máximo de elementos hijos de tipo <${event.active.data.current.current}/> permitidos.`,
+        description: `The <${possibleParent.display}/> tag already has the maximum number of child elements of type <${event.active.data.current.current}/> allowed.`,
         variant: "destructive",
       });
     }
@@ -222,8 +224,8 @@ const DndDashboard = () => {
 
   return (
     <DndContext onDragEnd={handleDragEng}>
-      <div className='grid grid-flow-row gap-10'>
-        <div className='container justify-self-center'>
+      <div className='gap-10 grid grid-flow-row'>
+        <div className='justify-self-center container'>
           {elements.map((element: any, i: number) => {
             return (
               <Droppable
@@ -239,15 +241,15 @@ const DndDashboard = () => {
         </div>
         {elements[0].children.length > 0 && (
           <div className="flex justify-center">
-            <Button className="bg-amber-500 shadow-md drop-shadow-md uppercase animate-pulse text-xl" onClick={generateHTML}>{generating ? (<>generando &nbsp; <Loader className="animate-spin" /></>) : "generar html"}</Button>
+            <Button className="bg-amber-500 drop-shadow-md shadow-md text-xl uppercase animate-pulse" onClick={generateHTML}>{generating ? (<>generando &nbsp; <Loader className="animate-spin" /></>) : "generar html"}</Button>
           </div>
         )}
-        <div className='grid md:grid-cols-2 xl:grid-cols-3 gap-20 container text-accent'>
+        <div className='gap-20 grid md:grid-cols-2 xl:grid-cols-3 text-accent container'>
           {draggableELements.map((group, i) => {
             return (
               <div key={i}>
-                <h2 className='font-bold mb-4'>{group.title}</h2>
-                <div className='flex gap-4 flex-wrap'>
+                <h2 className='mb-4 font-bold'>{group.title}</h2>
+                <div className='flex flex-wrap gap-4'>
                   {group.elements.map((element, i) => {
                     return (
                       <Draggable
