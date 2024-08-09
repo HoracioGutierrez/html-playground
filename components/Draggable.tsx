@@ -35,5 +35,5 @@ const Draggable = ({ isLast, element: { content = "draggable", canContain, limit
       </span>
     </Badge>
   )
-};
+  };
 export default memo(Draggable);

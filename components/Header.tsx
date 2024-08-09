@@ -34,7 +34,7 @@ const Header = () => {
           <TwitterIcon size={20} />
         </a>
         <Menu className="xl:hidden" onClick={handleOpen} />
-        <div className={cn("left-shadow fixed z-20 w-3/4 md:w-2/4 xl:w-1/3 top-0 -right-full h-full transition-all duration-300 pointer-events-none", open && "right-0 pointer-events-auto")}>
+        <div className={cn("left-shadow fixed z-20 w-3/4 md:w-2/4 xl:w-1/3 top-0 -right-full h-full transition-all duration-300 pointer-events-none", open && "right-0 pointer-events-auto lg:pointer-events-none")}>
           <Sidebar className="xl:hidden h-full" handleClose={handleClose} />
         </div>
       </nav>
