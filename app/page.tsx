@@ -1,11 +1,14 @@
-import DndDashboard from "@/components/DndDashboard";
+import DndPlayground from "@/components/DndPlayground";
 
 export default async function Home() {
   return (
     <>
-      <h2 className="text-4xl text-center font-bold mb-3 text-accent">Drag n&apos; Drop elements to the DOM!</h2>
-      <p className="text-center text-accent opacity-60 mb-10">This playground was created with the intention of having a tool for beginners to better learn </p>
-      <DndDashboard />
+      <h2 className="mb-3 font-bold text-accent text-center text-fluid-xl">
+        Drag n&apos; Drop &nbsp;
+        <span className="text-muted">elements to the DOM!</span>
+      </h2>
+      <p className="opacity-60 mb-20 text-accent text-center text-fluid-md">This playground was created with the intention of having a tool for beginners to better learn </p>
+      <DndPlayground />
     </>
   );
 }

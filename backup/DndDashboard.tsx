@@ -1,14 +1,15 @@
 "use client";
-import { bigBlockElements, formElements, getRandomHSLColor, mediaElements, starterDom, textElements } from "@/lib/utils";
+import { bigBlockElements, formElements, getRandomHSLColor, mediaElements, starterDom, textElements, validate } from "@/lib/utils";
 import { DndContext } from "@dnd-kit/core";
-import Draggable from "./Draggable";
-import { useState } from "react";
+//import Draggable from "./Draggable";
+import { Draggable } from "react-beautiful-dnd";
+import { useRef, useState } from "react";
 import Droppable from "./Droppable";
 import { toast } from "./ui/use-toast";
 import AttributePopup from "./AttributePopup";
 import { Button } from "./ui/button";
 import { Loader } from "lucide-react";
-
+import { DragDropContext } from 'react-beautiful-dnd';
 
 const DndDashboard = () => {
   const [elements, setElements] = useState([starterDom] as any);
@@ -21,6 +22,8 @@ const DndDashboard = () => {
   const [open, setOpen] = useState(false);
   const [htmlString, setHtmlString] = useState("")
   const [generating, setGenerating] = useState(false)
+  const [errors, setErrors] = useState([] as any);
+  const containerRef = useRef(null);
 
   const handleDragEng = (event: any) => {
 
@@ -171,6 +174,28 @@ const DndDashboard = () => {
 
     //current[0].currentAttributes = attributes;
     current[pathToElement[pathToElement.length - 1]].currentAttributes = attributes;
+
+    let html = "<!DOCTYPE html>\n";
+
+    const generateElement = (element: any) => {
+      html += `<${element.display} ${generateAttributes(element)}>\n`;
+
+      if (element.children.length > 0) {
+        element.children.forEach(generateElement);
+      }
+
+      html += `</${element.display}>\n`;
+    }
+
+    elements[0].children.forEach(generateElement);
+
+    const errors = validate(html);
+    if (errors.hasErrors) {
+      setErrors(errors.errors);
+    } else {
+      setErrors([]);
+    }
+
     setElements(elementsCopy);
     e.target.reset();
   };
@@ -223,9 +248,9 @@ const DndDashboard = () => {
   ];
 
   return (
-    <DndContext onDragEnd={handleDragEng}>
-      <div className='gap-10 grid grid-flow-row'>
-        <div className='justify-self-center container'>
+    <DragDropContext onDragEnd={handleDragEng}>
+      <div className='gap-10 grid grid-flow-row' ref={containerRef}>
+        <div className='justify-self-center container' >
           {elements.map((element: any, i: number) => {
             return (
               <Droppable
@@ -244,6 +269,22 @@ const DndDashboard = () => {
             <Button className="bg-amber-500 drop-shadow-md shadow-md text-xl uppercase animate-pulse" onClick={generateHTML}>{generating ? (<>generando &nbsp; <Loader className="animate-spin" /></>) : "generar html"}</Button>
           </div>
         )}
+        {errors.length > 0 && (
+          <div className="justify-self-center bg-red-500 p-4 rounded-md text-white containers">
+            <h2 className='mb-4 font-bold'>BEM Errors</h2>
+            {errors.map((error, i) => {
+              return (
+                <div key={i} className='flex items-center gap-2'>
+                  <div className='flex items-center gap-2'>
+                    <div className='bg-white border rounded-full w-4 h-4'></div>
+                    <p>{error.message}</p>
+                  </div>
+                  <p>{error.parentArray}</p>
+                </div>
+              );
+            })}
+          </div>
+        )}
         <div className='gap-20 grid md:grid-cols-2 xl:grid-cols-3 text-accent container'>
           {draggableELements.map((group, i) => {
             return (
@@ -253,12 +294,24 @@ const DndDashboard = () => {
                   {group.elements.map((element, i) => {
                     return (
                       <Draggable
-                        key={i}
-                        setCanBeDropped={setCanBeDropped}
-                        isLast={i === group.elements.length - 1}
-                        setErrorMessage={setErrorMessage}
-                        element={element}
-                      />
+                        key={element.id}
+                        draggableId={element.id}
+                        index={i}
+                      >
+                        {(provided, snapshot) => (
+                          <div
+                            ref={provided.innerRef}
+                            {...provided.draggableProps}
+                            {...provided.dragHandleProps}
+                          /* style={getItemStyle(
+                            snapshot.isDragging,
+                            provided.draggableProps.style
+                          )} */
+                          >
+                            {element.content}
+                          </div>
+                        )}
+                      </Draggable>
                     );
                   })}
                 </div>
@@ -268,7 +321,7 @@ const DndDashboard = () => {
         </div>
       </div>
       <AttributePopup attributes={attributes} handleAttributeSubmit={handleAttributeSubmit} open={open} setOpen={setOpen} />
-    </DndContext>
+    </DragDropContext>
   );
 };
 

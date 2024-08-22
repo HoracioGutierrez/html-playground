@@ -1,5 +1,6 @@
 "use client";
 
+import { toast } from "@/components/ui/use-toast";
 import {
   Element,
   TagsWithNesting,
@@ -9,7 +10,6 @@ import {
 } from "@/lib/utils";
 import { DragDropContext, Draggable, Droppable } from "@hello-pangea/dnd";
 import { useState } from "react";
-import { toast } from "./ui/use-toast";
 
 function DragElement() {
   const [items, setItems] = useState(htmlTags);

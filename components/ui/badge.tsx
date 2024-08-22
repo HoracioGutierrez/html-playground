@@ -1,10 +1,11 @@
 import * as React from "react"
 import { cva, type VariantProps } from "class-variance-authority"
-
+import { motion } from "framer-motion"
 import { cn } from "@/lib/utils"
+import { Draggable } from "react-beautiful-dnd"
 
 const badgeVariants = cva(
-  "inline-flex items-center border px-2.5 py-0.5 text-xs font-semibold focus:outline-none focus:ring-2 focus:ring-ring focus:ring-white",
+  "inline-flex items-center px-2.5 py-0.5 border focus:ring-2 focus:ring-ring focus:ring-white font-semibold text-xs focus:outline-none",
   {
     variants: {
       variant: {
@@ -23,13 +24,30 @@ const badgeVariants = cva(
   }
 )
 
+
 export interface BadgeProps
   extends React.HTMLAttributes<HTMLDivElement>,
-    VariantProps<typeof badgeVariants> {}
+  VariantProps<typeof badgeVariants> {
+  containerRef?: any;
+}
 
-function Badge({ className, variant, ...props }: BadgeProps) {
+function Badge({ className, variant, containerRef, id, ...props }: BadgeProps) {
   return (
-    <div className={cn(badgeVariants({ variant }), className)} {...props} />
+    <Draggable draggableId={id} index={0}>
+      {(provided, snapshot) => (
+        <div
+          ref={provided.innerRef}
+          {...provided.draggableProps}
+          {...provided.dragHandleProps}
+          /* style={getItemStyle(
+            snapshot.isDragging,
+            provided.draggableProps.style
+          )} */
+        >
+          {item.content}
+        </div>
+      )}
+    </Draggable>
   )
 }
 

@@ -1,8 +1,8 @@
 import { DroppableProps } from "@/lib/utils";
 import { useDroppable } from "@dnd-kit/core";
 import { Edit, X } from "lucide-react";
-import { toast } from "./ui/use-toast";
-
+import { motion } from "framer-motion"
+import { toast } from "@/components/ui/use-toast";
 
 function Droppable({ handleRemoveElement, setAttributes, setPathToElement, setOpen,
   element: { id, display, children: items, background, backgroundHover, pathToElement, tag, attributes, currentAttributes }
@@ -44,10 +44,23 @@ function Droppable({ handleRemoveElement, setAttributes, setPathToElement, setOp
   };
 
   return (
-    <div ref={setNodeRef} id={droppableId} className='flex flex-col gap-2 drop-shadow-xl shadow-md p-4 rounded-md' style={{
-      background: isOver ? backgroundHover : background,
-      border: isOver ? `2px dashed rgba(255,255,255,0.6)` : "none",
-    }}>
+    <motion.div
+      /* ref={setNodeRef} */
+      id={droppableId}
+      className='flex flex-col gap-2 drop-shadow-xl shadow-md p-4 rounded-md'
+      style={{
+        background: isOver ? backgroundHover : background,
+        border: isOver ? `2px dashed rgba(255,255,255,0.6)` : "none",
+      }}
+      onDragOver={(e) => {
+        e.preventDefault();
+        console.log("onDragOver");
+      }}
+      onDragEnter={(e) => {
+        e.preventDefault();
+        console.log("onDragEnter");
+      }}
+    >
       <div className='flex justify-between items-center'>
         <p className='font-bold text-white'>
           {display === "DOM" && "index.html"}
@@ -89,7 +102,7 @@ function Droppable({ handleRemoveElement, setAttributes, setPathToElement, setOp
       {display !== "DOM" && (
         <p className='font-bold text-white'>{`<\\${display}>`}</p>
       )}
-    </div>
+    </motion.div>
   );
 }
 export default Droppable;

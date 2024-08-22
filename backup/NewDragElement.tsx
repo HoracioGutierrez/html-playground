@@ -3,8 +3,8 @@ import { cn } from "@/lib/utils";
 import { DndContext, useDraggable, useDroppable } from "@dnd-kit/core";
 import { CSS } from "@dnd-kit/utilities";
 import { useEffect, useState } from "react";
-import { toast } from "./ui/use-toast";
 import { CrossIcon, X } from "lucide-react";
+import { toast } from "@/components/ui/use-toast";
 
 const draggableElements = [
   {
@@ -538,7 +538,7 @@ function Draggable({
       style={style}
       {...listeners}
       {...attributes}
-      className='bg-green-600 p-2 rounded-full z-20'
+      className='z-20 bg-green-600 p-2 rounded-full'
     >
       {content}
     </button>
@@ -575,13 +575,13 @@ function Droppable({
         border: hover ? "2px solid black" : "none",
       }}
     >
-      <div className='flex items-center justify-between'>
+      <div className='flex justify-between items-center'>
         <p>{display !== "DOM" ? `<${display}>` : display + " (index.html)"}</p>
         <button>
           <X />
         </button>
       </div>
-      <div className='px-2 flex flex-col gap-2'>
+      <div className='flex flex-col gap-2 px-2'>
         {items.length > 0 &&
           items.map((item: any, i: number) => {
             return (
@@ -722,7 +722,7 @@ function NewDragElement() {
   return (
     <DndContext onDragEnd={handleDragEng} onDragOver={handleDragOver}>
       <div className='flex justify-between gap-10'>
-        <div className='bg-blue-800 p-2 w-full gap-4 rounded-md grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6'>
+        <div className='gap-4 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6 bg-blue-800 p-2 rounded-md w-full'>
           {draggableElements.map((element, i) => (
             <Draggable
               content={element.content}

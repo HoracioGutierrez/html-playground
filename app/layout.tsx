@@ -1,10 +1,11 @@
-import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+import { ThemeProvider } from "@/components/ThemeProvider";
 import { Toaster } from "@/components/ui/toaster";
-import "./globals.css";
+import Sidebar from "@/components/Sidebar";
+import { Inter } from "next/font/google";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
-import Sidebar from "@/components/Sidebar";
+import type { Metadata } from "next";
+import "./globals.scss";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -20,16 +21,23 @@ export default function RootLayout({
 }>) {
   return (
     <html lang='en' suppressHydrationWarning>
-      <body className={`bg-gradient-to-r from-emerald-500 to-emerald-900 text-slate-900 ${inter.className} flex flex-col min-h-[100dvh]`}>
-        <div className="grid xl:grid-cols-[1fr_minmax(400px,500px)] grow">
-          <div>
-            <Header />
-            <main className='p-4 grow'>{children}</main>
-            <Footer />
-            <Toaster />
+      <body className={`${inter.className} bg-gradient-to-r from-background to-muted-foreground dark:to-destructive-foreground text-slate-900 min-h-[100dvh] flex flex-col`}>
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="system"
+          enableSystem
+          disableTransitionOnChange
+        >
+          <div className="flex flex-col xl:grid xl:grid-cols-[1fr_max-content] grow">
+            <div className="flex flex-col row-span-3 grow">
+              <Header />
+              <main className='flex flex-col p-4 grow'>{children}</main>
+              <Footer />
+            </div>
+            <Sidebar className="xl:flex hidden row-span-3" />
           </div>
-          <Sidebar className="hidden xl:flex" />
-        </div>
+          <Toaster />
+        </ThemeProvider>
       </body>
     </html>
   );
