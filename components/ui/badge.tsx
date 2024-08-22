@@ -44,7 +44,7 @@ function Badge({ className, variant, containerRef, id, ...props }: BadgeProps) {
             provided.draggableProps.style
           )} */
         >
-          {item.content}
+          {props.children}
         </div>
       )}
     </Draggable>
