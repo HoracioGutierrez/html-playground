@@ -682,7 +682,7 @@ function DndPlayground() {
           <form action={handleAttributesSubmit}>
             <div className="flex flex-col gap-4 text-primary">
               {attributes.length === 0 && (
-                <p>This element doesn't have any attributes to add</p>
+                <p>This element doesn&apos;t have any attributes to add</p>
               )}
               {attributes.map((attribute: any, index: number) => {
                 return (
