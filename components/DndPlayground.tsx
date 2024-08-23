@@ -577,12 +577,12 @@ function DndPlayground() {
   return (
     <>
       <div className="flex flex-col items-center gap-20 grow">
-        <div className="relative sm:gap-6 border-2 border-accent sm:grid sm:grid-cols-[100px_1fr] lg:grid-cols-[150px_1fr] p-6 border-dashed rounded-lg w-full max-w-5xl grow">
-          <div id="tags" className="top-6 left-6 absolute flex flex-col items-start gap-10 w-full max-w-[100px] lg:max-w-[150px] h-[calc(100%-48px)]">
+        <div className="relative gap-10 sm:gap-6 border-2 border-accent grid grid-cols-1 sm:grid-cols-[150px_1fr] lg:grid-cols-[150px_1fr] grid-rows-2 p-6 border-dashed rounded-lg w-full max-w-5xl grow">
+          <div id="tags" className="absolute flex flex-col items-start gap-10 sm:col-start-1 sm:col-end-2 row-start-1 sm:row-start-1 row-end-2 sm:row-end-3 px-5 w-full sm:max-w-[200px] lg:max-w-[150px] h-full">
             <div className="relative flex flex-col justify-center items-center gap-10 w-full min-h-0 grow">
-              <TriangleIcon className="top-0 left-[calc(50%_-_10px)] absolute text-accent -translate-x-1/2" />
-              <TriangleIcon className="bottom-0 left-[calc(50%_-_10px)] absolute text-accent -translate-x-1/2 rotate-180" />
-              <p className="top-7 left-[calc(50%_-_10px)] z-10 absolute w-full text-[12px] text-accent text-center -translate-x-1/2 animate-pulse">
+              <TriangleIcon className="top-0 left-[calc(50%_-_0px)] absolute text-accent -translate-x-1/2" />
+              <TriangleIcon className="bottom-0 left-[calc(50%_-_0px)] absolute text-accent -translate-x-1/2 rotate-180" />
+              <p className="top-7 left-[calc(50%_-_0px)] z-10 absolute w-full text-[12px] text-accent text-center -translate-x-1/2 animate-pulse">
                 Scroll down to see which elements are available
               </p>
               <div className="relative py-28 pt-44 pr-2 w-full min-h-0 overflow-y-scroll grow" id="test">
@@ -625,7 +625,7 @@ function DndPlayground() {
               </div>
             </div>
           </div>
-          <div id="dom" className="flex flex-col items-center gap-4 col-start-2">
+          <div id="dom" className="flex flex-col items-center gap-4 col-start-1 sm:col-start-2 row-start-2 sm:row-start-1 sm:row-end-3">
             <DropContainer name="dom" droppable onDrop={handleDomDrop} elements={selected} >
               {selected.map((element: any) => {
                 return (

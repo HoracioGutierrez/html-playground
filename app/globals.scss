@@ -69,6 +69,7 @@
   cursor: pointer;
   transition: background-color 0.3s ease;
   font-size: small;
+  max-width: 200px;
   &:hover {
     background-color: hsl(var(--secondary-foreground));
     color: hsl(var(--primary-foreground));
@@ -76,10 +77,12 @@
 }
 
 #tags .smooth-dnd-container {
-  display: flex;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
   flex-direction: column;
   gap: 1rem;
   margin-bottom: 1rem;
+  align-items: center;
 }
 
 #dom .smooth-dnd-container {
