@@ -1,10 +1,15 @@
 "use client"
 import { Button } from "./ui/button";
 import { X } from "lucide-react";
+import { motion } from "framer-motion"
 
 export default function Sidebar({ className = "", handleClose }: { className?: string, handleClose?: () => void }) {
   return (
-    <div className={`overflow-y-auto xl:overflow-hidden box-border p-6 bg-accent flex flex-col xl:bg-[rgba(0,0,0,0.4)] text-white ${className} max-w-[40ch]`}>
+    <motion.div
+      className={`overflow-y-auto xl:overflow-hidden box-border p-6 bg-accent flex flex-col xl:bg-[rgba(0,0,0,0.4)] text-white ${className} max-w-[40ch]`}
+      initial={{ opacity: 0, x : "100%" }}
+      animate={{ opacity: 1, x: "0%" }}
+    >
       <div className="flex justify-between items-center mb-6">
         <h2 className='font-bold text-fluid-lg text-primary'>About this playground</h2>
         <X className="xl:hidden cursor-pointer" onClick={handleClose} />
@@ -21,6 +26,6 @@ export default function Sidebar({ className = "", handleClose }: { className?: s
       <Button className="xl:hidden bg-primary drop-shadow-md shadow-md mt-auto w-full text-xl uppercase" onClick={handleClose}>
         Close
       </Button>
-    </div>
+    </motion.div>
   )
 }

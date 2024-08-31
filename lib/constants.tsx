@@ -342,4 +342,3 @@ export function validate(htmlString: string) {
   const result = insertErrors(errors);
   return result;
 }
-

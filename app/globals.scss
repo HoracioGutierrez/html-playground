@@ -59,174 +59,65 @@
   }
 }
 
-/* new styles */
-#tags .smooth-dnd-draggable-wrapper {
-  padding: 0.5rem 1rem;
-  text-align: center;
-  border-radius: 25px;
-  background-color: hsl(var(--secondary));
-  color: white;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-  font-size: small;
-  max-width: 200px;
-  &:hover {
-    background-color: hsl(var(--secondary-foreground));
-    color: hsl(var(--primary-foreground));
-  }
-}
-
-#tags .smooth-dnd-container {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
-  flex-direction: column;
-  gap: 1rem;
-  margin-bottom: 1rem;
-  align-items: center;
-}
-
-#dom .smooth-dnd-container {
-  border: 2px dashed #ccc;
-  border-radius: 5px;
-  padding: 25px 10px !important;
-  transition: all 0.3s ease allow-discrete;
-}
-
-#dom .smooth-dnd-draggable-wrapper {
-  position: relative;
-}
-
-#dom > .smooth-dnd-container {
-  background-color: transparent !important;
-  color: hsl(var(--foreground));
-  max-width: 1000px;
-  width: 100%;
-}
-
-#dom .smooth-dnd-stretcher-element {
-  height: 50px !important;
-}
-
-#dom .tag-container::before {
-  content: "<" attr(data-tagname) ">";
-  position: absolute;
-  display: block;
-  inset-block-start: 0;
-  top: -3px;
-  left: 3px;
-  color: hsl(var(--primary-foreground));
-}
-
-#dom .tag-container::after {
-  content: "</" attr(data-endtagname) ">";
-  position: absolute;
-  display: block;
-  inset-block-end: 0;
-  bottom: 0px;
-  left: 3px;
-  color: hsl(var(--primary-foreground));
-}
-
-#dom .dom-container {
-  position: relative;
-  padding-top: 35px !important;
-}
-
-#dom .dom-container::before,
-#dom .dom-container::after {
-  transition: all 0.3s ease;
-}
-
-#dom .dom-container::before {
-  content: "index.html (DOM)";
-  position: absolute;
-  display: block;
-  inset-block-start: 0;
-  color: hsl(var(--foreground));
-  top: 3px;
-  left: 10px;
-}
-
-#dom .dom-container:empty:after {
-  content: "You can drop elements here";
-  position: absolute;
-  display: block;
-  color: hsl(var(--foreground));
-  opacity: 0.5;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-}
-
-#dom .tag-container:has(> .smooth-dnd-drop-preview-constant-class) {
-  padding-bottom: 50px !important;
-  background-color: hsl(var(--accent)) !important;
-}
-
-#dom .tag-container:has(> .smooth-dnd-drop-preview-constant-class)::before,
-#dom .tag-container:has(> .smooth-dnd-drop-preview-constant-class)::after {
-  color: white;
-}
-
-#dom .tag-container:not(:has(> .smooth-dnd-drop-preview-constant-class)) {
-  background-color: initial;
-}
-
-#dom .smooth-dnd-container:has(.smooth-dnd-drop-preview-constant-class) {
-  padding-block: 30px !important;
-}
-
-#dom > .smooth-dnd-container {
-  flex-grow: 1;
-}
-
 .text-fluid-md {
   font-size: clamp(0.7rem, 1vw, 0.9rem);
 }
 
+.text-fluid-base {
+  font-size: clamp(0.85rem, 1.4vw, 1.3rem);
+}
+
 .text-fluid-lg {
-  font-size: clamp(1rem, 2.5vw, 1.75rem);
+  font-size: clamp(1.3rem, 2vw, 1.75rem);
 }
 
 .text-fluid-xl {
   font-size: clamp(1.5rem, 2.5vw, 2.25rem);
 }
 
-#dom .tag-container {
-  /* background-color: rgba(255,255,255,0.1)!important; */
+.taglike {
+  transition: border-radius 0.3s ease;
+  position: relative !important;
 }
 
-#test {
-  //scroll-timeline-name: --squareTimeline;
-  /*  view-timeline-name: --squareTimeline;
-  view-timeline-axis: block; */
-}
-
-#test > div > div {
-  view-timeline-name: --squareTimeline;
-  view-timeline-axis: block;
+.taglike::after,
+.taglike::before {
+  transition: all 0.3s ease;
   opacity: 0;
-  animation-timeline: --squareTimeline;
-  animation-name: fadeOut;
-  animation-duration: 1s;
-  animation-fill-mode: forwards;
-  animation-range: entry 150% 100%;
+  content: "";
+  display: block;
+  width: 0;
+  border-bottom: 20px solid rgb(191 219 254 /1);
+  border-left: 20px solid transparent;
+  border-right: 20px solid transparent;
+  top: 10px;
+  z-index: -1;
+  position: absolute;
 }
 
-@keyframes fadeOut {
-  0% {
-    opacity: 0;
-  }
-
-  50% {
-    opacity: 1;
-  }
-
-  100% {
-    opacity: 0;
-  }
+.taglike::after {
+  transform: rotate(90deg);
+  right: 0;
 }
 
-::-webkit-scrollbar {
-  display: none;
+.taglike::before {
+  transform: rotate(-90deg);
+  left: 0;
+}
+
+.taglike:hover {
+  border-radius: 0 !important;
+}
+
+.taglike:hover::after,
+.taglike:hover::before {
+  opacity: 1;
+}
+
+.taglike:hover::after {
+  right: -30px;
+}
+
+.taglike:hover::before {
+  left: -30px;
 }

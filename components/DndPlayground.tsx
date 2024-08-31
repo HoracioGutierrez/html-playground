@@ -1,718 +1,138 @@
-"use client"
-import { baseElements, blockElements, multimediaBaseElements, structureElements, textBaseElements, validate } from "@/lib/constants";
-import { Container, ContainerOptions, Draggable, DragStartParams, DropResult } from "react-smooth-dnd";
-import { Dialog, DialogContent, DialogDescription, DialogTitle } from "./ui/dialog";
-import { Edit2, Loader, TriangleIcon, X } from "lucide-react";
-import { useEffect, useState } from 'react';
+"use client";
+import { motion, AnimatePresence, useAnimationControls } from "framer-motion"
+import ToggleCategoryButton from "./playground/ToggleCategoryButton";
+import DroppableDOMElement from "./playground/DroppableDOMElement";
+import { useDraggableStore } from "@/stores/DraggableStore";
+import React, { useEffect, useRef, useState } from "react";
+import CategoryTitle from "./playground/CategoryTitle";
+import { refactorInitialElements } from "@/lib/utils";
+import DraggableTag from "./playground/DraggableTag";
 import { toast } from "./ui/use-toast";
-import { Button } from "./ui/button";
-import { Input } from "./ui/input";
 
-const colours = [
-  "hsl(var(--accent))",
-  "hsl(var(--secondary))",
-  "hsl(var(--primary))",
-  "hsl(var(--destructive))",
-]
+const DndPlayground = () => {
 
-type DropContainerProps = {
-  onDrop?: (item: DropResult, name: string | undefined, isSource: boolean | undefined, indexes: any) => void;
-  children?: React.ReactNode;
-  droppable?: boolean | ((sourceContainerOptions: ContainerOptions, payload: any) => boolean);
-  name?: string;
-  orientation?: "vertical" | "horizontal";
-  elements: any[];
-  attributes?: any[];
-  nameWithAttributes?: string;
-};
-
-type DraggableProps = {
-  className?: string;
-  children?: React.ReactNode | React.ReactNode[] | string;
-};
-
-type NestedDroppableDraggableProps = {
-  element: any;
-  onDrop?: (item: DropResult, element: any, isSource: boolean | undefined, indexes: any) => void;
-  onDelete: (element: any) => void;
-  onEdit: (element: any) => void;
-};
-
-type DraggableActionsProps = {
-  element: any;
-  onEdit: (element: any) => void;
-  onDelete: (element: any) => void;
-};
-
-let colorIndex = 0;
-let lastColor = "";
-
-//Component
-function DropContainer({ children, droppable, onDrop, name, orientation = 'vertical', elements, nameWithAttributes }: DropContainerProps) {
-
-  const [color, setColor] = useState("rgb(255, 0, 0)");
-
-
-
-  const [isReady, setIsReady] = useState(false);
-  const [isSource, setIsSource] = useState(false);
-  const [indexes, setIndexes] = useState<any>({});
-  const [isTag, setIsTag] = useState(false);
+  const containerRef = useRef(null)
+  const [items, setItems] = useState([])
+  const controls = useAnimationControls()
+  const { elementName } = useDraggableStore((state) => state)
+  const [selectedBadgeIndex, setSelectedBadgeIndex] = useState(0)
 
   useEffect(() => {
-    if (isTag) {
-      const calculateColor = () => {
-        if (colorIndex >= colours.length) {
-          colorIndex = 0;
-        } else {
-          colorIndex += 1;
-        }
-
-        if (lastColor === colours[colorIndex]) {
-          calculateColor()
-        }
-      }
-
-      calculateColor()
-
-      lastColor = colours[colorIndex]
-      setColor(lastColor)
+    const animateCategoryTitle = async () => {
+      await controls.start({ y: -20, opacity: 0 })
+      await controls.start({ y: 0, opacity: 1 })
     }
-  }, [isTag])
+    animateCategoryTitle()
+  }, [])
 
-  const handleDrop = (item: DropResult) => {
-    if (isReady) {
-      if (typeof onDrop === 'function') {
-        onDrop(item, name, isSource, indexes)
-        setIsReady(false)
-      }
-    }
+  const handleReorder = (newOrder, containerId) => {
+    //TODO: Implement reorder
   }
 
-  const handleShouldAcceptDrop = () => {
-    if (droppable) {
-      if (typeof droppable === 'boolean') return droppable;
-      return true
-    }
-    return false;
-  }
+  const handleDrop = (event, info, item) => {
+    if (elementName) {
+      const dropzone = event.target.closest(".dropzone")
+      const dropzoneId = dropzone.getAttribute("data-id")
+      const dropzoneTag = dropzone.getAttribute("data-tag")
+      const newElement = { id: Math.random().toString(), tag: item.tag, canContain: item.canContain || [] }
 
-  const handleGetChildPayload = (index: number) => {
-    return { ...elements[index] };
-  }
+      if (!dropzoneId && !dropzoneTag) return
 
-  const handleReady = (props) => {
-    setIndexes(props)
-    setIsReady(true)
-  }
-
-  const handleLeave = () => {
-    setIsReady(false)
-  }
-
-  const handleDragStart = (params: DragStartParams) => {
-    setIsSource(params.isSource)
-  }
-
-  if (!children) return null;
-
-  return (
-    <Container
-      onDrop={handleDrop}
-      onDropReady={handleReady}
-      onDragLeave={handleLeave}
-      onDragStart={handleDragStart}
-      dropPlaceholder={{ animationDuration: 500, showOnTop: true, className: "drop-class" }}
-      shouldAcceptDrop={handleShouldAcceptDrop}
-      orientation={orientation}
-      groupName={name}
-      getChildPayload={handleGetChildPayload}
-      render={(rootRef) => {
-        if (rootRef && rootRef.current) {
-          if (!rootRef.current.classList.contains("tag-container") && !name?.includes("blocks")) {
-            if (name === "dom") {
-              rootRef.current.classList.add("dom-container")
-            } else {
-              rootRef.current.classList.add("tag-container")
-            }
-          }
-        }
-
-        if (!name?.includes("blocks")) {
-          setIsTag(true)
-        }
-
-
-        const styles = {
-          backgroundColor: !name?.includes("blocks") ? color : "transparent",
-        }
-
-        if (!name?.includes("blocks")) {
-          styles["--tagName"] = name
-        }
-
-        return (
-          <div
-            ref={rootRef}
-            style={styles}
-            data-tagname={nameWithAttributes}
-            data-endtagname={name}
-          >
-            {children}
-          </div>
-        )
-      }}
-    />
-  )
-}
-
-//Component
-function DraggableItem({ children }: DraggableProps) {
-  return (
-    <Draggable render={() => <div>{children ? children : "draggable item"}</div>} />
-  )
-}
-
-//Component
-function DraggableActions({ element, onEdit, onDelete }: DraggableActionsProps) {
-  const handleEdit = () => {
-    onEdit(element)
-  }
-
-  const handleDelete = () => {
-    onDelete(element)
-  }
-
-  return (
-    <div className="top-1 right-1 z-10 absolute flex gap-2 text-gray-400">
-      <Button variant="ghost" size="icon" className="hover:bg-transparent w-4 h-4" onClick={handleEdit}>
-        <Edit2 />
-      </Button>
-      <Button variant="ghost" size="icon" className="hover:bg-transparent w-5 h-5" onClick={handleDelete}>
-        <X />
-      </Button>
-    </div>
-  );
-}
-
-//Component
-function NestedDroppableDraggable({ element, onDrop, onDelete, onEdit }: NestedDroppableDraggableProps) {
-
-  let nameWithAttributes = element.tagName;
-
-  if (element.currentAttributes && element.currentAttributes.length > 0) {
-    element.currentAttributes.forEach((attribute: any) => {
-      if (attribute.value) {
-        nameWithAttributes += ` ${attribute.name}="${attribute.value}"`
-      }
-    })
-  }
-
-  const handleElementDrop = (item: DropResult, name: string | undefined, isSource: boolean | undefined, indexes: any) => {
-    if (onDrop) {
-      onDrop(item, element, isSource, indexes)
-    }
-  }
-
-  if (element.hasChildren) {
-    return (
-      <DraggableItem key={element.id}>
-        <DraggableActions element={element} onEdit={onEdit} onDelete={onDelete} />
-        <DropContainer name={element.tagName} droppable onDrop={handleElementDrop} elements={element.children} nameWithAttributes={nameWithAttributes}>
-          {element.children && element.children.map((child: any) => {
-            return (
-              <NestedDroppableDraggable key={child.id} element={child} onDrop={onDrop} onEdit={onEdit} onDelete={onDelete} />
-            )
-          })}
-        </DropContainer>
-      </DraggableItem>
-    )
-  }
-
-  return (
-    <DraggableItem key={element.id}>
-      <DraggableActions element={element} onEdit={onEdit} onDelete={onDelete} />
-      {`<${nameWithAttributes}/>`}
-    </DraggableItem>
-  )
-}
-
-//Component
-function DndPlayground() {
-
-  const [open, setOpen] = useState(false);
-  const [count, setCount] = useState(0);
-  const [selected, setSelected] = useState<any>([]);
-  const [attributes, setAttributes] = useState<any>([]);
-  const [element, setElement] = useState<any>(null);
-  const [generating, setGenerating] = useState(false);
-  const [BEMerrors, setBEMerrors] = useState<any>({ message: "", hasErrors: false, errors: [] });
-  const [setBemError, setSetBemError] = useState(false);
-
-
-  const handleDomDrop = (item: DropResult) => {
-    if (selected.length === 0) {
-      if (item.payload.tagName === "doctype") {
-        return setSelected([item.payload]);
-      }
-      return toast({
-        title: "Error",
-        description: "You can only drop a doctype declaration on the top of the page",
-        variant: "destructive",
-      })
-    }
-
-    if (selected.length === 1) {
-      if (item.payload.tagName === "html") {
-        const newElement = {
-          ...item.payload,
-          children: [],
-        }
-        return setSelected([...selected, newElement]);
-      }
-      return toast({
-        title: "Error",
-        description: "You can only drop an html element next to the doctype declaration. The DOM can only contain up to two entries : doctype and html.",
-        variant: "destructive",
-      })
-    }
-
-    if (selected.length === 2) {
-      return toast({
-        title: "Error",
-        description: "The DOM can only contain up to two entries : doctype and html. Your current DOM is full!",
-        variant: "destructive",
-      })
-    }
-
-  }
-
-  const pushElementToPath = (id: any, newElement: any) => {
-    const search = (elements: any[]) => {
-      return elements.map((element: any, index: number) => {
-        if (element.id === id) {
-          return {
-            ...element,
-            children: [...element.children, newElement]
-          }
-        } else {
-          if (element.hasChildren) {
-            return {
-              ...element,
-              children: search(element.children)
-            }
+      if (dropzoneId === "dom") {
+        const newItems: any = [...items]
+        if (newItems.length === 0) {
+          if (newElement.tag === "html") {
+            newItems.push(newElement)
+            return setItems(newItems)
           } else {
-            return element
-          }
-        }
-      })
-    }
-
-    const newElements = search(selected)
-    setSelected(newElements)
-  }
-
-  const reorderChildren = (indexes: any, container: any) => {
-
-    const search = (elements: any[]) => {
-      return elements.map((element: any) => {
-        if (element.id === container.id) {
-
-          [
-            element.children[indexes.addedIndex],
-            element.children[indexes.removedIndex],
-          ] = [
-              element.children[indexes.removedIndex],
-              element.children[indexes.addedIndex],
-            ]
-
-          return {
-            ...element,
-            children: [
-              ...element.children
-            ],
+            toast({
+              title: "Not HTML!",
+              description: "You can only add the root element (html tag) to the DOM",
+              variant: "destructive",
+            })
+            return
           }
         } else {
-          if (element.hasChildren) {
-            return {
-              ...element,
-              children: search(element.children)
-            }
-          } else {
-            return element
-          }
-        }
-      })
-    }
-
-    return search(selected)
-
-  }
-
-  const handleElementDrop = (item: DropResult, container: any, isSource: boolean | undefined, indexes: any) => {
-
-    if (isSource) {
-
-      const newElements = reorderChildren(indexes, container)
-      setSelected(newElements)
-
-      return toast({
-        title: "Warning",
-        description: "Reordering elements is not allowed yet.",
-        variant: "default",
-      })
-    }
-
-    if (!container.hasChildren) {
-      return toast({
-        title: "Error",
-        description: `You can only drop an element inside another element that can contain children. The element ${container.tagName} can't contain children.`,
-        variant: "destructive",
-      })
-    }
-
-    const newCount = count + 1;
-
-    const newElement = {
-      ...item.payload,
-      children: item.payload.children ? item.payload.children : [],
-      id: container.tagName + "-" + item.payload.tagName + "-" + newCount,
-    }
-
-    if (!container.possibleChildren) {
-      return toast({
-        title: "Error",
-        description: `The element ${container.tagName} can't contain children elements.`,
-        variant: "destructive",
-      })
-    }
-
-    let hasLimit = true;
-    let limit = 0;
-    const isChildrenAllowed = container.possibleChildren.some((child: any) => {
-      if (typeof child === 'string') {
-        return child === item.payload.tagName;
-      }
-      if (typeof child === 'object') {
-        if (child.tag === item.payload.tagName) {
-          limit = child.limit;
-          let count = 0;
-          container.children.forEach((child: any) => {
-            if (child.tagName === item.payload.tagName) {
-              count += 1;
-            }
+          toast({
+            title: "The DOM is full!",
+            description: "The HTML element is already present in the DOM. All new elements must be added to the HTML tag now.",
+            variant: "destructive",
           })
-          if (count >= child.limit) {
-            hasLimit = false;
-          }
-          return true
+          return
         }
       }
-    })
 
-    if (!isChildrenAllowed) {
-      return toast({
-        title: "Error",
-        description: `The element ${item.payload.tagName} is not allowed as a child of ${container.tagName}.`,
-        variant: "destructive",
-      })
-    }
-
-    if (!hasLimit) {
-      return toast({
-        title: "Error",
-        description: `The element ${item.payload.tagName} has reached its limit of ${limit} children in the ${container.tagName} element.`,
-        variant: "destructive",
-      })
-    }
-
-    pushElementToPath(container.id, newElement)
-    setCount(newCount)
-  }
-
-  const handleElementDelete = (element: any) => {
-    const search = (elements: any[]) => {
-      return elements.filter((item: any) => {
-        if (item.id === element.id) {
-          return false
-        }
-        if (item.hasChildren) {
-          const newChildren = search(item.children)
-          item.children = newChildren
-          return true
-        }
-        return true
-      })
-    }
-
-    const newElements = search(selected)
-    setSelected(newElements)
-  }
-
-  const handleElementEdit = (element: any) => {
-    setAttributes(element.attributes || [])
-    setElement(element)
-    setOpen(true)
-  }
-
-  const handleClose = () => {
-    setOpen(false)
-    setAttributes([])
-    setElement(null)
-  }
-
-  const handleAttributesSubmit = (data: FormData) => {
-    const newAttributes = attributes.map((attribute: any) => {
-      return {
-        name: attribute,
-        value: data.get(attribute)
-      }
-    })
-
-    const search = (elements: any[]) => {
-      return elements.map((item: any) => {
-        if (item.id === element.id) {
-          return {
-            ...item,
-            currentAttributes: newAttributes,
-          }
-        } else {
-          if (item.hasChildren) {
-            return {
-              ...item,
-              children: search(item.children)
+      const pushItemToContainer = (containerId, item, elements) => {
+        const newItems = [...elements]
+        return newItems.map(item => {
+          if (item.id === containerId) {
+            if (item.canContain.includes(newElement.tag)) {
+              return { ...item, children: item.children ? [...item.children, newElement] : [newElement] }
             }
-          } else {
+            toast({
+              title: `Incorrect parent!`,
+              description: `The element <${newElement.tag}/> cannot be added as children to the <${item.tag}> element`,
+              variant: "destructive",
+            })
             return item
           }
-        }
-      })
-    }
-
-    const newElements = search(selected)
-    setSelected(newElements)
-    setOpen(false)
-  }
-
-  const handleGenerateHTML = () => {
-    setGenerating(true)
-    let string = ""
-    let indentationLevel = 0
-    const search = (elements: any[]) => {
-      elements.forEach((element: any) => {
-        string += `<${element.tagName}`
-        if (element.currentAttributes && element.currentAttributes.length > 0) {
-          element.currentAttributes.forEach((attribute: any) => {
-            if (attribute.value) {
-              string += ` ${attribute.name}="${attribute.value}"`
-            }
-          })
-        }
-
-        if (element.children && element.children.length > 0) {
-          string += `>\n`
-          indentationLevel += 1
-          search(element.children)
-          string += `</${element.tagName}>\n`
-        } else {
-          string += `/>\n`
-          indentationLevel += 1
-        }
-
-      })
-    }
-
-    search(selected)
-    setTimeout(() => {
-      const errors = validate(string)
-      setBEMerrors(errors)
-      setGenerating(false)
-      if (navigator.clipboard) {
-        navigator.clipboard.writeText(string)
+          if (item.children && item.children.length > 0) {
+            return { ...item, children: pushItemToContainer(containerId, item, item.children || []) }
+          }
+          return item
+        })
       }
-      toast({
-        title: "Success",
-        description: "The HTML code has been copied to your clipboard.",
-        variant: "default",
-      })
-    }, 1000)
-  }
 
-  const handleBEMValidation = () => {
-    let string = ""
-    let indentationLevel = 0
-    const search = (elements: any[]) => {
-      elements.forEach((element: any) => {
-        string += `<${element.tagName}`
-        if (element.currentAttributes && element.currentAttributes.length > 0) {
-          element.currentAttributes.forEach((attribute: any) => {
-            if (attribute.value) {
-              string += ` ${attribute.name}="${attribute.value}"`
-            }
-          })
-        }
-
-        if (element.children && element.children.length > 0) {
-          string += `>\n`
-          indentationLevel += 1
-          search(element.children)
-          string += `</${element.tagName}>\n`
-        } else {
-          string += `/>\n`
-          indentationLevel += 1
-        }
-
-      })
+      const result = pushItemToContainer(dropzoneId, newElement, items)
+      setItems(result)
     }
-    search(selected)
-    const errors = validate(string)
-    setBEMerrors(errors)
-    setSetBemError(true)
   }
 
-  const hideFeedback = () => {
-    setSetBemError(false)
+  const handleNext = async () => {
+    if (selectedBadgeIndex === refactorInitialElements.length - 1) {
+      setSelectedBadgeIndex(0)
+    } else {
+      setSelectedBadgeIndex(selectedBadgeIndex + 1)
+    }
+    await controls.start({ x: -20, opacity: 0, transition: { duration: 0.1 } })
+    await controls.start({ x: 40, opacity: 0, transition: { duration: 0.1 } })
+    await controls.start({ x: 0, opacity: 1 })
+  }
+
+  const handlePrevious = async () => {
+    if (selectedBadgeIndex === 0) {
+      setSelectedBadgeIndex(refactorInitialElements.length - 1)
+    } else {
+      setSelectedBadgeIndex(selectedBadgeIndex - 1)
+    }
+    await controls.start({ x: 20, opacity: 0, transition: { duration: 0.1 } })
+    await controls.start({ x: -40, opacity: 0, transition: { duration: 0.1 } })
+    await controls.start({ x: 0, opacity: 1 })
   }
 
   return (
     <>
-      <div className="flex flex-col items-center gap-20 grow">
-        <div className="relative gap-10 sm:gap-6 border-2 border-accent grid grid-cols-1 sm:grid-cols-[150px_1fr] lg:grid-cols-[150px_1fr] grid-rows-2 p-6 border-dashed rounded-lg w-full max-w-5xl grow">
-          <div id="tags" className="absolute flex flex-col items-start gap-10 sm:col-start-1 sm:col-end-2 row-start-1 sm:row-start-1 row-end-2 sm:row-end-3 px-5 w-full sm:max-w-[200px] lg:max-w-[150px] h-full">
-            <div className="relative flex flex-col justify-center items-center gap-10 w-full min-h-0 grow">
-              <TriangleIcon className="top-0 left-[calc(50%_-_0px)] absolute text-accent -translate-x-1/2" />
-              <TriangleIcon className="bottom-0 left-[calc(50%_-_0px)] absolute text-accent -translate-x-1/2 rotate-180" />
-              <p className="top-7 left-[calc(50%_-_0px)] z-10 absolute w-full text-[12px] text-accent text-center -translate-x-1/2 animate-pulse">
-                Scroll down to see which elements are available
-              </p>
-              <div className="relative py-28 pt-44 pr-2 w-full min-h-0 overflow-y-scroll grow" id="test">
-                <DropContainer name="structureblocks" droppable={false} elements={structureElements} onDrop={() => { }}>
-                  {structureElements.map((element: any) => {
-                    return (
-                      <DraggableItem key={element.id}>
-                        {element.tagName}
-                      </DraggableItem>
-                    )
-                  })}
-                </DropContainer>
-                <DropContainer name="blocks" droppable={false} elements={blockElements} onDrop={() => { }}>
-                  {blockElements.map((element: any) => {
-                    return (
-                      <DraggableItem key={element.id}>
-                        {element.tagName}
-                      </DraggableItem>
-                    )
-                  })}
-                </DropContainer>
-                <DropContainer name="textblocks" droppable={false} elements={textBaseElements} onDrop={() => { }}>
-                  {textBaseElements.map((element: any) => {
-                    return (
-                      <DraggableItem key={element.id}>
-                        {element.tagName}
-                      </DraggableItem>
-                    )
-                  })}
-                </DropContainer>
-                <DropContainer name="multimediablocks" droppable={false} elements={multimediaBaseElements} onDrop={() => { }}>
-                  {multimediaBaseElements.map((element: any) => {
-                    return (
-                      <DraggableItem key={element.id}>
-                        {element.tagName}
-                      </DraggableItem>
-                    )
-                  })}
-                </DropContainer>
-              </div>
-            </div>
+      <div id="container" ref={containerRef} className="relative justify-self-center place-content-center gap-10 md:grid grid-cols-[minmax(min(100%,300px),400px)_1fr] w-full max-w-screen-lg transition-all grow self-center">
+        <div>
+          <div id="badge-selectors" className="gap-2 grid grid-cols-[auto_1fr_auto]">
+            <ToggleCategoryButton onClick={handlePrevious} variant="previous" />
+            <CategoryTitle selectedBadgeIndex={selectedBadgeIndex} controls={controls} />
+            <ToggleCategoryButton onClick={handleNext} variant="next" />
           </div>
-          <div id="dom" className="flex flex-col items-center gap-4 col-start-1 sm:col-start-2 row-start-2 sm:row-start-1 sm:row-end-3">
-            <DropContainer name="dom" droppable onDrop={handleDomDrop} elements={selected} >
-              {selected.map((element: any) => {
+          <motion.div className="flex flex-wrap gap-8 py-4 max-h-[500px]" transition={{ staggerChildren: 0.5 }} initial="initial" animate="animate" exit="exit">
+            <AnimatePresence>
+              {refactorInitialElements[selectedBadgeIndex].elements.map((item, i) => {
                 return (
-                  <NestedDroppableDraggable key={element.id} element={element} onDrop={handleElementDrop} onDelete={handleElementDelete} onEdit={handleElementEdit} />
+                  <DraggableTag key={item.id} containerRef={containerRef} item={item} handleDrop={handleDrop} delay={i * 0.05} />
                 )
               })}
-            </DropContainer>
-            {BEMerrors.hasErrors && (
-              <div className="w-full">
-                <div className="bg-red-500 p-4 rounded-lg text-white">
-                  <p className="mb-4 font-bold text-xl">BEM errors:</p>
-                  <ul className="flex flex-col gap-4 font-light">
-                    {BEMerrors.errors.map((error: any, index: number) => {
-                      return (
-                        <li key={index} className="flex items-center gap-2">
-                          <span className="block bg-white rounded-full w-3 h-2"></span>
-                          {error.message[0]}
-                        </li>
-                      )
-                    })}
-                  </ul>
-                </div>
-              </div>
-            )}
-            {setBemError && !BEMerrors.hasErrors && (
-              <div className="w-full">
-                <div className="bg-green-500 p-4 rounded-lg text-white">
-                  <p className="mb-4 font-bold text-xl">{BEMerrors.message}</p>
-                </div>
-              </div>
-            )}
-
-          </div>
+            </AnimatePresence>
+          </motion.div>
         </div>
-        <div className="flex justify-center gap-2">
-          <Button className="bg-accent text-muted-foreground" onClick={handleGenerateHTML}
-            disabled={selected.length === 0}>
-            {generating && <Loader className="mr-2 animate-spin" />}
-            GENERATE HTML
-          </Button>
-          <Button className="bg-accent text-muted-foreground" onClick={handleBEMValidation}
-            disabled={selected.length === 0}>
-            {generating && <Loader className="mr-2 animate-spin" />}
-            VALIDATE BEM
-          </Button>
-          {setBemError && (
-            <Button className="text-muted-foreground" variant="destructive" onClick={hideFeedback}>HIDE FEEDBACK</Button>
-          )}
-        </div>
+        <DroppableDOMElement id="dom" tagName="doctype" onReorder={handleReorder} items={items} />
       </div>
-      <Dialog open={open} onOpenChange={setOpen}>
-        <DialogContent>
-          <DialogTitle className="text-muted-foreground">Attributes</DialogTitle>
-          <form action={handleAttributesSubmit}>
-            <div className="flex flex-col gap-4 text-primary">
-              {attributes.length === 0 && (
-                <p>This element doesn&apos;t have any attributes to add</p>
-              )}
-              {attributes.map((attribute: any, index: number) => {
-                return (
-                  <div key={index} className="flex items-center gap-2">
-                    <label htmlFor={attribute} className="font-medium text-muted-foreground text-sm">
-                      {attribute}
-                    </label>
-                    <span>=</span>
-                    <span>&quot;</span>
-                    <Input id={attribute} type="text" className="placeholder-shown:placeholder-primary" placeholder="Attribute value" name={attribute} />
-                    <span>&quot;</span>
-                  </div>
-                )
-              })}
-              <div className="flex justify-end gap-2">
-                <Button variant="destructive" onClick={handleClose} type="button" className="text-muted-foreground">
-                  Cancel
-                </Button>
-                {attributes.length > 0 && (
-                  <Button type="submit">
-                    Save
-                  </Button>
-                )}
-              </div>
-            </div>
-          </form>
-        </DialogContent>
-      </Dialog>
     </>
   );
-}
+};
 
-export default DndPlayground
+export default DndPlayground;
