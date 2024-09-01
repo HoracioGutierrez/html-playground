@@ -27,7 +27,7 @@ function ToggleCategoryButton({ onClick, variant = "previous" }: ToggleCategoryB
       initial={{ opacity: 0, scale: 0 }}
       animate={{ opacity: 0.5, scale: 1 }}
     >
-      <Icon onClick={handleClick} className="flex justify-center items-center bg-accent rounded-full text-xl size-8" />
+      <Icon onClick={handleClick} className="flex justify-center items-center bg-accent rounded-full text-white/80 text-xl size-8" />
     </motion.button>
   )
 }

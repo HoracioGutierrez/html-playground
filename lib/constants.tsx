@@ -1,9 +1,3 @@
-const textElements = ["h1", "h2", "h3", "h4", "h5", "h6", "p", "span", "strong", "em", "b", "i", "a", "br"];
-const semanticElements = ["header", "main", "footer", "section", "article", "aside", "nav"];
-const multimediaElements = ["img", "video", "audio", "source", "track", "map", "area", "embed", "object", "iframe", "picture", "svg", "math"];
-const formElements = ["input", "button", "select", "datalist", "optgroup", "option", "textarea", "form"];
-const generalBlocks = ["div"];
-
 const ERROR_CODE = {
   NO_PARENT_BLOCK: 'NO_PARENT_BLOCK',
   RECURSIVE_ELEMENT: 'RECURSIVE_ELEMENT',
@@ -40,129 +34,6 @@ const ERROR_TRANSLATION = {
 };
 
 let language = 'en';
-
-export const baseElements = [
-  { id: 0, tagName: 'doctype', hasChildren: false },
-  {
-    id: 1, tagName: 'html', hasChildren: true, possibleChildren: [
-      { tag: "head", limit: 1 },
-      { tag: "body", limit: 1 },
-    ],
-    attributes: ["lang", "dir"]
-  },
-  {
-    id: 2, tagName: 'body', hasChildren: true, possibleChildren: [
-      ...textElements,
-      ...semanticElements,
-      ...multimediaElements,
-      ...formElements,
-      "ul", "ol",
-    ],
-    attributes: ["class", "id"]
-  },
-  {
-    id: 3, tagName: 'head', hasChildren: true, possibleChildren: [
-      { tag: "title", limit: 1 },
-      "meta", "link", "script", "style"]
-  },
-  { id: 4, tagName: 'title', hasChildren: false },
-  { id: 5, tagName: 'meta', hasChildren: false, attributes: ["content", "name"] },
-  { id: 6, tagName: 'link', hasChildren: false, attributes: ["href", "rel", "type"] },
-  { id: 7, tagName: 'script', hasChildren: false, attributes: ["src", "type"] },
-  { id: 8, tagName: 'style', hasChildren: false, attributes: ["type"] },
-  { id: 9, tagName: 'h1', hasChildren: true, possibleChildren: ["span", "strong", "em", "b", "i", "a", "br"], attributes: ["class", "id"] },
-  { id: 10, tagName: 'h2', hasChildren: true, possibleChildren: ["span", "strong", "em", "b", "i", "a", "br"], attributes: ["class", "id"] },
-  { id: 11, tagName: 'h3', hasChildren: true, possibleChildren: ["span", "strong", "em", "b", "i", "a", "br"], attributes: ["class", "id"] },
-  { id: 12, tagName: 'h4', hasChildren: true, possibleChildren: ["span", "strong", "em", "b", "i", "a", "br"], attributes: ["class", "id"] },
-  { id: 13, tagName: 'h5', hasChildren: true, possibleChildren: ["span", "strong", "em", "b", "i", "a", "br"], attributes: ["class", "id"] },
-  { id: 14, tagName: 'h6', hasChildren: true, possibleChildren: ["span", "strong", "em", "b", "i", "a", "br"], attributes: ["class", "id"] },
-  { id: 15, tagName: 'p', hasChildren: true, possibleChildren: ["span", "strong", "em", "b", "i", "a", "br"], attributes: ["class", "id"] },
-  { id: 16, tagName: 'span', hasChildren: true, possibleChildren: ["span", "strong", "em", "b", "i", "a", "br"], attributes: ["class", "id"] },
-  { id: 17, tagName: 'strong', hasChildren: false, attributes: ["class", "id"] },
-  { id: 18, tagName: 'em', hasChildren: false, attributes: ["class", "id"] },
-  { id: 19, tagName: 'b', hasChildren: false, attributes: ["class", "id"] },
-  { id: 20, tagName: 'i', hasChildren: false, attributes: ["class", "id"] },
-  { id: 21, tagName: 'a', hasChildren: false, attributes: ["class", "id"] },
-  { id: 22, tagName: 'br', hasChildren: false, attributes: ["class", "id"] },
-  { id: 23, tagName: 'img', hasChildren: false, attributes: ["class", "id"] },
-  { id: 24, tagName: 'ul', hasChildren: true, possibleChildren: ["li"], attributes: ["class", "id"] },
-  { id: 25, tagName: 'ol', hasChildren: true, possibleChildren: ["li"], attributes: ["class", "id"] },
-  { id: 26, tagName: 'li', hasChildren: true, possibleChildren: ["span", "strong", "em", "b", "i", "a", "br"], attributes: ["class", "id"] },
-]
-
-export const structureElements = [
-  { id: 0, tagName: 'doctype', hasChildren: false },
-  {
-    id: 1, tagName: 'html', hasChildren: true, possibleChildren: [
-      { tag: "head", limit: 1 },
-      { tag: "body", limit: 1 },
-    ],
-    attributes: ["lang", "dir"]
-  },
-  {
-    id: 2, tagName: 'body', hasChildren: true, possibleChildren: [
-      ...textElements,
-      ...semanticElements,
-      ...multimediaElements,
-      ...formElements,
-      "ul", "ol",
-    ],
-    attributes: ["class", "id"]
-  },
-  {
-    id: 3, tagName: 'head', hasChildren: true, possibleChildren: [
-      { tag: "title", limit: 1 },
-      "meta", "link", "script", "style"]
-  }
-]
-
-export const blockElements = [
-  { id: 4, tagName: 'header', hasChildren: true, possibleChildren: [...textElements, ...generalBlocks], attributes: ["class", "id"] },
-  { id: 5, tagName: 'main', hasChildren: true, possibleChildren: [...textElements, , ...generalBlocks], attributes: ["class", "id"] },
-  { id: 6, tagName: 'footer', hasChildren: true, possibleChildren: [...textElements, , ...generalBlocks], attributes: ["class", "id"] },
-  { id: 7, tagName: 'section', hasChildren: true, possibleChildren: [...textElements, , ...generalBlocks, ...semanticElements], attributes: ["class", "id"] },
-  { id: 8, tagName: 'article', hasChildren: true, possibleChildren: [...textElements, , ...generalBlocks], attributes: ["class", "id"] },
-  { id: 9, tagName: 'aside', hasChildren: true, possibleChildren: [...textElements, , ...generalBlocks], attributes: ["class", "id"] },
-  { id: 10, tagName: 'nav', hasChildren: true, possibleChildren: [...textElements, , ...generalBlocks], attributes: ["class", "id"] },
-  { id: 11, tagName: "div", hasChildren: true, possibleChildren: [...textElements, , ...generalBlocks, ...semanticElements], attributes: ["class", "id"] },
-]
-
-export const textBaseElements = [
-  { id: 11, tagName: 'h1', hasChildren: true, possibleChildren: ["span", "strong", "em", "b", "i", "a", "br"], attributes: ["class", "id"] },
-  { id: 12, tagName: 'h2', hasChildren: true, possibleChildren: ["span", "strong", "em", "b", "i", "a", "br"], attributes: ["class", "id"] },
-  { id: 13, tagName: 'h3', hasChildren: true, possibleChildren: ["span", "strong", "em", "b", "i", "a", "br"], attributes: ["class", "id"] },
-  { id: 14, tagName: 'h4', hasChildren: true, possibleChildren: ["span", "strong", "em", "b", "i", "a", "br"], attributes: ["class", "id"] },
-  { id: 15, tagName: 'h5', hasChildren: true, possibleChildren: ["span", "strong", "em", "b", "i", "a", "br"], attributes: ["class", "id"] },
-  { id: 16, tagName: 'h6', hasChildren: true, possibleChildren: ["span", "strong", "em", "b", "i", "a", "br"], attributes: ["class", "id"] },
-  { id: 17, tagName: 'p', hasChildren: true, possibleChildren: ["span", "strong", "em", "b", "i", "a", "br"], attributes: ["class", "id"] },
-  { id: 18, tagName: 'span', hasChildren: true, possibleChildren: ["span", "strong", "em", "b", "i", "a", "br"], attributes: ["class", "id"] },
-  { id: 19, tagName: 'strong', hasChildren: false, attributes: ["class", "id"] },
-  { id: 20, tagName: 'em', hasChildren: false, attributes: ["class", "id"] },
-  { id: 21, tagName: 'b', hasChildren: false, attributes: ["class", "id"] },
-  { id: 22, tagName: 'i', hasChildren: false, attributes: ["class", "id"] },
-  { id: 23, tagName: 'a', hasChildren: false, attributes: ["class", "id"] },
-  { id: 24, tagName: 'br', hasChildren: false, attributes: ["class", "id"] },
-  { id: 25, tagName: 'img', hasChildren: false, attributes: ["class", "id"] },
-  { id: 26, tagName: 'ul', hasChildren: true, possibleChildren: ["li"], attributes: ["class", "id"] },
-  { id: 27, tagName: 'ol', hasChildren: true, possibleChildren: ["li"], attributes: ["class", "id"] },
-  { id: 28, tagName: 'li', hasChildren: true, possibleChildren: ["span", "strong", "em", "b", "i", "a", "br"], attributes: ["class", "id"] }
-]
-
-export const multimediaBaseElements = [
-  { id: 29, tagName: 'img', hasChildren: false, attributes: ["class", "id", "src", "alt"] },
-  { id: 30, tagName: 'video', hasChildren: true, possibleChildren: ["source"], attributes: ["class", "id", "src", "type"] },
-  { id: 31, tagName: 'audio', hasChildren: true, possibleChildren: ["source"], attributes: ["class", "id", "src", "type"] },
-  { id: 32, tagName: 'source', hasChildren: false, attributes: ["class", "id", "src", "type"] },
-  /* { id: 33, tagName: 'track', hasChildren: false, attributes: ["class", "id"] }, */
-  /* { id: 34, tagName: 'map', hasChildren: false, attributes: ["class", "id"] }, */
-  /* { id: 35, tagName: 'area', hasChildren: false, attributes: ["class", "id"] }, */
-  /* { id: 36, tagName: 'embed', hasChildren: false, attributes: ["class", "id"] },
-  { id: 37, tagName: 'object', hasChildren: false, attributes: ["class", "id"] }, */
-  { id: 38, tagName: 'iframe', hasChildren: false, attributes: ["class", "id", "src", "title"] },
-  { id: 39, tagName: 'picture', hasChildren: true, possibleChildren: ["source"], attributes: ["class", "id", "src", "type"] },
-  { id: 40, tagName: 'svg', hasChildren: false, attributes: ["class", "id"] },
-  /* { id: 41, tagName: 'math', hasChildren: false, attributes: ["class", "id"] }, */
-]
 
 function parseClassName(className) {
   const regExp = /^([a-z-0-9]*)(__)?([a-z-0-9]*)(_)?([a-z-0-9]*)?(_)?([a-z-0-9])?/i;
@@ -327,7 +198,6 @@ function insertErrors(errors = []) {
     })
   }
 }
-
 
 export function validate(htmlString: string) {
   const parser = new DOMParser();

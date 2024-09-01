@@ -1,5 +1,5 @@
 "use client";
-import { motion, AnimatePresence, useAnimationControls } from "framer-motion"
+import { motion, AnimatePresence, useAnimationControls, useDragControls } from "framer-motion"
 import ToggleCategoryButton from "./playground/ToggleCategoryButton";
 import DroppableDOMElement from "./playground/DroppableDOMElement";
 import { useDraggableStore } from "@/stores/DraggableStore";
@@ -8,13 +8,16 @@ import CategoryTitle from "./playground/CategoryTitle";
 import { refactorInitialElements } from "@/lib/utils";
 import DraggableTag from "./playground/DraggableTag";
 import { toast } from "./ui/use-toast";
+import TagDescription from "./playground/TagDescription";
+import { Loader } from "lucide-react";
 
 const DndPlayground = () => {
 
   const containerRef = useRef(null)
+  const dragControls = useDragControls()
   const [items, setItems] = useState([])
   const controls = useAnimationControls()
-  const { elementName } = useDraggableStore((state) => state)
+  const { elementName, description } = useDraggableStore((state) => state)
   const [selectedBadgeIndex, setSelectedBadgeIndex] = useState(0)
 
   useEffect(() => {
@@ -110,26 +113,75 @@ const DndPlayground = () => {
     await controls.start({ x: 0, opacity: 1 })
   }
 
+  const handleGenerateHTML = () => {
+    let html = "<!doctype html>\n";
+    const generateHTMLString = (item: any) => {
+
+      let openingTag = `<${item.tag}>`
+      let closingTag = `</${item.tag}>`
+
+      html += openingTag + "\n"
+
+      if (item.children) {
+        item.children.forEach(generateHTMLString)
+      }
+
+      html += closingTag + "\n"
+
+    }
+
+    items.forEach(generateHTMLString)
+
+    toast({
+      title: <Loader className="animate-spin" /> as any,
+      description: (
+        <div>
+          <p>Your HTML is being generated and copied to your clipboard.</p>
+
+        </div>
+      )
+    })
+    setTimeout(() => {
+      navigator.clipboard.writeText(html)
+      toast({
+        title: "HTML code copied to clipboard",
+        description: "You can now paste it into your HTML file.",
+      })
+    }, 500)
+  }
+
+  const validateBEM = () => {
+    console.log("Validating BEM")
+  }
+
   return (
     <>
-      <div id="container" ref={containerRef} className="relative justify-self-center place-content-center gap-10 md:grid grid-cols-[minmax(min(100%,300px),400px)_1fr] w-full max-w-screen-lg transition-all grow self-center">
-        <div>
+      <div id="container" ref={containerRef} className="relative flex flex-col justify-self-center place-content-center gap-10 md:grid grid-cols-[minmax(min(100%,300px),400px)_1fr] w-full max-w-screen-lg transition-all grow self-center">
+        <div className="flex flex-col gap-4">
           <div id="badge-selectors" className="gap-2 grid grid-cols-[auto_1fr_auto]">
             <ToggleCategoryButton onClick={handlePrevious} variant="previous" />
             <CategoryTitle selectedBadgeIndex={selectedBadgeIndex} controls={controls} />
             <ToggleCategoryButton onClick={handleNext} variant="next" />
           </div>
-          <motion.div className="flex flex-wrap gap-8 py-4 max-h-[500px]" transition={{ staggerChildren: 0.5 }} initial="initial" animate="animate" exit="exit">
+          <motion.div className="flex flex-wrap justify-center gap-4 py-4 max-h-[500px]" transition={{ staggerChildren: 0.5 }} initial="initial" animate="animate" exit="exit">
             <AnimatePresence>
               {refactorInitialElements[selectedBadgeIndex].elements.map((item, i) => {
                 return (
-                  <DraggableTag key={item.id} containerRef={containerRef} item={item} handleDrop={handleDrop} delay={i * 0.05} />
+                  <DraggableTag key={item.id} containerRef={containerRef} item={item} handleDrop={handleDrop} delay={i * 0.05} dragControls={dragControls} />
                 )
               })}
             </AnimatePresence>
           </motion.div>
+          <TagDescription description={description} />
         </div>
-        <DroppableDOMElement id="dom" tagName="doctype" onReorder={handleReorder} items={items} />
+        <DroppableDOMElement
+          id="dom"
+          tagName="doctype"
+          onReorder={handleReorder}
+          items={items}
+          handleGenerateHTML={handleGenerateHTML}
+          validateBEM={validateBEM}
+        />
       </div>
     </>
   );

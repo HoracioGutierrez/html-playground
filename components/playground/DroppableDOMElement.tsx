@@ -2,9 +2,12 @@
 import { motion, AnimatePresence, Reorder } from "framer-motion"
 import { useDraggableStore } from "@/stores/DraggableStore"
 import { useEffect, useState } from "react"
-import { cn } from "@/lib/utils"
+import { cn, DroppableDOMElementProps } from "@/lib/utils"
+import ActionButton from "./ActionButton"
 
-const DroppableDOMElement = ({ children = "dropzone", id, tagName, items, onReorder }) => {
+
+
+const DroppableDOMElement = ({ children = "dropzone", id, tagName, items, onReorder, handleGenerateHTML , validateBEM }: DroppableDOMElementProps) => {
 
   const [innerItems, setInnerItems] = useState(items)
   const { setElementName, elementName } = useDraggableStore((state) => state)
@@ -46,17 +49,25 @@ const DroppableDOMElement = ({ children = "dropzone", id, tagName, items, onReor
       data-tag={tagName}
       data-id={id}
     >
-      <motion.p
-        className="text-sm leading-tight"
-        initial={{ opacity: 0, x: 50 }}
-        animate={{ opacity: 1, x: 0 }}
-        transition={{ delay: 0.3 }}
-      >
-        {`<${tagName === "doctype" ? "!DOCTYPE html" : tagName}>`}
-      </motion.p>
+      <div className={cn("flex justify-between items-center gap-2", { "pb-6": tagName === "doctype" })}>
+        <motion.p
+          className="text-sm leading-tight"
+          initial={{ opacity: 0, x: 50 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ delay: 0.3 }}
+        >
+          {`<${tagName === "doctype" ? "!DOCTYPE html" : tagName}>`}
+        </motion.p>
+        {tagName === "doctype" && (
+          <div className="flex items-center gap-2">
+            <ActionButton onClick={handleGenerateHTML} title="Copy HTML code" variant="copy" />
+            <ActionButton onClick={validateBEM} title="Check HTML code" variant="check" />
+          </div>
+        )}
+      </div>
       {innerItems.length > 0 && (
         <motion.div className={cn(children === "dropzone" ? "py-2" : "py-2")}>
-          <Reorder.Group values={items} onReorder={handleReorder} className="flex flex-col gap-2" axis="y">
+          <Reorder.Group values={innerItems.length > 0 ? innerItems : ["placeholder"]} onReorder={handleReorder} className="flex flex-col gap-2" axis="y" transition={{ duration: 0.1 }}>
             <AnimatePresence>
               {innerItems.map((item) => (
                 <Reorder.Item key={item.id} value={item} as={"li"}>

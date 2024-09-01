@@ -1,15 +1,38 @@
 "use client"
-import { useRef, useState } from "react"
+import { useEffect, useRef, useState } from "react"
 import { motion } from "framer-motion"
-import { cn } from "@/lib/utils"
+import { cn, DraggableTagProps } from "@/lib/utils"
+import { useDraggableStore } from "@/stores/DraggableStore"
 
-const DraggableTag = ({ containerRef, item, handleDrop, delay }) => {
+const DraggableTag = ({ containerRef, item, handleDrop, delay, dragControls }: DraggableTagProps) => {
 
   const dragabbleRef = useRef(null)
   const dragContainerRef = useRef(null)
   const [isDragging, setIsDragging] = useState(false)
+  const [isDraggable, setIsDraggable] = useState(true)
+  const { setElementDescription, setDescription } = useDraggableStore((state) => state)
+  let timeout: any;
 
-  const handleDragStart = () => {
+  useEffect(() => {
+    window.addEventListener("resize", handleResize)
+
+    return () => {
+      window.removeEventListener("resize", handleResize)
+      clearTimeout(timeout)
+    }
+  }, [])
+
+
+  const handleResize = () => {
+    setIsDraggable(false)
+    clearTimeout(timeout)
+    timeout = setTimeout(() => {
+      setIsDraggable(true)
+    }, 500)
+  }
+
+  const handleDragStart = (e) => {
+    dragControls.start(e)
     setIsDragging(true)
   }
 
@@ -18,15 +41,15 @@ const DraggableTag = ({ containerRef, item, handleDrop, delay }) => {
     handleDrop && handleDrop(event, info, item)
   }
 
-  const handleMouseDown = () => {
-    console.log("mouse down")
+  const handleTap = () => {
+    setElementDescription(item.tag)
+    setDescription(item.description.length > 0 ? item.description : ["This element has no description"])
   }
 
   return (
     <motion.div
       ref={dragContainerRef}
       className="relative"
-      onMouseDown={handleMouseDown}
       title={item.tooltip || ""}
       transition={{ delay }}
       initial={{ opacity: 0, y: 20 }}
@@ -39,7 +62,7 @@ const DraggableTag = ({ containerRef, item, handleDrop, delay }) => {
         {item.tag}
       </div>
       <motion.div
-        drag
+        drag={isDraggable}
         ref={dragabbleRef}
         dragConstraints={containerRef}
         dragSnapToOrigin
@@ -48,13 +71,14 @@ const DraggableTag = ({ containerRef, item, handleDrop, delay }) => {
         whileTap={{ scale: 0.9 }}
         whileDrag={{ filter: "opacity(0.5)", pointerEvents: "none" }}
         dragTransition={{ bounceStiffness: 700, bounceDamping: 35 }}
-        className={cn("py-2 px-6 bg-blue-200 rounded-3xl cursor-grab active:cursor-grabbing shadow-xl shadow-black text-center w-full taglike hover:animate-pulse group text-destructive-foreground hover:text-accent ")}
+        className={cn("py-2 px-6  rounded-3xl cursor-grab active:cursor-grabbing shadow-md shadow-black/10 dark:shadow-xl dark:shadow-black text-center w-full taglike hover:animate-pulse group text-destructive-foreground hover:text-accent text-fluid-md bg-gradient-to-br from-blue-100 to-blue-400")}
         onDragStart={handleDragStart}
         onDragEnd={handleDragEnd}
+        onTap={handleTap}
       >
-        <span className="group-hover:-left-1 left-0 absolute opacity-0 group-hover:opacity-100 transition-all">{"<"}</span>
+        <span className="group-hover:left-2 left-4 absolute opacity-0 group-hover:opacity-100 transition-all">{"<"}</span>
         {item.tag}
-        <span className="group-hover:-right-1 right-0 absolute opacity-0 group-hover:opacity-100 transition-all">{"/>"}</span>
+        <span className="group-hover:right-1 right-4 absolute opacity-0 group-hover:opacity-100 transition-all">{"/>"}</span>
       </motion.div>
     </motion.div>
   )
