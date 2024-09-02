@@ -682,3 +682,8 @@ export type DraggableTagProps = {
 }
 
 export type RootLayoutProps = Readonly<{ children: React.ReactNode; }>
+
+export type SidebarProps = {
+  className?: string
+  handleClose?: () => void
+}

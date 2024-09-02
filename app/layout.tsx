@@ -6,6 +6,7 @@ import { Inter } from "next/font/google";
 import Footer from "@/components/Footer";
 import type { Metadata } from "next";
 import "./globals.scss";
+import Sidebar from "@/components/Sidebar";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -33,6 +34,7 @@ function RootLayout({ children }: RootLayoutProps) {
               <main className='flex flex-col p-4 pb-8 grow'>{children}</main>
               <Footer />
             </div>
+            <Sidebar/>
           </div>
           <Toaster />
         </ThemeProvider>

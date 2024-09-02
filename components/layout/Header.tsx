@@ -4,8 +4,12 @@ import { ModeToggle } from "../ModeToggle";
 import HeaderTitle from "./HeaderTitle";
 import { motion } from "framer-motion"
 import HeaderLogo from "./HeaderLogo";
+import { useSidebarStore } from "@/stores/SidebarStore";
+import SidebarTogglerButton from "./SidebarTogglerButton";
 
 const Header = () => {
+
+  
 
   return (
     <header className='flex justify-between items-center p-4'>
@@ -30,6 +34,7 @@ const Header = () => {
           title="Twitter Link"
         />
         <ModeToggle />
+        <SidebarTogglerButton/>      
       </motion.nav>
     </header>
   );
