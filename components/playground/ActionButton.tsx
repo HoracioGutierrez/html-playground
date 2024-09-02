@@ -1,31 +1,36 @@
 "use client"
 import { motion } from "framer-motion"
-import { Copy, CheckCircleIcon } from "lucide-react"
+import { Copy, CheckCircleIcon, Trash, Edit } from "lucide-react"
 import { Button } from "../ui/button"
+import { cn } from "@/lib/utils"
 
 type ActionButtonProps = {
-  onClick?: VoidFunction
+  onClick?: any
   title?: string
-  variant?: "copy" | "check"
+  variant?: "copy" | "check" | "edit" | "delete",
+  isSmall?: boolean
+  id ?: string
 }
 
-function ActionButton({ onClick, title, variant = "copy" }: ActionButtonProps) {
+function ActionButton({ onClick, title, variant = "copy", isSmall = false , id }: ActionButtonProps) {
 
   const Icons: Record<string, any> = {
     copy: Copy,
-    check: CheckCircleIcon
+    check: CheckCircleIcon,
+    edit: Edit,
+    delete: Trash,
   }
 
   const Icon = Icons[variant]
 
   const handleClick = () => {
-    onClick && onClick()
+    onClick && onClick(id)
   }
 
   return (
-    <motion.div whileTap={{ scale: 0.8 }}>
-      <Button variant="ghost" onClick={handleClick} size="icon" title="Copy HTML code">
-        <Icon />
+    <motion.div whileTap={{ scale: 0.8 }} className="flex justify-center items-center">
+      <Button variant="ghost" onClick={handleClick} size="icon" title={title} className={cn({ "p-1" : isSmall , "size-6": isSmall })}>
+        <Icon  />
       </Button>
     </motion.div>
   )

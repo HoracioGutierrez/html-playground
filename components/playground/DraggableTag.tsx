@@ -49,7 +49,7 @@ const DraggableTag = ({ containerRef, item, handleDrop, delay, dragControls }: D
   return (
     <motion.div
       ref={dragContainerRef}
-      className="relative"
+      className="relative group"
       title={item.tooltip || ""}
       transition={{ delay }}
       initial={{ opacity: 0, y: 20 }}

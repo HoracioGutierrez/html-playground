@@ -10,6 +10,9 @@ import DraggableTag from "./playground/DraggableTag";
 import { toast } from "./ui/use-toast";
 import TagDescription from "./playground/TagDescription";
 import { Loader } from "lucide-react";
+import { validate } from "@/lib/constants";
+import AttributesDialog from "./playground/AttributesDialog";
+import BemErrorDescription from "./playground/BemErrorDescription";
 
 const DndPlayground = () => {
 
@@ -19,6 +22,10 @@ const DndPlayground = () => {
   const controls = useAnimationControls()
   const { elementName, description } = useDraggableStore((state) => state)
   const [selectedBadgeIndex, setSelectedBadgeIndex] = useState(0)
+  const [isAttributesDialogOpen, setIsAttributesDialogOpen] = useState(false)
+  const [dialogAttributes, setDialogAttributes] = useState([])
+  const [selectedElementId, setSelectedElementId] = useState("")
+  const [bemErrors, setBemErrors] = useState([])
 
   useEffect(() => {
     const animateCategoryTitle = async () => {
@@ -37,7 +44,12 @@ const DndPlayground = () => {
       const dropzone = event.target.closest(".dropzone")
       const dropzoneId = dropzone.getAttribute("data-id")
       const dropzoneTag = dropzone.getAttribute("data-tag")
-      const newElement = { id: Math.random().toString(), tag: item.tag, canContain: item.canContain || [] }
+      const newElement = {
+        id: Math.random().toString(),
+        tag: item.tag,
+        canContain: item.canContain || [],
+        attributes: item.attributes || []
+      }
 
       if (!dropzoneId && !dropzoneTag) return
 
@@ -113,12 +125,22 @@ const DndPlayground = () => {
     await controls.start({ x: 0, opacity: 1 })
   }
 
-  const handleGenerateHTML = () => {
+  const generateHTML = () => {
     let html = "<!doctype html>\n";
     const generateHTMLString = (item: any) => {
 
-      let openingTag = `<${item.tag}>`
+      let openingTag = `<${item.tag}`
       let closingTag = `</${item.tag}>`
+
+      if (item.attributes && item.attributes.length) {
+        item.attributes.forEach(attribute => {
+          if (attribute.value) {
+            openingTag += ` ${attribute.name}="${attribute.value}"`
+          }
+        })
+      }
+
+      openingTag += ">"
 
       html += openingTag + "\n"
 
@@ -131,7 +153,11 @@ const DndPlayground = () => {
     }
 
     items.forEach(generateHTMLString)
+    return html
+  }
 
+  const handleGenerateHTML = () => {
+    const html = generateHTML()
     toast({
       title: <Loader className="animate-spin" /> as any,
       description: (
@@ -151,7 +177,90 @@ const DndPlayground = () => {
   }
 
   const validateBEM = () => {
-    console.log("Validating BEM")
+    const html = generateHTML()
+    const errors = validate(html)
+    if (errors?.hasErrors) {
+      setBemErrors(errors.errors[0].message as any)
+    } else {
+      setBemErrors([])
+    }
+  }
+
+  const handleRemoveElement = (id: string) => {
+
+    const getElementsWithoutId = (elements: any[]) => {
+      return elements.filter((element: any) => {
+        if (element.id == id) {
+          return false
+        }
+        if (element.children) {
+          element.children = getElementsWithoutId(element.children)
+        }
+        return true
+      })
+    }
+
+    const newElements = getElementsWithoutId([...items])
+    setItems(newElements as any)
+  }
+
+  const handleToggleAttributesDialog = () => {
+    setIsAttributesDialogOpen(!isAttributesDialogOpen)
+  }
+
+  const getElementAttributes = (id) => {
+
+    let foundElement;
+
+    const findElement = (elements, id) => {
+      elements.forEach(element => {
+        if (element.id === id) {
+          foundElement = element
+        }
+        if (element.children) {
+          findElement(element.children, id)
+        }
+      })
+    }
+
+    findElement(items, id)
+
+    return foundElement.attributes || []
+  }
+
+  const handleOpenAttributesDialog = (id) => {
+    const attributes = getElementAttributes(id)
+    setDialogAttributes(attributes)
+    setIsAttributesDialogOpen(true)
+    setSelectedElementId(id)
+  }
+
+  const handleAttributesDialogSubmit = (formData) => {
+    const attributes = Object.fromEntries(formData)
+
+    const editElement = (elements, id) => {
+      return elements.map(element => {
+        if (element.id === id) {
+          return {
+            ...element, attributes: Object.keys(attributes).map(key => {
+              return {
+                name: key,
+                value: attributes[key]
+              }
+            })
+          }
+        }
+        if (element.children) {
+          return { ...element, children: editElement(element.children, id) }
+        }
+        return element
+      })
+    }
+
+    const newElements = editElement(items, selectedElementId)
+
+    setItems(newElements)
+    setIsAttributesDialogOpen(false)
   }
 
   return (
@@ -173,6 +282,9 @@ const DndPlayground = () => {
             </AnimatePresence>
           </motion.div>
           <TagDescription description={description} />
+          {bemErrors.length > 0 && (
+            <BemErrorDescription errors={bemErrors} />
+          )}
         </div>
         <DroppableDOMElement
           id="dom"
@@ -181,8 +293,17 @@ const DndPlayground = () => {
           items={items}
           handleGenerateHTML={handleGenerateHTML}
           validateBEM={validateBEM}
+          handleRemoveElement={handleRemoveElement}
+          handleOpenAttributesDialog={handleOpenAttributesDialog}
+          attributes={[]}
         />
       </div>
+      <AttributesDialog
+        isOpen={isAttributesDialogOpen}
+        onClose={handleToggleAttributesDialog}
+        attributes={dialogAttributes}
+        onSubmit={handleAttributesDialogSubmit}
+      />
     </>
   );
 };

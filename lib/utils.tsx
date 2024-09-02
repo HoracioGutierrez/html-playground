@@ -17,7 +17,11 @@ export const refactorInitialElements = [
           "The HTML tag is the root elemement of an HTML document.",
           "It can only be used once in an HTML document and it must be the first element in the document."
         ],
-        canContain: ["head", "body"]
+        canContain: ["head", "body"],
+        attributes: [
+          { name: "lang", value: "" },
+          { name: "dir", value: "" },
+        ]
       },
       {
         id: 2,
@@ -27,7 +31,8 @@ export const refactorInitialElements = [
           "The head tag is the first child of the html element and should be present only once in an HTML document.",
           "It contains meta information about the HTML document like title, meta, link and script tags."
         ],
-        canContain: ["title", "meta", "link", "style", "script"]
+        canContain: ["title", "meta", "link", "style", "script"],
+        attributes: []
       },
       {
         id: 3,
@@ -37,7 +42,13 @@ export const refactorInitialElements = [
           "The body tag is the second child of the html element and should be present only once in an HTML document.",
           "It contains the document's content like headings, paragraphs, images, links, etc."
         ],
-        canContain: ["h1", "h2", "h3", "h4", "h5", "h6", "p", "hr", "br", "pre", "blockquote", "ol", "ul", "li", "form", "button", "fieldset", "legend", "details", "summary", "dialog", "a", "img", "canvas", "audio", "video", "source", "div", "header", "footer", "section", "article", "aside", "figure", "main", "nav"]
+        canContain: ["h1", "h2", "h3", "h4", "h5", "h6", "p", "hr", "br", "pre", "blockquote", "ol", "ul", "li", "form", "button", "fieldset", "legend", "details", "summary", "dialog", "a", "img", "canvas", "audio", "video", "source", "div", "header", "footer", "section", "article", "aside", "figure", "main", "nav"],
+        attributes: [
+          { name: "class", value: "" },
+          { name: "id", value: "" },
+          { name: "lang", value: "" },
+          { name: "dir", value: "" },
+        ]
       },
       {
         id: 60,
@@ -47,7 +58,13 @@ export const refactorInitialElements = [
           "The div tag is a generic container for flow content.",
           "It can contain almost any other tag such as headings, paragraphs, images, links, etc."
         ],
-        canContain: ["h1", "h2", "h3", "h4", "h5", "h6", "p", "hr", "br", "pre", "blockquote", "ol", "ul", "li", "form", "input", "label", "select", "option", "textarea", "button", "fieldset", "legend", "details", "summary", "dialog", "a", "img", "canvas", "audio", "video", "source", "div"]
+        canContain: ["h1", "h2", "h3", "h4", "h5", "h6", "p", "hr", "br", "pre", "blockquote", "ol", "ul", "li", "form", "input", "label", "select", "option", "textarea", "button", "fieldset", "legend", "details", "summary", "dialog", "a", "img", "canvas", "audio", "video", "source", "div"],
+        attributes: [
+          { name: "class", value: "" },
+          { name: "id", value: "" },
+          { name: "lang", value: "" },
+          { name: "dir", value: "" },
+        ]
       },
     ],
   },
@@ -651,6 +668,9 @@ export type DroppableDOMElementProps = {
   onReorder: (newOrder: any[], id: string) => void
   handleGenerateHTML?: VoidFunction
   validateBEM?: VoidFunction
+  handleRemoveElement?: (id: string) => void
+  handleOpenAttributesDialog?: (id: string) => void
+  attributes?: any[]
 }
 
 export type DraggableTagProps = {
