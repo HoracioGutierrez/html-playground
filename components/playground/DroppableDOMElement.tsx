@@ -46,7 +46,7 @@ const DroppableDOMElement = ({ children = "dropzone", id, tagName, items, onReor
       if (attribute.value) {
         attributesSpans.push(
           <span key={attribute.name} className="text-black/20 text-sm">
-            {attribute.name}="{attribute.value}"
+            {attribute.name}=&quot;{attribute.value}&quot;
           </span>
         )
       }
