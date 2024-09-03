@@ -58,7 +58,7 @@ export const refactorInitialElements = [
           "The div tag is a generic container for flow content.",
           "It can contain almost any other tag such as headings, paragraphs, images, links, etc."
         ],
-        canContain: ["h1", "h2", "h3", "h4", "h5", "h6", "p", "hr", "br", "pre", "blockquote", "ol", "ul", "li", "form", "input", "label", "select", "option", "textarea", "button", "fieldset", "legend", "details", "summary", "dialog", "a", "img", "canvas", "audio", "video", "source", "div" , "header" , "footer" , "section" , "article" , "aside" , "figure" , "main" , "nav"],
+        canContain: ["h1", "h2", "h3", "h4", "h5", "h6", "p", "hr", "br", "pre", "blockquote", "ol", "ul", "li", "form", "input", "label", "select", "option", "textarea", "button", "fieldset", "legend", "details", "summary", "dialog", "a", "img", "canvas", "audio", "video", "source", "div", "header", "footer", "section", "article", "aside", "figure", "main", "nav"],
         attributes: [
           { name: "class", value: "" },
           { name: "id", value: "" },
@@ -79,7 +79,8 @@ export const refactorInitialElements = [
           "The title element represents the document's title or name.",
           "It appears in the browser's title bar and tab bar."
         ],
-        "canContain": []
+        "canContain": [],
+        "attributes": []
       },
       {
         "id": 36,
@@ -89,7 +90,12 @@ export const refactorInitialElements = [
           "The meta element represents various kinds of metadata that cannot be expressed using the title, base, link, style, or script elements.",
           "It is used to provide information about the document, such as keywords, author, description, or viewport settings."
         ],
-        "canContain": []
+        "canContain": [],
+        "attributes": [
+          { name: "name", value: "" },
+          { name: "content", value: "" },
+          { name: "http-equiv", value: "" },
+        ]
       },
       {
         "id": 37,
@@ -99,7 +105,12 @@ export const refactorInitialElements = [
           "The link element represents relationships between the current document and an external resource.",
           "It is most commonly used to link to external style sheets, but is also used to establish site icons and to link to external feeds of RSS or Atom news content."
         ],
-        "canContain": []
+        "canContain": [],
+        "attributes": [
+          { name: "rel", value: "" },
+          { name: "href", value: "" },
+          { name: "type", value: "" },
+        ]
       },
       {
         "id": 38,
@@ -109,7 +120,11 @@ export const refactorInitialElements = [
           "The style element contains style information for a document, or part of a document.",
           "It is typically used to define the style rules for the document's elements."
         ],
-        "canContain": []
+        "canContain": [],
+        "attributes": [
+          { name: "type", value: "" },
+          { name: "media", value: "" },
+        ]
       },
       {
         "id": 39,
@@ -120,7 +135,14 @@ export const refactorInitialElements = [
 
           "It allows you to add interactive features or functionality to your web page."
         ],
-        "canContain": []
+        "canContain": [],
+        "attributes": [
+          { name: "src", value: "" },
+          { name: "type", value: "" },
+          { name: "async", value: "" },
+          { name: "defer", value: "" },
+          { name: "crossorigin", value: "" },
+        ]
       }
     ],
   },
@@ -135,7 +157,11 @@ export const refactorInitialElements = [
           "The main element represents the dominant content of the body of a document.",
           "It can be used multiple times in a document, for example, to provide multiple main sections in a column-based layout."
         ],
-        "canContain": ["div", "article", "h1", "h2", "h3", "h4", "h5", "h6", "p", "hr", "pre", "blockquote", "ol", "ul", "li", "form", "button", "a", "img", "canvas", "audio", "video", "section"]
+        "canContain": ["div", "article", "h1", "h2", "h3", "h4", "h5", "h6", "p", "hr", "pre", "blockquote", "ol", "ul", "li", "form", "button", "a", "img", "canvas", "audio", "video", "section"],
+        "attributes": [
+          { name: "id", value: "" },
+          { name: "class", value: "" },
+        ]
       },
       {
         "id": 27,
@@ -145,7 +171,11 @@ export const refactorInitialElements = [
           "The nav element represents a section of a page that links to other pages or to parts within the page.",
           "It is typically used for navigation menus or sitemaps."
         ],
-        "canContain": ["div", "a", "p", "h1", "h2", "h3", "h4", "h5", "h6", "span", "ul", "button", "ol", "img"]
+        "canContain": ["div", "a", "p", "h1", "h2", "h3", "h4", "h5", "h6", "span", "ul", "button", "ol", "img"],
+        "attributes": [
+          { name: "id", value: "" },
+          { name: "class", value: "" },
+        ]
       },
       {
         "id": 28,
@@ -155,7 +185,11 @@ export const refactorInitialElements = [
           "The header element represents a container for introductory content or a set of navigational links.",
           "It is often used for page titles, logos, or navigation menus."
         ],
-        "canContain": ["h1", "h2", "h3", "h4", "h5", "h6", "p", "hr", "ol", "ul", "li", "form", "button", "a", "img", "div"]
+        "canContain": ["h1", "h2", "h3", "h4", "h5", "h6", "p", "hr", "ol", "ul", "li", "form", "button", "a", "img", "div"],
+        "attributes": [
+          { name: "id", value: "" },
+          { name: "class", value: "" },
+        ]
       },
       {
         "id": 29,
@@ -165,7 +199,11 @@ export const refactorInitialElements = [
           "The footer element represents a footer for its nearest sectioning content or sectioning root element.",
           "A footer typically contains information about its section such as who wrote it, links to related documents, copyright data, and  the like."
         ],
-        "canContain": ["h1", "h2", "h3", "h4", "h5", "h6", "p", "hr", "ol", "ul", "form", "button", "a", "img", "div"]
+        "canContain": ["h1", "h2", "h3", "h4", "h5", "h6", "p", "hr", "ol", "ul", "form", "button", "a", "img", "div"],
+        "attributes": [
+          { name: "id", value: "" },
+          { name: "class", value: "" },
+        ]
       },
       {
         "id": 30,
@@ -176,7 +214,11 @@ export const refactorInitialElements = [
           "A section, in this context, is a thematic grouping of content, typically with a heading."
 
         ],
-        "canContain": ["h1", "h2", "h3", "h4", "h5", "h6", "p", "hr", "ol", "ul", "form", "button", "a", "img", "div"]
+        "canContain": ["h1", "h2", "h3", "h4", "h5", "h6", "p", "hr", "ol", "ul", "form", "button", "a", "img", "div"],
+        "attributes": [
+          { name: "id", value: "" },
+          { name: "class", value: "" },
+        ]
       },
       {
         "id": 31,
@@ -186,7 +228,11 @@ export const refactorInitialElements = [
           "The article element represents a complete, or self-contained, composition in a document, page, application, or site and that is, in principle, independently distributable or reusable, e.g.in syndication.",
           "This could be a forum post, a magazine or newspaper article, a blog entry, a user-submitted comment, an interactive widget or gadget, or any other independent item of content."
         ],
-        "canContain": ["h1", "h2", "h3", "h4", "h5", "h6", "p", "hr", "ol", "ul", "form", "button", "a", "img", "div"]
+        "canContain": ["h1", "h2", "h3", "h4", "h5", "h6", "p", "hr", "ol", "ul", "form", "button", "a", "img", "div"],
+        "attributes": [
+          { name: "id", value: "" },
+          { name: "class", value: "" },
+        ]
       },
       {
         "id": 32,
@@ -197,7 +243,11 @@ export const refactorInitialElements = [
 
           "It is often used for sidebars, advertisements, or related content."
         ],
-        "canContain": ["h1", "h2", "h3", "h4", "h5", "h6", "p", "hr", "ol", "ul", "form", "button", "a", "img", "div"]
+        "canContain": ["h1", "h2", "h3", "h4", "h5", "h6", "p", "hr", "ol", "ul", "form", "button", "a", "img", "div"],
+        "attributes": [
+          { name: "id", value: "" },
+          { name: "class", value: "" },
+        ]
       },
       {
         "id": 33,
@@ -207,7 +257,12 @@ export const refactorInitialElements = [
           "The figure element represents some flow content, optionally with a caption, that is self-contained and is typically referenced as a single unit from the main flow of the document.",
           "It is often used for images, charts, or code snippets."
         ],
-        "canContain": ["img", "figcaption", "div"]
+        "canContain": ["img", "figcaption", "div"],
+        "attributes": [
+          { name: "id", value: "" },
+          { name: "class", value: "" },
+
+        ]
       },
       {
         "id": 34,
@@ -216,7 +271,12 @@ export const refactorInitialElements = [
         "description": [
           "The figcaption element represents a caption or legend for the rest of the contents of the figcaption element's parent figure element, if  any."
         ],
-        "canContain": ["span"]
+        "canContain": ["span"],
+        "attributes": [
+          { name: "id", value: "" },
+          { name: "class", value: "" },
+
+        ]
       }
     ],
   },
@@ -231,7 +291,11 @@ export const refactorInitialElements = [
           "The h1 element represents a heading of level 1 in an HTML document.",
           "It is the most important heading on a page and is typically used for the main title."
         ],
-        "canContain": ["span"]
+        "canContain": ["span"],
+        "attributes": [
+          { name: "id", value: "" },
+          { name: "class", value: "" },
+        ]
       },
       {
         "id": 51,
@@ -241,7 +305,11 @@ export const refactorInitialElements = [
           "The h2 element represents a heading of level 2 in an HTML document.",
           "It is used for subheadings within a section."
         ],
-        "canContain": ["span"]
+        "canContain": ["span"],
+        "attributes": [
+          { name: "id", value: "" },
+          { name: "class", value: "" },
+        ]
       },
       {
         "id": 52,
@@ -251,7 +319,11 @@ export const refactorInitialElements = [
           "The h3 element represents a heading of level 3 in an HTML document.",
           "It is used for subheadings within a subsection."
         ],
-        "canContain": ["span"]
+        "canContain": ["span"],
+        "attributes": [
+          { name: "id", value: "" },
+          { name: "class", value: "" },
+        ]
       },
       {
         "id": 53,
@@ -261,7 +333,11 @@ export const refactorInitialElements = [
           "The h4 element represents a heading of level 4 in an HTML document.",
           "It is used for subheadings within a subsubsection."
         ],
-        "canContain": ["span"]
+        "canContain": ["span"],
+        "attributes": [
+          { name: "id", value: "" },
+          { name: "class", value: "" },
+        ]
       },
       {
         "id": 54,
@@ -271,7 +347,11 @@ export const refactorInitialElements = [
           "The h5 element represents a heading of level 5 in an HTML document.",
           "It is used for subheadings within a subsubsubsection."
         ],
-        "canContain": ["span"]
+        "canContain": ["span"],
+        "attributes": [
+          { name: "id", value: "" },
+          { name: "class", value: "" },
+        ]
       },
       {
         "id": 55,
@@ -281,7 +361,11 @@ export const refactorInitialElements = [
           "The h6 element represents a heading of level 6 in an HTML document.",
           "It is used for subheadings within a subsubsubsubsection."
         ],
-        "canContain": ["span"]
+        "canContain": ["span"],
+        "attributes": [
+          { name: "id", value: "" },
+          { name: "class", value: "" },
+        ]
       },
       {
         "id": 56,
@@ -290,7 +374,11 @@ export const refactorInitialElements = [
         "description": [
           "The p element represents a paragraph."
         ],
-        "canContain": ["span", "br"]
+        "canContain": ["span", "br"],
+        "attributes": [
+          { name: "id", value: "" },
+          { name: "class", value: "" },
+        ]
       },
       {
         "id": 57,
@@ -300,7 +388,11 @@ export const refactorInitialElements = [
           "The hr element represents a thematic break between paragraph-level elements.",
           "It is often used to visually separate sections of content."
         ],
-        "canContain": []
+        "canContain": [],
+        "attributes": [
+          { name: "id", value: "" },
+          { name: "class", value: "" },
+        ]
       },
       {
         "id": 58,
@@ -309,7 +401,8 @@ export const refactorInitialElements = [
         "description": [
           "The br element represents a line break."
         ],
-        "canContain": []
+        "canContain": [],
+        "attributes": []
       },
       {
         "id": 59,
@@ -319,7 +412,8 @@ export const refactorInitialElements = [
           "The pre element represents preformatted text which is to be presented exactly as written in the HTML file.",
           "It is often used for code snippets or fixed-width text."
         ],
-        "canContain": []
+        "canContain": [],
+        "attributes": []
       },
       {
         "id": 60,
@@ -329,7 +423,11 @@ export const refactorInitialElements = [
           "The blockquote element represents content that is quoted from another source.",
           "It is often used to display long quotes or citations."
         ],
-        "canContain": ["span", "cite", "footer", "blockquote"]
+        "canContain": ["span", "cite", "footer", "blockquote"],
+        "attributes": [
+          { name: "id", value: "" },
+          { name: "class", value: "" },
+        ]
       },
       {
         "id": 61,
@@ -339,7 +437,11 @@ export const refactorInitialElements = [
           "The ol element represents an ordered list of items, typically rendered as a numbered list.",
           "The only possible child of the ol element is the li element."
         ],
-        "canContain": ["li"]
+        "canContain": ["li"],
+        "attributes": [
+          { name: "id", value: "" },
+          { name: "class", value: "" },
+        ]
       },
       {
         "id": 62,
@@ -349,7 +451,11 @@ export const refactorInitialElements = [
           "The ul element represents an unordered list of items, typically rendered as a bulleted list.",
           "The only possible child of the ul element is the li element."
         ],
-        "canContain": ["li"]
+        "canContain": ["li"],
+        "attributes": [
+          { name: "id", value: "" },
+          { name: "class", value: "" },
+        ]
       },
       {
         "id": 63,
@@ -359,7 +465,11 @@ export const refactorInitialElements = [
           "The li element represents a list item.",
           "It is used within ol and ul elements to create lists and should only be used as a direct child of those elements."
         ],
-        "canContain": ["span", "p", "h1", "h2", "h3", "h4", "h5", "h6", "pre", "blockquote", "ol", "ul", "div", "img", "a"]
+        "canContain": ["span", "p", "h1", "h2", "h3", "h4", "h5", "h6", "pre", "blockquote", "ol", "ul", "div", "img", "a"],
+        "attributes": [
+          { name: "id", value: "" },
+          { name: "class", value: "" },
+        ]
       }
     ],
   },
@@ -374,7 +484,13 @@ export const refactorInitialElements = [
           "The form tag is the element used to create an HTML form for user input.",
           "It can contain many different elements such as input, label, select, option, textarea, button,etc. to make the form interactive."
         ],
-        canContain: ["input", "label", "select", "option", "textarea", "button", "fieldset", "legend", "details", "summary", "dialog", "a", "img", "canvas", "audio", "video", "source"]
+        canContain: ["input", "label", "select", "option", "textarea", "button", "fieldset", "legend", "details", "summary", "dialog", "a", "img", "canvas", "audio", "video", "source"],
+        attributes: [
+          { name: "id", value: "" },
+          { name: "class", value: "" },
+          { name: "action", value: "" },
+          { name: "method", value: "" },
+        ]
       },
       {
         id: 5,
@@ -384,7 +500,15 @@ export const refactorInitialElements = [
           "The input tag can be used to display a variety of different types of controls configuring its right attributes.",
           "Depending on it's configuration, it can show a wide variety of types of input data and control widgets are available, depending on the device and user agent."
         ],
-        canContain: []
+        canContain: [],
+        attributes: [
+          { name: "type", value: "" },
+          { name: "name", value: "" },
+          { name: "value", value: "" },
+          { name: "placeholder", value: "" },
+          { name: "disabled", value: "" },
+          { name: "required", value: "" },
+        ]
       },
       {
         id: 6,
@@ -394,7 +518,12 @@ export const refactorInitialElements = [
           "The label tag is used to create a caption for an interactive element; it's like the title of the inputs.",
           "It can contain a span element."
         ],
-        canContain: ["span"]
+        canContain: ["span"],
+        attributes: [
+          { name: "for", value: "" },
+          { name: "id", value: "" },
+          { name: "class", value: "" },
+        ]
       },
       {
         id: 7,
@@ -404,7 +533,13 @@ export const refactorInitialElements = [
           "The select tag is used to create a drop-down list of options for the user to choose from.",
           "It can contain many option tags inside it such, which will be displayed as a drop-down list item."
         ],
-        canContain: ["option"]
+        canContain: ["option"],
+        attributes: [
+          { name: "id", value: "" },
+          { name: "class", value: "" },
+          { name: "name", value: "" },
+          { name: "multiple", value: "" },
+        ]
       },
       {
         "id": 8,
@@ -415,7 +550,13 @@ export const refactorInitialElements = [
           "It defines a potential value that the user can select or choose from.",
           "Each option element should have a unique value attribute that is used to represent the selected option."
         ],
-        "canContain": ["span"]
+        "canContain": ["span"],
+        "attributes": [
+          { name: "id", value: "" },
+          { name: "class", value: "" },
+          { name: "value", value: "" },
+          { name: "selected", value: "" },
+        ]
       },
       {
         "id": 9,
@@ -426,7 +567,12 @@ export const refactorInitialElements = [
           "It allows users to enter and edit large amounts of plain text.",
           "The rows and cols attributes can be used to specify the initial dimensions of the textarea."
         ],
-        "canContain": []
+        "canContain": [],
+        "attributes": [
+          { name: "id", value: "" },
+          { name: "class", value: "" },
+          { name: "name", value: "" },
+        ]
       },
       {
         "id": 10,
@@ -437,7 +583,14 @@ export const refactorInitialElements = [
           "It can be used to submit forms, navigate between pages, or perform other user interactions.",
           "The type attribute can be used to specify the button's function (e.g., submit, reset, button)."
         ],
-        "canContain": ["span"]
+        "canContain": ["span"],
+        "attributes": [
+          { name: "id", value: "" },
+          { name: "class", value: "" },
+          { name: "type", value: "" },
+          { name: "name", value: "" },
+          { name: "value", value: "" },
+        ]
       },
       {
         "id": 11,
@@ -448,7 +601,11 @@ export const refactorInitialElements = [
           "It helps to visually organize and structure form fields.",
           "The legend element can be used to provide a caption for the fieldset."
         ],
-        "canContain": ["legend", "div", "input", "label"]
+        "canContain": ["legend", "div", "input", "label"],
+        "attributes": [
+          { name: "id", value: "" },
+          { name: "class", value: "" },
+        ]
       },
       {
         "id": 12,
@@ -458,7 +615,11 @@ export const refactorInitialElements = [
           "The legend element is used to provide a caption for the content of its parent fieldset element.",
           "It should be the first child of the fieldset."
         ],
-        "canContain": ["span"]
+        "canContain": ["span"],
+        "attributes": [
+          { name: "id", value: "" },
+          { name: "class", value: "" },
+        ]
       }
     ],
   },
@@ -474,7 +635,11 @@ export const refactorInitialElements = [
           "It provides a way to present additional information or options in a compact manner.",
           "The summary element is used to define the visible title or label for the details section."
         ],
-        "canContain": ["summary", "div"]
+        "canContain": ["summary", "div"],
+        "attributes": [
+          { name: "id", value: "" },
+          { name: "class", value: "" },
+        ]
       },
       {
         "id": 14,
@@ -484,7 +649,11 @@ export const refactorInitialElements = [
           "The summary element is used to provide a summary, caption, or legend for the content within its parent details element.",
           "It acts as a toggle that expands or collapses the details section when clicked."
         ],
-        "canContain": ["span"]
+        "canContain": ["span"],
+        "attributes": [
+          { name: "id", value: "" },
+          { name: "class", value: "" },
+        ]
       },
       {
         "id": 15,
@@ -495,7 +664,12 @@ export const refactorInitialElements = [
           "It is used to display important messages, gather user input, or provide additional context.",
           "The open attribute can be used to control whether the dialog is visible or not."
         ],
-        "canContain": ["div"]
+        "canContain": ["div"],
+        "attributes": [
+          { name: "id", value: "" },
+          { name: "class", value: "" },
+          { name: "open", value: "" },
+        ]
       },
       {
         "id": 16,
@@ -506,7 +680,13 @@ export const refactorInitialElements = [
           "The href attribute specifies the target URL.",
           "The a element can contain other elements, such as span, img, or div, to create styled or interactive links."
         ],
-        "canContain": ["span", "img", "div"]
+        "canContain": ["span", "img", "div"],
+        "attributes": [
+          { name: "id", value: "" },
+          { name: "class", value: "" },
+          { name: "href", value: "" },
+          { name: "target", value: "" },
+        ]
       }
     ],
   },
@@ -521,7 +701,13 @@ export const refactorInitialElements = [
           "The canvas element is used to draw graphics, on the fly, via scripting (usually JavaScript).",
           "It provides a blank canvas on which you can create custom graphics using JavaScript code."
         ],
-        "canContain": []
+        "canContain": [],
+        "attributes": [
+          { name: "id", value: "" },
+          { name: "class", value: "" },
+          { name: "width", value: "" },
+          { name: "height", value: "" },
+        ]
       },
       {
         "id": 23,
@@ -532,7 +718,12 @@ export const refactorInitialElements = [
           "It can contain one or more audio sources, represented using the src attribute or the src object's src property.",
           "Audio sources may be specified as URLs or as the audio element's child elements."
         ],
-        "canContain": ["source"]
+        "canContain": ["source"],
+        "attributes": [
+          { name: "id", value: "" },
+          { name: "class", value: "" },
+          { name: "src", value: "" },
+        ]
       },
       {
         "id": 24,
@@ -543,7 +734,14 @@ export const refactorInitialElements = [
           "It can contain one or more video sources, represented using the src attribute or the src object's src property.",
           "Video sources may be specified as URLs or as the video element's child elements."
         ],
-        "canContain": ["source"]
+        "canContain": ["source"],
+        "attributes": [
+          { name: "id", value: "" },
+          { name: "class", value: "" },
+          { name: "src", value: "" },
+          { name: "width", value: "" },
+          { name: "height", value: "" },
+        ]
       },
       {
         "id": 25,
@@ -554,7 +752,13 @@ export const refactorInitialElements = [
           "It is an empty element, meaning that it has no content and does not have a closing tag.",
           "It is commonly used as a child of the video or audio element."
         ],
-        "canContain": []
+        "canContain": [],
+        "attributes": [
+          { name: "id", value: "" },
+          { name: "class", value: "" },
+          { name: "src", value: "" },
+          { name: "type", value: "" },
+        ]
       }
     ],
   },
@@ -570,7 +774,11 @@ export const refactorInitialElements = [
           "The table element represents tabular data, presenting information in a two-dimensional grid of rows and columns.",
           "It is commonly used to organize and display data in a structured format."
         ],
-        "canContain": ["thead", "tbody", "tfoot", "tr", "th", "td"]
+        "canContain": ["thead", "tbody", "tfoot", "tr", "th", "td"],
+        "attributes": [
+          { name: "id", value: "" },
+          { name: "class", value: "" },
+        ]
       },
       {
         "id": 44,
@@ -580,7 +788,11 @@ export const refactorInitialElements = [
           "The thead element represents the title of the table.",
           "It appears at the top of the table and is often used to define column headers."
         ],
-        "canContain": ["tr", "th"]
+        "canContain": ["tr", "th"],
+        "attributes": [
+          { name: "id", value: "" },
+          { name: "class", value: "" },
+        ]
       },
       {
         "id": 45,
@@ -590,7 +802,11 @@ export const refactorInitialElements = [
           "The tbody element represents the block of rows in a table.",
           "It contains the main data of the table."
         ],
-        "canContain": ["tr"]
+        "canContain": ["tr"],
+        "attributes": [
+          { name: "id", value: "" },
+          { name: "class", value: "" },
+        ]
       },
       {
         "id": 46,
@@ -600,7 +816,11 @@ export const refactorInitialElements = [
           "The tfoot element represents the footer of the table.",
           "It is often used to display summary information or totals."
         ],
-        "canContain": ["tr"]
+        "canContain": ["tr"],
+        "attributes": [
+          { name: "id", value: "" },
+          { name: "class", value: "" },
+        ]
       },
       {
         "id": 47,
@@ -609,7 +829,11 @@ export const refactorInitialElements = [
         "description": [
           "The tr element represents a row of cells in a table."
         ],
-        "canContain": ["th", "td"]
+        "canContain": ["th", "td"],
+        "attributes": [
+          { name: "id", value: "" },
+          { name: "class", value: "" },
+        ]
       },
       {
         "id": 48,
@@ -619,7 +843,11 @@ export const refactorInitialElements = [
           "The th element represents a cell in a table header.",
           "It is typically used to define column headings and is often styled differently than regular data cells."
         ],
-        "canContain": ["span"]
+        "canContain": ["span"],
+        "attributes": [
+          { name: "id", value: "" },
+          { name: "class", value: "" },
+        ]
       },
       {
         "id": 49,
@@ -628,7 +856,11 @@ export const refactorInitialElements = [
         "description": [
           "The td element represents a cell of data in a table."
         ],
-        "canContain": ["span"]
+        "canContain": ["span"],
+        "attributes": [
+          { name: "id", value: "" },
+          { name: "class", value: "" },
+        ]
       }
     ],
   },
@@ -640,7 +872,13 @@ export const refactorInitialElements = [
         tag: "a",
         tooltip: "The a element (or anchor element), with its href attribute, creates a hyperlink to web pages, files, email addresses, locations in the same page, or anything else a URL can address.",
         description: [],
-        canContain: ["span", "img", "div"]
+        canContain: ["span", "img", "div"],
+        attributes: [
+          { name: "id", value: "" },
+          { name: "class", value: "" },
+          { name: "href", value: "" },
+          { name: "target", value: "" },
+        ]
       },
       {
         id: 65,
@@ -650,7 +888,11 @@ export const refactorInitialElements = [
           "The div tag is a generic container for flow content.",
           "It can contain almost any other tag such as headings, paragraphs, images, links, etc."
         ],
-        canContain: ["h1", "h2", "h3", "h4", "h5", "h6", "p", "hr", "br", "pre", "blockquote", "ol", "ul", "li", "form", "input", "label", "select", "option", "textarea", "button", "fieldset", "legend", "details", "summary", "dialog", "a", "img", "canvas", "audio", "video", "source", "div"]
+        canContain: ["h1", "h2", "h3", "h4", "h5", "h6", "p", "hr", "br", "pre", "blockquote", "ol", "ul", "li", "form", "input", "label", "select", "option", "textarea", "button", "fieldset", "legend", "details", "summary", "dialog", "a", "img", "canvas", "audio", "video", "source", "div"],
+        "attributes": [
+          { name: "id", value: "" },
+          { name: "class", value: "" },
+        ]
       },
     ]
   }
