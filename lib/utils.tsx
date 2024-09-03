@@ -58,7 +58,7 @@ export const refactorInitialElements = [
           "The div tag is a generic container for flow content.",
           "It can contain almost any other tag such as headings, paragraphs, images, links, etc."
         ],
-        canContain: ["h1", "h2", "h3", "h4", "h5", "h6", "p", "hr", "br", "pre", "blockquote", "ol", "ul", "li", "form", "input", "label", "select", "option", "textarea", "button", "fieldset", "legend", "details", "summary", "dialog", "a", "img", "canvas", "audio", "video", "source", "div"],
+        canContain: ["h1", "h2", "h3", "h4", "h5", "h6", "p", "hr", "br", "pre", "blockquote", "ol", "ul", "li", "form", "input", "label", "select", "option", "textarea", "button", "fieldset", "legend", "details", "summary", "dialog", "a", "img", "canvas", "audio", "video", "source", "div" , "header" , "footer" , "section" , "article" , "aside" , "figure" , "main" , "nav"],
         attributes: [
           { name: "class", value: "" },
           { name: "id", value: "" },
