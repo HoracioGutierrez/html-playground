@@ -1,13 +1,15 @@
 import { AnimatePresence, motion } from "framer-motion"
+import { X } from "lucide-react"
 
 type BemErrorDescriptionProps = {
   errors: any[]
+  onClose: () => void
 }
 
-function BemErrorDescription({ errors }: BemErrorDescriptionProps) {
+function BemErrorDescription({ errors, onClose }: BemErrorDescriptionProps) {
   return (
     <motion.div
-      className="flex flex-col gap-4 bg-gradient-to-br from-secondary to-secondary/50 p-4 rounded-md text-foreground transition-all"
+      className="relative flex flex-col gap-4 bg-gradient-to-br from-secondary to-secondary/50 p-6 rounded-md text-foreground transition-all"
       initial="initial"
       animate="animate"
       exit="exit"
@@ -33,6 +35,7 @@ function BemErrorDescription({ errors }: BemErrorDescriptionProps) {
             </motion.p>
           )
         })}
+        <X className="top-1 right-1 absolute cursor-pointer size-5" onClick={onClose} />
       </AnimatePresence>
     </motion.div>
   )

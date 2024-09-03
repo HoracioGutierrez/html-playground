@@ -13,6 +13,7 @@ import { Loader } from "lucide-react";
 import { validate } from "@/lib/constants";
 import AttributesDialog from "./playground/AttributesDialog";
 import BemErrorDescription from "./playground/BemErrorDescription";
+import BemSuccessDescription from "./playground/BemSuccessDescription";
 
 const DndPlayground = () => {
 
@@ -26,6 +27,7 @@ const DndPlayground = () => {
   const [dialogAttributes, setDialogAttributes] = useState([])
   const [selectedElementId, setSelectedElementId] = useState("")
   const [bemErrors, setBemErrors] = useState([])
+  const [isBemValid, setIsBemValid] = useState(false)
 
   useEffect(() => {
     const animateCategoryTitle = async () => {
@@ -181,8 +183,10 @@ const DndPlayground = () => {
     const errors = validate(html)
     if (errors?.hasErrors) {
       setBemErrors(errors.errors[0].message as any)
+      setIsBemValid(false)
     } else {
       setBemErrors([])
+      setIsBemValid(true)
     }
   }
 
@@ -263,6 +267,14 @@ const DndPlayground = () => {
     setIsAttributesDialogOpen(false)
   }
 
+  const closeBemSuccessDescription = () => {
+    setIsBemValid(false)
+  }
+
+  const closeBemErrorDescription = () => {
+    setBemErrors([])
+  }
+
   return (
     <>
       <div id="container" ref={containerRef} className="relative flex flex-col justify-self-center place-content-center gap-10 md:grid grid-cols-[minmax(min(100%,300px),400px)_1fr] w-full max-w-screen-lg transition-all grow self-center">
@@ -283,7 +295,10 @@ const DndPlayground = () => {
           </motion.div>
           <TagDescription description={description} />
           {bemErrors.length > 0 && (
-            <BemErrorDescription errors={bemErrors} />
+            <BemErrorDescription errors={bemErrors} onClose={closeBemErrorDescription} />
+          )}
+          {isBemValid && (
+            <BemSuccessDescription onClose={closeBemSuccessDescription} />
           )}
         </div>
         <DroppableDOMElement

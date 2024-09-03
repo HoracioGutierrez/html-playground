@@ -9,7 +9,7 @@ type ActionButtonProps = {
   title?: string
   variant?: "copy" | "check" | "edit" | "delete",
   isSmall?: boolean
-  id ?: string
+  id ?: string,
 }
 
 function ActionButton({ onClick, title, variant = "copy", isSmall = false , id }: ActionButtonProps) {
