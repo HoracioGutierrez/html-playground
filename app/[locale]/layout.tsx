@@ -5,8 +5,10 @@ import { RootLayoutProps } from "@/lib/utils";
 import { Inter } from "next/font/google";
 import Footer from "@/components/Footer";
 import type { Metadata } from "next";
-import "./globals.scss";
 import Sidebar from "@/components/Sidebar";
+import { NextIntlClientProvider } from 'next-intl';
+import { getMessages } from 'next-intl/server';
+import "../globals.scss";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -18,9 +20,12 @@ export const metadata: Metadata = {
   robots: "index,follow"
 };
 
-function RootLayout({ children }: RootLayoutProps) {
+async function RootLayout({ children, params: { locale } }: RootLayoutProps) {
+
+  const messages = await getMessages();
+
   return (
-    <html lang='en' suppressHydrationWarning>
+    <html lang={locale} suppressHydrationWarning>
       <body className={`${inter.className} bg-gradient-to-r from-background to-muted-foreground dark:to-destructive-foreground text-slate-900 min-h-[100dvh] flex flex-col`}>
         <ThemeProvider
           attribute="class"
@@ -28,15 +33,20 @@ function RootLayout({ children }: RootLayoutProps) {
           enableSystem
           disableTransitionOnChange
         >
-          <div className="flex flex-col xl:grid xl:grid-cols-[1fr_max-content] grow">
-            <div className="flex flex-col row-span-3 grow">
-              <Header />
-              <main className='flex flex-col p-4 pb-8 grow'>{children}</main>
-              <Footer />
+          <NextIntlClientProvider messages={messages}>
+
+            <div className="flex flex-col xl:grid xl:grid-cols-[1fr_max-content] grow">
+              <div className="flex flex-col row-span-3 grow">
+
+                <Header />
+                <main className='flex flex-col p-4 pb-8 grow'>{children}</main>
+                <Footer />
+              </div>
+              <Sidebar />
             </div>
-            <Sidebar/>
-          </div>
-          <Toaster />
+            <Toaster />
+            
+          </NextIntlClientProvider>
         </ThemeProvider>
       </body>
     </html>

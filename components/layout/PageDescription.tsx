@@ -1,15 +1,19 @@
 "use client"
 import { motion } from "framer-motion"
+import { useTranslations } from "next-intl";
 
 function PageDescription() {
+
+  const t = useTranslations('HomePage');
+
   return (
     <motion.p
-      className="opacity-60 mb-20 text-accent text-center text-fluid-md"
+      className="mx-auto mb-20 max-w-[60ch] text-accent/70 text-center text-fluid-md"
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       transition={{ delay: 0.3 }}
     >
-      This playground was created with the intention of having a tool for beginners to better learn
+      {t("description")}
     </motion.p>
   )
 }

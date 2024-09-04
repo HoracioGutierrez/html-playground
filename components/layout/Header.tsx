@@ -6,6 +6,7 @@ import { motion } from "framer-motion"
 import HeaderLogo from "./HeaderLogo";
 import { useSidebarStore } from "@/stores/SidebarStore";
 import SidebarTogglerButton from "./SidebarTogglerButton";
+import LanguageToggle from "./LanguageToggle";
 
 const Header = () => {
 
@@ -34,6 +35,7 @@ const Header = () => {
           title="Twitter Link"
         />
         <ModeToggle />
+        <LanguageToggle/>
         <SidebarTogglerButton/>      
       </motion.nav>
     </header>

@@ -1,7 +1,11 @@
 "use client"
 import { motion } from "framer-motion"
+import { useTranslations } from "next-intl";
 
 function PageTitle() {
+
+  const t = useTranslations('HomePage');
+
   return (
     <h2 className="mb-3 font-bold text-accent text-center text-fluid-xl">
       <motion.span
@@ -10,7 +14,7 @@ function PageTitle() {
         transition={{ duration: 0.3 }}
         className="inline-block"
       >
-        Drag n&apos; Drop &nbsp;
+        {t("leadingTitle")} &nbsp;
       </motion.span>
       <motion.span
         className="inline-block text-muted"
@@ -18,7 +22,7 @@ function PageTitle() {
         animate={{ y: 0, opacity: 1 }}
         transition={{ duration: 0.3 }}
       >
-        elements to the DOM!
+        {t("finalTitle")}
       </motion.span>
     </h2>
   )

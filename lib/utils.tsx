@@ -923,7 +923,10 @@ export type DraggableTagProps = {
   dragControls: any
 }
 
-export type RootLayoutProps = Readonly<{ children: React.ReactNode; }>
+export type RootLayoutProps = Readonly<{
+  children: React.ReactNode;
+  params: { locale: string };
+}>
 
 export type SidebarProps = {
   className?: string

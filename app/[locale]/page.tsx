@@ -3,6 +3,7 @@ import PageDescription from "@/components/layout/PageDescription";
 import PageTitle from "@/components/layout/PageTitle";
 
 function HomePage() {
+  
   return (
     <>
       <PageTitle/>

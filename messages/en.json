@@ -1,0 +1,24 @@
+{
+  "HomePage": {
+    "leadingTitle": "Drag & Drop",
+    "finalTitle": "elements to the DOM!",
+    "description": "This playground was created with the intention of having a tool for beginners to better learn HTML and CSS, and to help them understand how to nest elements in the DOM.",
+    "footerCopyright": "Created by",
+    "footerIssues": "Do you have any improvement ideas? Fill an issue at",
+    "sidebarTitle" : "About this playground",
+    "sidebarIdea" : "This playground was created with the intention of having a tool for beginners to better learn HTML nesting and the structure of the DOM. You can drag and drop elements to the DOM and see how they nest.",
+    "sidebarErrors" : "In case you try to nest an element inside another element that doesn&apos;t allow it, the playground will show you an error message. You will also get an error message if you exceed the nesting limit for that particular element.",
+    "sidebarDropzone" : "You can start by dragging the light blue badges on the right side of the screen and dropping them into the area that says",
+    "sidebarLeadingHTML" : "Once you have nested at least one element, a button that looks like this",
+    "sidebarTrailingHTML" : "will be available. Clicking on it will generate the HTML code for the elements you have nested and copy it to your clipboard automatically.",
+    "sidebarLeadingBEM" : "On top, you can find a button that looks like this",
+    "sidebarTrailingBEM" : ". Clicking on it try to validate the elements according to the BEM standard. If the validation is successful, the button will turn green, otherwise it will turn red displaying the errors that were found.",
+    "sidebarLeadingRemove" : "You can also remove elements by clicking on the",
+    "sidebarTrailingRemove" : "icons that appears on the top right corner of the element you want to remove.",
+    "sidebarLeadingEdit" : "Also, you can edit the attributes of the elements by clicking on the",
+    "sidebarMiggleEdit" : "icons that appears on the top right corner of the element you want to edit. A popup will appear with the attributes of the element, you can edit them and click on the",
+    "sidebarTrailingEdit" : "button to save the changes.",
+    "sidebarClose" : "Close",
+    "sidebarEnjoy" : "Enjoy!"
+  }
+}

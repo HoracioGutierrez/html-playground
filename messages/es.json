@@ -1,0 +1,24 @@
+{
+  "HomePage": {
+    "leadingTitle": "Arrastrá y soltá",
+    "finalTitle": "elementos en el DOM!",
+    "description": "Este playground fue creado con la intención de tener una herramienta para principiantes para mejorar su aprendizaje de HTML y CSS, y para ayudarles a entender cómo anidar elementos en el DOM.",
+    "footerCopyright": "Creado por",
+    "footerIssues": "¿Tenes alguna idea de mejora? Completa un issue en",
+    "sidebarTitle" : "Acerca de este playground",
+    "sidebarIdea" : "Este playground fue creado con la intención de tener una herramienta para principiantes para mejorar su aprendizaje de HTML nesting y la estructura del DOM. Puede arrastrar y soltar elementos en el DOM y ver cómo se anidan.",
+    "sidebarErrors" : "En caso de que intente anidar un elemento dentro de otro elemento que no lo permite, el playground mostrará un mensaje de error. También obtendrá un mensaje de error si excede el límite de anidamiento para ese elemento particular.",
+    "sidebarDropzone" : "Puedes comenzar arrastrando las etiquetas azules brillantes en la parte derecha de la pantalla y soltarlas en el área que dice",
+    "sidebarLeadingHTML" : "Una vez que hayas anidado al menos un elemento, aparecerá un botón que se ve así",
+    "sidebarTrailingHTML" : ". Haz clic en él para generar el código HTML para los elementos que has anidado y copiarlo automáticamente al portapapeles.",
+    "sidebarLeadingBEM" : "En la parte superior, encontrarás un botón que se ve así",
+    "sidebarTrailingBEM" : ". Haz clic en él para intentar validar los elementos de acuerdo con la norma BEM. Si la validación es exitosa, el botón se verá verde, de lo contrario, se volverá rojo mostrando los errores que se encontraron.",
+    "sidebarLeadingRemove" : "También puedes eliminar elementos haciendo clic en los",
+    "sidebarTrailingRemove" : "iconos que aparecen en la esquina superior derecha del elemento que quieres eliminar.",
+    "sidebarLeadingEdit" : "Además, puedes editar los atributos de los elementos haciendo clic en los",
+    "sidebarMiggleEdit" : "iconos que aparecen en la esquina superior derecha del elemento que quieres editar. Aparecerá una ventana emergente con los atributos del elemento, puedes editarlos y hacer clic en el",
+    "sidebarTrailingEdit" : "botón para guardar los cambios.",
+    "sidebarClose" : "Cerrar",
+    "sidebarEnjoy" : "¡Disfruta!"
+  }
+}
